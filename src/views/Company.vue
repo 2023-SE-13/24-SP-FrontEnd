@@ -4,9 +4,9 @@
       <div class="company-header">
         <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
         <div class="company-name">{{ companyName }}</div>
-        <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="follow"></el-button>
         <div class="btn-quick">
-          <el-button type="danger">退出企业</el-button>
+          <el-button type="danger" @click="quick">退出企业</el-button>
         </div>
       </div>
     </header>
@@ -46,6 +46,28 @@ export default {
       currentView: 'CompanyIntro',
       companyName: '某某企业'
     };
+  },
+  methods: {
+    follow() {
+      this.$message({
+        message: '成功关注该企业！',
+        type: 'success'
+      });
+    },
+    quick() {
+      this.$confirm('是否确定退出该企业?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '成功退出该企业!'
+        });
+      }).catch(() => {
+
+      });
+    }
   }
 };
 </script>
@@ -55,9 +77,16 @@ export default {
   margin-left: 70%;
 }
 
-.el-button {
+.btn-follow {
   margin-left: 10px;
   font-size: 20px;
+  background-color: #f6d0aa;
+  border-color: #f6d0aa;
+}
+
+.btn-follow:hover {
+  background-color: #ffc457;
+  border-color: #ffc457;
 }
 
 .company {
