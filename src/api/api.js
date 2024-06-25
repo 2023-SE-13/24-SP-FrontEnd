@@ -19,7 +19,7 @@ export function Register(data) {
 export function SendCode(data) {
     return service({
         method: 'post',
-        url: '/user/verfication',
+        url: '/user/verification',
         data
     })
 }
