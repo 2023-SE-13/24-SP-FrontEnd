@@ -3,32 +3,32 @@
     <header>
       <div class="company-header"><img src="@/assets/logo.png" alt="公司logo" class="company-logo">
         {{ companyName }}
-        <button @click="currentView = 'company-intro'" class="company-btn">关注</button></div>
+        <button @click="currentView = 'CompanyIntro'" class="company-btn">关注</button></div>
     </header>
     <nav>
-      <button @click="currentView = 'company-intro'">公司简介</button>
-      <button @click="currentView = 'company-jobs'">招聘职位</button>
-      <button @click="currentView = 'company-taste'">员工动态</button>
+      <button @click="currentView = 'CompanyIntro'">公司简介</button>
+      <button @click="currentView = 'CompanyJobs'">招聘职位</button>
+      <button @click="currentView = 'CompanyTaste'">员工动态</button>
     </nav>
     <component :is="currentView"></component>
   </div>
 </template>
 
 <script>
-import companyIntro from '@/components/company-intro.vue';
-import companyJobs from "@/components/company-jobs.vue";
-import companyTaste from "@/components/company-taste.vue";
+import CompanyIntro from '@/components/CompanyIntro.vue';
+import CompanyJobs from "@/components/CompanyJobs.vue";
+import CompanyTaste from "@/components/CompanyTaste.vue";
 
 export default {
   name: 'App',
   components: {
-    companyIntro,
-    companyJobs,
-    companyTaste
+    CompanyIntro,
+    CompanyJobs,
+    CompanyTaste
   },
   data() {
     return {
-      currentView: 'company-intro',
+      currentView: 'CompanyIntro',
       companyName: '某某企业'
     };
   }
