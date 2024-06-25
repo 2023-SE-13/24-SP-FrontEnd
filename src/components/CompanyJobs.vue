@@ -16,7 +16,15 @@ export default {
 </script>
 
 <style scoped>
-ul {
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+p, ul {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
   text-align: left;
 }
 

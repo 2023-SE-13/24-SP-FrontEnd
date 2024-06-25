@@ -1,16 +1,31 @@
 <template>
   <div class="company">
     <header>
-      <div class="company-header"><img src="@/assets/logo.png" alt="公司logo" class="company-logo">
-        {{ companyName }}
-        <button @click="currentView = 'CompanyIntro'" class="company-btn">关注</button></div>
+      <div class="company-header">
+        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
+        <div class="company-name">{{ companyName }}</div>
+        <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+        <div class="btn-quick">
+          <el-button type="danger">退出企业</el-button>
+        </div>
+      </div>
     </header>
-    <nav>
-      <button @click="currentView = 'CompanyIntro'">公司简介</button>
-      <button @click="currentView = 'CompanyJobs'">招聘职位</button>
-      <button @click="currentView = 'CompanyTaste'">员工动态</button>
-    </nav>
-    <component :is="currentView"></component>
+
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyIntro' }" @click="currentView = 'CompanyIntro'">
+          公司简介
+        </div>
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyJobs' }" @click="currentView = 'CompanyJobs'">
+          招聘职位
+        </div>
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTaste' }" @click="currentView = 'CompanyTaste'">
+          员工动态
+        </div>
+      </div>
+    </div>
+
+      <component :is="currentView"></component>
   </div>
 </template>
 
@@ -35,11 +50,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.btn-quick {
+  margin-left: 70%;
+}
+
+.el-button {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
 .company {
   font-family: Arial, sans-serif;
   margin: 20px;
   text-align: left;
+}
+
+.company-name {
+  font-size: 1.5em;
+
 }
 
 .company-logo {
@@ -52,36 +81,80 @@ export default {
   font-size: 1.5em;
   margin-bottom: 10px;
   font-weight: bold;
-}
-
-.company-btn {
-  margin-left: 20px;
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  padding: 10px;
 }
 
 nav {
   margin-bottom: 20px;
 }
 
-button {
-  margin-right: 10px;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-h2 {
+.nav {
   font-size: 1.5em;
-  margin-bottom: 10px;
+  width: 100%;
+  background-color: rgba(44, 55, 140, 0.96);
+  height: 50px;
+  color: #d5d8e9;
+  font-weight: bold;
+  margin-bottom: 1%;
 }
 
-p, ul {
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: left;
+.nav-inner {
+  width: 86%;
+  height: 100%;
+  position: relative;
+  left: 2%;
 }
 
-li {
-  margin-bottom: 5px;
+.nav-inner .nav-item {
+  display: inline-block;
+  float: left;
+  height: 45px;
+  position: relative;
+  left: 10px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.nav-inner .nav-item a {
+  display: inline-block;
+  color: #d5d8e9;
+  line-height: 60px;
+  text-decoration: none;
+  padding: 0 15px;
+}
+
+.nav-inner .nav-item:hover {
+  background-color: #4e57a1;
+}
+
+.nav-inner .nav-item:hover a {
+  color: #fff;
+}
+
+.nav-inner .nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #ddbb34;
+  opacity: 0;
+}
+
+.nav-inner .nav-item.active::after {
+  opacity: 1;
+}
+
+.nav-inner .nav-item.active {
+  background-color: #4e57a1;
+}
+
+.nav-inner .nav-item.active a {
+  font-weight: bold;
+  color: #fff;
 }
 </style>

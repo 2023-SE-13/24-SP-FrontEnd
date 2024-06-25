@@ -4,14 +4,13 @@
     <p>{{ company.description }}</p>
 
     <h2>公司产品</h2>
-    占位<br>
+    占位
 
     <h2>工商信息</h2>
     <ul>
       <li>企业名称: </li>
       <li>法人代表: {{ company.businessInfo.legalRepresentative }}</li>
       <li>注册号: {{ company.businessInfo.registrationNumber }}</li>
-      <li>注册资本: {{ company.businessInfo.registeredCapital }}</li>
       <li>成立日期: {{ company.businessInfo.establishmentDate }}</li>
       <li>公司地址: {{ company.businessInfo.address }}</li>
     </ul>
@@ -39,7 +38,20 @@ export default {
 </script>
 
 <style scoped>
-p {
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  margin-top: 2%;
+}
+
+p, ul {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
   text-align: left;
+}
+
+li {
+  margin-bottom: 5px;
 }
 </style>
