@@ -1,7 +1,8 @@
 <template>
   <div class="admin-company-view">
-    <header class="header">
-      <strong>{{ company.name }}</strong>
+    <header class="company-header">
+      <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
+      <div class="company-name">{{ company.name }}</div>
     </header>
     <div class="main-content">
       <div class="left-panel">
@@ -26,16 +27,18 @@
             {{ employee.name }} - {{ employee.role }}
           </li>
         </ul>
-        <h3>添加员工</h3>
-        <div class="form-group">
-          <label for="employeeName">员工姓名</label>
-          <input type="text" id="employeeName" v-model="newEmployee.name" />
+        <div class="add-employee">
+          <h3>添加员工</h3>
+          <div class="form-group">
+            <label for="employeeName">员工姓名</label>
+            <input type="text" id="employeeName" v-model="newEmployee.name" />
+          </div>
+          <div class="form-group">
+            <label for="employeeRole">员工角色</label>
+            <input type="text" id="employeeRole" v-model="newEmployee.role" />
+          </div>
+          <button @click="addEmployee">添加</button>
         </div>
-        <div class="form-group">
-          <label for="employeeRole">员工角色</label>
-          <input type="text" id="employeeRole" v-model="newEmployee.role" />
-        </div>
-        <button @click="addEmployee">添加</button>
       </div>
     </div>
   </div>
@@ -51,7 +54,9 @@ export default {
         description: "示例公司描述",
         employees: [
           { name: "员工A", role: "开发人员" },
-          { name: "员工B", role: "设计师" }
+          { name: "员工B", role: "设计师" },
+          { name: "员工C", role: "架构师" },
+          { name: "员工B", role: "开发人员" }
         ]
       },
       newEmployee: {
@@ -76,38 +81,48 @@ export default {
 
 <style scoped>
 .admin-company-view {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f8ff; /* 浅蓝色 */
   padding: 20px;
 }
 
-.header {
+.company-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
   background-color: #007bff;
   color: white;
-  padding: 10px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.company-logo {
+  width: 50px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.company-name {
+  font-size: 1.8em;
+  font-weight: bold;
 }
 
 .main-content {
   display: flex;
-  margin-top: 20px;
+  gap: 20px;
 }
 
 .left-panel, .right-panel {
   flex: 1;
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-right: 20px;
 }
 
-.right-panel {
-  margin-right: 0;
+.left-panel {
+  margin-right: 20px;
 }
 
 h2, h3 {
@@ -156,10 +171,24 @@ button:hover {
 .employee-list {
   list-style: none;
   padding: 0;
+  max-height: 200px; /* 限制高度，允许滚动 */
+  overflow-y: auto;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .employee-item {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+}
+
+.add-employee {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
