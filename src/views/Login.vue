@@ -2,7 +2,7 @@
   <div class="box">
     <div class="main">
       <div class="login">
-        <div id="logo">
+        <div id="logo" @click="tohome()" style="cursor: pointer">
             <img src="../assets/logo.png" style="width:50px;height:50px;margin-top: 50px">
             <span style="font-size:20px;font-weight:1000;color: #00BAB7;">两个月直聘</span>
         </div>
@@ -20,6 +20,8 @@
             </el-form-item>
             <div class="navigation">
               <el-link href="/register" :underline="false">注册账号</el-link>
+              <span> | </span>
+              <el-link href="/password" :underline="false">忘记密码</el-link>
             </div>
             <el-form-item>
               <el-button id="LoginButton" type="primary" @click="login()" class="button">登录</el-button>
@@ -46,6 +48,9 @@ export default {
   },
 
   methods: {
+    tohome() {
+      this.$router.push("/")
+    },
     login() {
       console.log(this.loginForm)
       // if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
@@ -160,7 +165,7 @@ export default {
 
 .navigation {
   width:250px;
-  text-align: right;
+  text-align: center;
   margin-bottom: 20px;
 }
 
