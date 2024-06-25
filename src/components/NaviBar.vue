@@ -37,8 +37,10 @@ export default {
 <style lang="css" scoped>
 .navi {
     width: 100%;
-    background-color: #2f3a91;
-    height: 60px;
+    /* background-color: #00bebd; */
+    background:linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 1) 100%);
+    height: 50px;
+    /* background-image: linear-gradient(179deg,black,#00bebd); */
 }
 
 .navi-inner {
@@ -51,25 +53,25 @@ export default {
 .navi-inner .navi-item {
     display: inline-block;
     float: left;
-    height: 60px;
+    height: 50px;
     position: relative;
     left: 10px;
 }
 
 .navi-inner .navi-item a {
     display: inline-block;
-    color: #d5d8e9;
-    line-height: 60px;
+    color: white;
+    line-height: 50px;
     text-decoration: none;
     padding: 0 15px;
 }
 
 .navi-inner .navi-item:hover {
-    background-color: #4e57a1;
+    /* background-color: #00bebd; */
 }
 
 .navi-inner .navi-item:hover a {
-    color: #fff;
+    color: #00bebd;
 }
 
 .navi-inner .navi-item::after {
@@ -79,7 +81,7 @@ export default {
     left: 0;
     width: 100%;
     height: 5px;
-    background-color: #ddbb34;
+    background-color: black;
     opacity: 0;
 }
 
@@ -88,11 +90,11 @@ export default {
 }
 
 .navi-inner .navi-item.active {
-    background-color: #4e57a1;
+    background-color: black;
 }
 
 .navi-inner .navi-item.active a {
     font-weight: bold;
-    color: #fff;
+    color: #00bebd;
 }
 </style>
