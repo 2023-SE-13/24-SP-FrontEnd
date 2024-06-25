@@ -1,16 +1,195 @@
 <template>
-    <div>
-        <span>1111</span>
+  <div class="box">
+    <div class="main">
+      <div class="login">
+        <div id="logo">
+          nihao
+        </div>
+        <div id="login">
+          <span class="title">
+            登录
+          </span>
+          <el-form :model="loginForm" ref="loginForm" class="form">
+            <el-form-item prop="username">
+              <el-input style="width: 65%;" type="text" v-model="loginForm.username" autocomplete="off">
+                <i slot="prefix" class="el-icon-user" style="color: #00BAB7">账号</i>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input style="width: 65%;" type="password" v-model="loginForm.password" show-password autocomplete="off" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <div class="navigation">
+              <a href="/register" style="background-color: white;color: black; width: 25%;font-size: 15px;">注册账号</a>
+              <span> | </span>
+              <a href="/" style="background-color: white;color: black; width: 25%;font-size: 15px;">返回首页</a>
+            </div>
+            <el-form-item>
+              <el-button id="LoginButton" type="primary" @click="login()" class="button">登录</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
-<script>
-export default {
-    data() {
-        return {
 
-        }
+<script>
+//import {Login} from "@/api/api";
+export default {
+  data() {
+    return {
+      loginForm: {
+        username: '',
+        password: ''
+      }
     }
+  },
+
+  methods: {
+    login() {
+      console.log("login:"+this.loginForm)
+      // if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
+      //   //TODO: 弹出提示框
+      //   this.$notify({
+      //     title: '警告',
+      //     message: '用户名不能为空',
+      //     type: 'warning'
+      //   });
+      //   return;
+      // }
+      // if (typeof this.loginForm.password == "undefined" || this.loginForm.password == null || this.loginForm.password === "") {
+      //   //TODO: 弹出提示框
+      //   this.$notify({
+      //     title: '警告',
+      //     message: '密码不能为空',
+      //     type: 'warning'
+      //   });
+      //   return;
+      // }
+      // let form_data = new FormData()
+      // form_data.append('username', this.loginForm.username)
+      // form_data.append('password', this.loginForm.password)
+      // //TODO: 发送登录请求
+      // Login(form_data).then(res => {
+      //   if (res.data.result === 0) {
+      //     localStorage.setItem("token", res.data.token)
+      //     this.$router.push("/")
+      //   } else {
+      //     this.$notify({
+      //       title: '警告',
+      //       message: '用户名或密码错误',
+      //       type: 'warning'
+      //     });
+      //   }
+      // })
+    },
+  }
 }
 </script>
-<style>
+
+<style scoped>
+.box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 0;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/loginBG.png");
+  background-size: 100%;
+  background-color: #00c1c1;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login {
+  width: 640px;
+  height: 550px;
+  background-color: white;
+  align-items: center;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.form {
+  height: 50vh;
+  width: 100%;
+  display: block;
+  margin-top: 20px;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+  color: #00BAB9;
+  font-size: 20px;
+  font-weight: 1000;
+  text-underline-offset: 20px;
+  text-decoration-thickness: 3px;
+}
+
+.smallword {
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 黑体, serif;
+  margin-right: 20px;
+
+}
+
+.button {
+  width: 60%;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 黑体, serif;
+  color: white;
+  background-image: linear-gradient(to bottom right, #00BAB9, #00BAB7);
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.navigation {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.el-form-item {
+  margin-bottom: 40px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#logo {
+  width: 30%;
+  height: 100%;
+  background-color: #E3FAFD;
+  border-radius: 30px 0 0 30px;
+}
+
+#login {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>
