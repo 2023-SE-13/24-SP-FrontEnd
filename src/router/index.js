@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import Login from '../views/Login.vue'
 import Company from '../views/Company.vue'
 import HomePage from '@/views/HomePage.vue'
+import EnterpriseRegister from '../views/CompanyRegister.vue';
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
         path: '/company',
         name:'Company',
         component: Company
+      },
+      {
+        path: '/company-register',
+        name: 'CompanyRegister',
+        component: EnterpriseRegister
       }
     ]
   },
