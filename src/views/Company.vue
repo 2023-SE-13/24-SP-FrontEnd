@@ -4,10 +4,10 @@
       <div class="company-header">
         <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
         <div class="company-name">{{ companyName }}</div>
+      </div>
+      <div class="btn">
         <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="follow"></el-button>
-        <div class="btn-quick">
-          <el-button type="danger" @click="quick">退出企业</el-button>
-        </div>
+        <el-button type="danger" @click="quick">退出企业</el-button>
       </div>
     </header>
 
@@ -25,7 +25,9 @@
       </div>
     </div>
 
+    <div class="box">
       <component :is="currentView"></component>
+    </div>
   </div>
 </template>
 
@@ -73,12 +75,20 @@ export default {
 </script>
 
 <style scoped>
-.btn-quick {
-  margin-left: 70%;
+.box {
+  background-color: #d3dce6;
+  padding: 2px 15px 15px 15px;
+  border-radius: 10px;
+}
+
+.btn {
+  position: absolute;
+  right: 5%;
+  top: 13%
 }
 
 .btn-follow {
-  margin-left: 10px;
+  margin-left: 25px;
   font-size: 20px;
   background-color: #f6d0aa;
   border-color: #f6d0aa;
@@ -97,13 +107,12 @@ export default {
 
 .company-name {
   font-size: 1.5em;
-
 }
 
 .company-logo {
-  width: 50px; /* 调整企业logo的大小 */
+  width: 45px; /* 调整企业logo的大小 */
   height: auto; /* 自动调整高度 */
-  margin-right: 10px; /* 调整logo与文字之间的间距 */
+  margin-right: 15px; /* 调整logo与文字之间的间距 */
 }
 
 .company-header {
@@ -115,10 +124,6 @@ export default {
   padding: 10px;
 }
 
-nav {
-  margin-bottom: 20px;
-}
-
 .nav {
   font-size: 1.5em;
   width: 100%;
@@ -127,6 +132,7 @@ nav {
   color: #d5d8e9;
   font-weight: bold;
   margin-bottom: 1%;
+  border-radius: 15px;
 }
 
 .nav-inner {
@@ -143,8 +149,8 @@ nav {
   position: relative;
   left: 10px;
   padding-top: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 
 .nav-inner .nav-item a {
