@@ -19,6 +19,7 @@ export default {
 h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
+  margin-top: 2%;
 }
 
 p, ul {

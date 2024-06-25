@@ -11,11 +11,9 @@ export default {
 </script>
 
 <style scoped>
-ul {
-  text-align: left;
-}
-
-li {
-  margin-bottom: 5px;
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  margin-top: 2%;
 }
 </style>
