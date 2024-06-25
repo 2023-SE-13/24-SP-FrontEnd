@@ -3,7 +3,8 @@
     <div class="main">
       <div class="login">
         <div id="logo">
-          nihao
+            <img src="../assets/logo.png" style="width:50px;height:50px;margin-top: 50px">
+            <span style="font-size:20px;font-weight:1000;color: #00BAB7;">两个月直聘</span>
         </div>
         <div id="login">
           <span class="title">
@@ -11,22 +12,21 @@
           </span>
           <el-form :model="loginForm" ref="loginForm" class="form">
             <el-form-item prop="username">
-              <el-input style="width: 65%;" type="text" v-model="loginForm.username" autocomplete="off">
-                <i slot="prefix" class="el-icon-user" style="color: #00BAB7">账号</i>
+              <el-input style="width: 250px;" type="text" v-model="loginForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名" >
               </el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input style="width: 65%;" type="password" v-model="loginForm.password" show-password autocomplete="off" placeholder="请输入密码"></el-input>
+              <el-input style="width: 250px;" type="password" v-model="loginForm.password" show-password prefix-icon="el-icon-lock" placeholder="请输入密码"></el-input>
             </el-form-item>
             <div class="navigation">
-              <a href="/register" style="background-color: white;color: black; width: 25%;font-size: 15px;">注册账号</a>
-              <span> | </span>
-              <a href="/" style="background-color: white;color: black; width: 25%;font-size: 15px;">返回首页</a>
+              <el-link href="/register" :underline="false">注册账号</el-link>
             </div>
             <el-form-item>
               <el-button id="LoginButton" type="primary" @click="login()" class="button">登录</el-button>
             </el-form-item>
           </el-form>
+          <span class="smallword">客服电话 400-065-5799 工作时间：8:00-22:00</span>
+          <span class="smallword">人力资源服务许可证 营业执照 海淀区人社局监督电话</span>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@ export default {
 
   methods: {
     login() {
-      console.log("login:"+this.loginForm)
+      console.log(this.loginForm)
       // if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
       //   //TODO: 弹出提示框
       //   this.$notify({
@@ -115,7 +115,7 @@ export default {
 
 .login {
   width: 640px;
-  height: 550px;
+  height: 450px;
   background-color: white;
   align-items: center;
   border-radius: 30px;
@@ -124,9 +124,11 @@ export default {
 }
 
 .form {
-  height: 50vh;
+  height: 300px;
   width: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -138,18 +140,11 @@ export default {
   font-weight: 1000;
   text-underline-offset: 20px;
   text-decoration-thickness: 3px;
-}
-
-.smallword {
-  font-size: 20px;
-  font-weight: 200;
-  font-family: 黑体, serif;
-  margin-right: 20px;
-
+  margin-top: 50px;
 }
 
 .button {
-  width: 60%;
+  width: 200px;
   height: 50px;
   border-radius: 15px;
   border: none;
@@ -164,15 +159,11 @@ export default {
 }
 
 .navigation {
-  width: 100%;
-  text-align: center;
-  margin-top: 20px;
+  width:250px;
+  text-align: right;
   margin-bottom: 20px;
 }
 
-.el-form-item {
-  margin-bottom: 40px;
-}
 
 a {
   text-decoration: none;
@@ -183,6 +174,9 @@ a {
   height: 100%;
   background-color: #E3FAFD;
   border-radius: 30px 0 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #login {
@@ -191,5 +185,10 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.smallword {
+  font-size: 13px;
+  color: grey;
 }
 </style>
