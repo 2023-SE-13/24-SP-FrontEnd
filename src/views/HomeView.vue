@@ -3,6 +3,9 @@
     <div class="navi">
       <NaviBar />
     </div>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

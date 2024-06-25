@@ -3,14 +3,24 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Login from '../views/Login.vue'
 import Company from '../views/company.vue'
+import HomePage from '@/views/HomePage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect:'/main'
+  },
+  {
+    path:'/home',
+    component:()=>import('@/views/HomeView.vue'),
+    children:[
+      {
+        path:'/main',
+        component:()=>import('@/views/HomePage')
+      }
+    ]
   },
   // {
   //   path: '/about',
