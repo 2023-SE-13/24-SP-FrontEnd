@@ -53,24 +53,24 @@ export default {
     },
     login() {
       console.log(this.loginForm)
-      // if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '用户名不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
-      // if (typeof this.loginForm.password == "undefined" || this.loginForm.password == null || this.loginForm.password === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '密码不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
+      if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
+        //TODO: 弹出提示框
+        this.$notify({
+          title: '警告',
+          message: '用户名不能为空',
+          type: 'warning'
+        });
+        return;
+      }
+      if (typeof this.loginForm.password == "undefined" || this.loginForm.password == null || this.loginForm.password === "") {
+        //TODO: 弹出提示框
+        this.$notify({
+          title: '警告',
+          message: '密码不能为空',
+          type: 'warning'
+        });
+        return;
+      }
       // let form_data = new FormData()
       // form_data.append('username', this.loginForm.username)
       // form_data.append('password', this.loginForm.password)

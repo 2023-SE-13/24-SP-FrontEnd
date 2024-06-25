@@ -5,6 +5,7 @@ import Company from '../views/Company.vue'
 import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
 import EnterpriseEditer from '../views/CompanyEditer.vue';
+import Register from "@/views/Register.vue";
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/user',
     name: 'User',
     component: User
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 
