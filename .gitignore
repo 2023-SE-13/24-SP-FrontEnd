@@ -23,5 +23,5 @@ pnpm-debug.log*
 *.sw?
 
 frontend_restart.sh
-
+frontend_restar.sh
 nohup.out
