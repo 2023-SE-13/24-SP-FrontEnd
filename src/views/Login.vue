@@ -36,7 +36,7 @@
 </template>
 
 <script>
-//import {Login} from "@/api/api";
+import {Login} from "@/api/api";
 export default {
   data() {
     return {
@@ -71,22 +71,22 @@ export default {
         });
         return;
       }
-      // let form_data = new FormData()
-      // form_data.append('username', this.loginForm.username)
-      // form_data.append('password', this.loginForm.password)
-      // //TODO: 发送登录请求
-      // Login(form_data).then(res => {
-      //   if (res.data.result === 0) {
-      //     localStorage.setItem("token", res.data.token)
-      //     this.$router.push("/")
-      //   } else {
-      //     this.$notify({
-      //       title: '警告',
-      //       message: '用户名或密码错误',
-      //       type: 'warning'
-      //     });
-      //   }
-      // })
+      let form_data = new FormData()
+      form_data.append('username', this.loginForm.username)
+      form_data.append('password', this.loginForm.password)
+      //TODO: 发送登录请求
+      Login(form_data).then(res => {
+        if (res.data.result === 0) {
+          localStorage.setItem("token", res.data.token)
+          this.$router.push("/")
+        } else {
+          this.$notify({
+            title: '警告',
+            message: '用户名或密码错误',
+            type: 'warning'
+          });
+        }
+      })
     },
   }
 }

@@ -52,7 +52,9 @@
 </template>
 
 <script>
-//import {register} from "@/api/api";
+import {Register} from "@/api/api";
+import {SendCode} from "@/api/api";
+
 export default {
   data() {
     return {
@@ -83,7 +85,19 @@ export default {
         });
       } else {
         //TODO: 发送验证码请求
-
+        let form_data = new FormData()
+        form_data.append('email', this.registerForm.email)
+        SendCode(form_data).then(res => {
+          if (res.data.result === 0) {
+            console.log("发送成功")
+          } else {
+            this.$notify({
+              title: '警告',
+              message: '发送失败',
+              type: 'warning'
+            });
+          }
+        })
       }
     },
     register() {
@@ -141,43 +155,27 @@ export default {
           });
         } else {
             //TODO: 发送注册请求
-
+          let form_data = new FormData()
+          form_data.append('username', this.registerForm.username)
+          form_data.append('password', this.registerForm.password)
+          form_data.append('real_name', this.registerForm.real_name)
+          form_data.append('email', this.registerForm.email)
+          form_data.append('code', this.registerForm.code)
+          //TODO: 发送注册请求
+          Register(form_data).then(res => {
+            if (res.data.result === 0) {
+              console.log("注册成功")
+              this.$router.push("/")
+            } else {
+              this.$notify({
+                title: '警告',
+                message: '验证码错误',
+                type: 'warning'
+              });
+            }
+          })
         }
       }
-      // if (typeof this.registerForm.username == "undefined" || this.registerForm.username == null || this.registerForm.username === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '用户名不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
-      // if (typeof this.registerForm.password == "undefined" || this.registerForm.password == null || this.registerForm.password === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '密码不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
-      // let form_data = new FormData()
-      // form_data.append('username', this.registerForm.username)
-      // form_data.append('password', this.registerForm.password)
-      // //TODO: 发送登录请求
-      // register(form_data).then(res => {
-      //   if (res.data.result === 0) {
-      //     localStorage.setItem("token", res.data.token)
-      //     this.$router.push("/")
-      //   } else {
-      //     this.$notify({
-      //       title: '警告',
-      //       message: '用户名或密码错误',
-      //       type: 'warning'
-      //     });
-      //   }
-      // })
     },
   }
 }
