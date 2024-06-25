@@ -144,7 +144,7 @@ export default {
 
 .nav-inner .nav-item {
   display: inline-block;
-  float: left;
+  /* float: left; */
   height: 45px;
   position: relative;
   left: 10px;
