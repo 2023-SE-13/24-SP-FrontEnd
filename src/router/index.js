@@ -19,6 +19,11 @@ const routes = [
       {
         path:'/main',
         component:()=>import('@/views/HomePage')
+      },
+      {
+        path: '/company',
+        name:'Company',
+        component: Company
       }
     ]
   },

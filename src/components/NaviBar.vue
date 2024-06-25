@@ -16,8 +16,8 @@ export default {
         return {
             activeIndex: null,
             naviUnits: [
-                { content: "首页", link_to: "/" },
-                { content: "登录", link_to: "/login" }
+                { content: "首页", link_to: "/main" },
+                { content: "公司", link_to: "/company" }
             ]
         }
     },
@@ -26,6 +26,10 @@ export default {
             this.activeIndex = index
             console.log(this.activeIndex)
         }
+    },
+    created() {
+        const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to == this.$route.path);
+        this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
     }
 }
 </script>
