@@ -4,7 +4,7 @@
     <p>{{ company.description }}</p>
 
     <h2>公司产品</h2>
-    占位
+    <ul>占位</ul>
 
     <h2>工商信息</h2>
     <ul>
@@ -45,7 +45,7 @@ h2 {
 }
 
 p, ul {
-  background-color: #f9f9f9;
+  background-color: #f6f6f7;
   border-radius: 5px;
   text-align: left;
   padding: 10px 25px 10px 25px;

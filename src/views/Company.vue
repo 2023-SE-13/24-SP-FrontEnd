@@ -6,8 +6,8 @@
         <div class="company-name">{{ companyName }}</div>
       </div>
       <div class="btn">
-        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="follow"></el-button>
-        <el-button type="danger" @click="quick">退出企业</el-button>
+        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="follow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
+        <el-button type="danger" @click="quick" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
       </div>
     </header>
 
@@ -45,12 +45,15 @@ export default {
   },
   data() {
     return {
+      isFollowed: false,
+
       currentView: 'CompanyIntro',
       companyName: '某某企业'
     };
   },
   methods: {
     follow() {
+      this.isFollowed = !this.isFollowed;
       this.$message({
         message: '成功关注该企业！',
         type: 'success'
@@ -75,34 +78,40 @@ export default {
 </script>
 
 <style scoped>
+.company {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  text-align: left;
+  background-color: #def0f4;
+  height: auto;
+}
+
+header {
+}
+
 .box {
-  background-color: #d3dce6;
+  background-color: #ffffff;
   padding: 2px 15px 15px 15px;
-  border-radius: 10px;
+  border-radius: 12px;
+  margin-top: 18px;
 }
 
 .btn {
   position: absolute;
-  right: 5%;
+  right: 2.5%;
   top: 13%
 }
 
 .btn-follow {
-  margin-left: 25px;
+  margin-right: 5px;
   font-size: 20px;
-  background-color: #f6d0aa;
-  border-color: #f6d0aa;
+  background-color: #4c657a;
+  border-color: #4c657a;
 }
 
 .btn-follow:hover {
-  background-color: #ffc457;
-  border-color: #ffc457;
-}
-
-.company {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  text-align: left;
+  background-color: #00cfcf;
+  border-color: #00cfcf;
 }
 
 .company-name {
@@ -125,12 +134,11 @@ export default {
 }
 
 .nav {
-  font-size: 1.5em;
+  font-size: 1.1em;
   width: 100%;
-  background-color: rgba(44, 55, 140, 0.96);
-  height: 50px;
+  background-color: rgb(255, 255, 255);
+  height: 40px;
   color: #d5d8e9;
-  font-weight: bold;
   margin-bottom: 1%;
   border-radius: 15px;
 }
@@ -145,7 +153,7 @@ export default {
 .nav-inner .nav-item {
   display: inline-block;
   float: left;
-  height: 45px;
+  height: 35px;
   position: relative;
   left: 10px;
   padding-top: 5px;
@@ -162,7 +170,7 @@ export default {
 }
 
 .nav-inner .nav-item:hover {
-  background-color: #4e57a1;
+  color: #0ccaca;
 }
 
 .nav-inner .nav-item:hover a {
@@ -173,10 +181,10 @@ export default {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 10%;
+  width: 80%;
   height: 5px;
-  background-color: #ddbb34;
+  background-color: #0ccaca;
   opacity: 0;
 }
 
@@ -185,7 +193,7 @@ export default {
 }
 
 .nav-inner .nav-item.active {
-  background-color: #4e57a1;
+  color: #212121;
 }
 
 .nav-inner .nav-item.active a {
