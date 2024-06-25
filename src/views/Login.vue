@@ -71,12 +71,13 @@ export default {
         });
         return;
       }
-      let form_data = new FormData()
-      form_data.append('username', this.loginForm.username)
-      form_data.append('password', this.loginForm.password)
+      const form_data = {
+        username: this.loginForm.username,
+        password: this.loginForm.password
+      }
       //TODO: 发送登录请求
       Login(form_data).then(res => {
-        if (res.data.result === 0) {
+        if (res.data.status === "success") {
           localStorage.setItem("token", res.data.token)
           this.$router.push("/")
         } else {
