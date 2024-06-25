@@ -36,7 +36,7 @@
 </template>
 
 <script>
-//import {Login} from "@/api/api";
+import {Login} from "@/api/api";
 export default {
   data() {
     return {
@@ -53,40 +53,40 @@ export default {
     },
     login() {
       console.log(this.loginForm)
-      // if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '用户名不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
-      // if (typeof this.loginForm.password == "undefined" || this.loginForm.password == null || this.loginForm.password === "") {
-      //   //TODO: 弹出提示框
-      //   this.$notify({
-      //     title: '警告',
-      //     message: '密码不能为空',
-      //     type: 'warning'
-      //   });
-      //   return;
-      // }
-      // let form_data = new FormData()
-      // form_data.append('username', this.loginForm.username)
-      // form_data.append('password', this.loginForm.password)
-      // //TODO: 发送登录请求
-      // Login(form_data).then(res => {
-      //   if (res.data.result === 0) {
-      //     localStorage.setItem("token", res.data.token)
-      //     this.$router.push("/")
-      //   } else {
-      //     this.$notify({
-      //       title: '警告',
-      //       message: '用户名或密码错误',
-      //       type: 'warning'
-      //     });
-      //   }
-      // })
+      if (typeof this.loginForm.username == "undefined" || this.loginForm.username == null || this.loginForm.username === "") {
+        //TODO: 弹出提示框
+        this.$notify({
+          title: '警告',
+          message: '用户名不能为空',
+          type: 'warning'
+        });
+        return;
+      }
+      if (typeof this.loginForm.password == "undefined" || this.loginForm.password == null || this.loginForm.password === "") {
+        //TODO: 弹出提示框
+        this.$notify({
+          title: '警告',
+          message: '密码不能为空',
+          type: 'warning'
+        });
+        return;
+      }
+      let form_data = new FormData()
+      form_data.append('username', this.loginForm.username)
+      form_data.append('password', this.loginForm.password)
+      //TODO: 发送登录请求
+      Login(form_data).then(res => {
+        if (res.data.result === 0) {
+          localStorage.setItem("token", res.data.token)
+          this.$router.push("/")
+        } else {
+          this.$notify({
+            title: '警告',
+            message: '用户名或密码错误',
+            type: 'warning'
+          });
+        }
+      })
     },
   }
 }
