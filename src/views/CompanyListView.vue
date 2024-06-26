@@ -9,7 +9,7 @@
       </div>
       <div class="my-company">
         <!-- 我的企业 -->
-        <el-button v-show="isInComp" @click="gotoCompanyView">我的企业 <i class="el-icon-office-building"></i></el-button>
+        <el-button v-show="isInComp" @click="gotoCompanyEditor">我的企业 <i class="el-icon-office-building"></i></el-button>
         <el-button v-show="!isInComp" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
       </div>
     </div>
@@ -35,9 +35,9 @@ export default {
     }
   },
   methods: {
-    gotoCompanyView() {
+    gotoCompanyEditor() {
         localStorage.setItem('company_id', this.companyId)
-        this.$router.push("/company");
+        this.$router.push("/company-editor");
       },
     allow() {
       if (this.input !== null && this.input !== '') {

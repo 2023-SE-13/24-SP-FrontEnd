@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       company: {
-        name: "示例公司",
+        name: "",
         address: "示例地址",
         description: "示例公司描述",
         employees: []
@@ -60,18 +60,18 @@ export default {
         name: "",
         role: ""
       },
-      token: '', // 替换为实际的token
-      companyId: '9f9cdc179e2e414094389fab1a0d0063' // 替换为实际的公司ID
+      token: localStorage.getItem('token'), 
     };
   },
   created() {
-    getCompany(this.companyId).then(res => {
+    console.log('companyID: ',localStorage.getItem('company_id'))
+    getCompany(localStorage.getItem('company_id')).then(res => {
       console.log(res.data)
       if (res.data.status === "success") {
         this.company.name = res.data.data.company_name
       }
     })
-    getCompanyEmployee(this.companyId).then(res => {
+    getCompanyEmployee(localStorage.getItem('company_id')).then(res => {
       if (res.data.status === "success" && Array.isArray(res.data.data)) {
         this.company.employees = res.data.data;
         console.log("get company employees", this.company.employees)
