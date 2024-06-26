@@ -5,6 +5,19 @@
                 :class="{ active: activeIndex === index }">
                 <router-link :to="naviUnit.link_to">{{ naviUnit.content }}</router-link>
             </div>
+            <div class="navi-search" v-show="this.$route.path !== '/main'">
+                <el-select v-model="select" :popper-append-to-body="false" slot="prepend" class="navi-select">
+                    <el-option label="用户" value="1" @click="select = '用户'"></el-option>
+                    <el-option label="公司" value="2" @click="select = '公司'"></el-option>
+                </el-select>
+                <el-input placeholder="搜索用户、公司" v-model="input" class="navi-input" @input="allow"
+                    @keyup.enter.native="search">
+                    <el-button slot="suffix" icon="el-icon-search" @click="search" ref="button"></el-button>
+                </el-input>
+            </div>
+            <div v-show="!isLogin" class="loginButton">
+                <el-button @click="gotoLogin">登录/注册</el-button>
+            </div>
         </div>
 
     </div>
@@ -18,27 +31,46 @@ export default {
             naviUnits: [
                 { content: "首页", link_to: "/main" },
                 { content: "公司", link_to: "/company" }
-            ]
+            ],
+            isLogin: false,
+            select: '',
+            input: ''
         }
     },
     methods: {
         changeActive(index) {
             this.activeIndex = index
             console.log(this.activeIndex)
+        },
+        gotoLogin() {
+            this.$router.push("/login")
+            // this.isLogin = true
+        },
+        allow() {
+            if (this.input !== null && this.input !== '') {
+                this.$refs.button.$el.style.cursor = 'pointer'
+            } else {
+                this.$refs.button.$el.style.cursor = 'not-allowed'
+            }
         }
     },
     created() {
         const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to == this.$route.path);
         this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
+    },
+    mounted() {
+        if (this.input === null || this.input === '') {
+            this.$refs.button.$el.style.cursor = 'not-allowed'
+        }
     }
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css" >
 .navi {
     width: 100%;
     /* background-color: #00bebd; */
-    background:linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 1) 100%);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 1) 100%);
     height: 50px;
     /* background-image: linear-gradient(179deg,black,#00bebd); */
 }
@@ -96,5 +128,102 @@ export default {
 .navi-inner .navi-item.active a {
     font-weight: bold;
     color: #00bebd;
+}
+
+.navi-search {
+  width: 496px;
+  float: left;
+  position: relative;
+  top: 5px;
+  left: 30px;
+  border-radius: 20px 0 0 20px;
+}
+
+.navi-search .el-select {
+  float: left;
+  width: 80px;
+  height: 40px;
+}
+
+.navi-search .el-select .el-input__inner {
+  background-color: #ffffff33;
+  color: #ffffffcc;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid transparent;
+  padding: 10px 10px 10px 15px;
+  font-size: 12px;
+}
+
+.navi-search .el-select:hover .el-input__inner {
+  border: 1px solid transparent;
+}
+
+.navi-search .el-select .el-input__inner:focus {
+  color: white;
+  background-color: #ffffff33;
+  border: 1px solid transparent;
+}
+
+.navi-search .el-select .el-input.is-focus .el-input__inner {
+  border: 1px solid transparent;
+}
+
+.navi-search .navi-input {
+  float: left;
+  width: 416px;
+}
+
+.navi-search .navi-input>.el-input__inner {
+  float: left;
+  width: 416px;
+  color: #ffffffcc;
+  background-color: #ffffff33;
+  font-size: 12px;
+  border-radius: 0 20px 20px 0;
+  border: 1px solid transparent;
+}
+
+.navi-search .navi-input>.el-input__inner:focus {
+  color: #2f3a91;
+  background-color: #ffffff;
+}
+
+.navi-search .navi-input .el-button {
+  height: 40px;
+  position: relative;
+  left: 5px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0 20px 20px 0;
+  color: #bbbbbb;
+}
+
+.navi-search .navi-input .el-button:hover {
+  color: #2f3a91;
+}
+
+
+.navi-inner .loginButton {
+    display: inline-block;
+    float: right;
+    position: relative;
+    /* height: 20px; */
+    width: 100px;
+    /* top: 15x; */
+    margin-top: 5px;
+}
+
+.navi-inner .loginButton .el-button {
+    background: transparent;
+    color: white;
+    border: 2px solid #00bebd;
+    border-radius: 4px;
+    position: center;
+}
+
+.navi-inner .loginButton .el-button:hover {
+    background-color: #1c4348;
+    color: #00bebd;
+    /* border: 1px solid white; */
 }
 </style>
