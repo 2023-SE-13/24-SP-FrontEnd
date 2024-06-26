@@ -100,6 +100,22 @@ export function isStaff(token, company_id) {
     let data = {
         "company_id": company_id
     }
+    return service({
+        method: 'post',
+        url: '/company/is_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询企业信息
+export function getCompany(company_id) {
+    let data = {
+        'company_id': company_id
+    }
     data = JSON.stringify(data)
     return service({
         method: 'post',
@@ -122,6 +138,7 @@ export function getCompany(company_id) {
         }
     })
 }
+
 
 // 企业注册
 export function registCompany(token, company_name, company_description) {
