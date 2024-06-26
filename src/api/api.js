@@ -25,3 +25,15 @@ export function SendCode(params) {
         }
     })
 }
+
+
+// 搜索用户
+export function SearchUser(params){
+    return service({
+        mathod:'get',
+        url:'/user/search_users',
+        params:{
+            'keyword':params
+        }
+    })
+}

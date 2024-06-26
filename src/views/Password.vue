@@ -8,11 +8,11 @@
         </div>
         <div id="register">
           <el-steps style="width:300px;background: white" :active=this.active simple>
-            <el-step title="输入信息"></el-step>
             <el-step title="验证邮箱"></el-step>
+            <el-step title="重置密码"></el-step>
           </el-steps>
           <span class="title">
-            注册
+            找回密码
           </span>
           <el-form :model="registerForm" ref="registerForm" class="form">
             <el-form-item v-show="this.active===0" prop="username">
@@ -67,7 +67,7 @@ export default {
         real_name: '',
         email: '',
         code: ''
-      },
+      }
     }
   },
 
@@ -91,19 +91,13 @@ export default {
         SendCode(params).then(res => {
           if (res.data.status === "success") {
             console.log("发送成功")
+          } else {
             this.$notify({
-              title: '成功',
-              message: '发送成功',
-              type: 'success'
+              title: '警告',
+              message: '发送失败',
+              type: 'warning'
             });
           }
-        },
-        error => {
-          this.$notify({
-            title: '警告',
-            message: '发送失败',
-            type: 'warning'
-          });
         })
       }
     },
@@ -111,29 +105,29 @@ export default {
       //用户名、密码、确认密码不可为空
       if(this.active === 0) {
         if (typeof this.registerForm.username == "undefined" || this.registerForm.username == null || this.registerForm.username === "") {
-            this.$notify({
-              title: '警告',
-              message: '用户名不能为空',
-              type: 'warning'
-            });
+          this.$notify({
+            title: '警告',
+            message: '用户名不能为空',
+            type: 'warning'
+          });
         }else if (typeof this.registerForm.password == "undefined" || this.registerForm.password == null || this.registerForm.password === "") {
-            this.$notify({
-              title: '警告',
-              message: '密码不能为空',
-              type: 'warning'
-            });
+          this.$notify({
+            title: '警告',
+            message: '密码不能为空',
+            type: 'warning'
+          });
         }else if (typeof this.registerForm.password2 == "undefined" || this.registerForm.password2 == null || this.registerForm.password2 === "") {
-            this.$notify({
-              title: '警告',
-              message: '确认密码不能为空',
-              type: 'warning'
-            });
+          this.$notify({
+            title: '警告',
+            message: '确认密码不能为空',
+            type: 'warning'
+          });
         }else if(this.registerForm.password !== this.registerForm.password2){
-            this.$notify({
-              title: '警告',
-              message: '两次密码输入不一致',
-              type: 'warning'
-            });
+          this.$notify({
+            title: '警告',
+            message: '两次密码输入不一致',
+            type: 'warning'
+          });
         } else{
           this.active = 1
           this.buttonwords = '注册'
@@ -161,7 +155,7 @@ export default {
             type: 'warning'
           });
         } else {
-            //TODO: 发送注册请求
+          //TODO: 发送注册请求
           const form_data = {
             username: this.registerForm.username,
             password: this.registerForm.password,
@@ -174,25 +168,10 @@ export default {
             if (res.data.status === "success") {
               console.log("注册成功")
               this.$router.push("/")
-            }
-          },
-          error => {
-            if(error.response.status === 401){
-              this.$notify({
-                title: '警告',
-                message: '验证码错误',
-                type: 'warning'
-              });
-            } else if(error.response.status === 409){
-              this.$notify({
-                title: '警告',
-                message: '用户已存在',
-                type: 'warning'
-              });
             } else {
               this.$notify({
                 title: '警告',
-                message: '注册失败',
+                message: '验证码错误',
                 type: 'warning'
               });
             }

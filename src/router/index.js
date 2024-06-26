@@ -6,6 +6,7 @@ import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
 import EnterpriseEditer from '../views/CompanyEditer.vue';
 import Register from "@/views/Register.vue";
+import Password from "@/views/Password.vue";
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path:'/password',
+    name:'Password',
+    component: Password
   }
 ]
 
