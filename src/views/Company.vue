@@ -161,7 +161,7 @@ export default {
 .btn {
   position: absolute;
   right: 2.5%;
-  top: 10%
+  top: 6.5%
 }
 
 .btn-follow {
@@ -185,7 +185,7 @@ export default {
   font-weight: bold;
   display: flex;
   align-items: center; /* 垂直居中 */
-  padding: 50px 10px 20px 20px;
+  padding: 30px 10px 20px 20px;
 }
 
 .nav {
