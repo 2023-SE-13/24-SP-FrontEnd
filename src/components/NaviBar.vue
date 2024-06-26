@@ -12,8 +12,21 @@
                 </el-select>
                 <el-input placeholder="搜索用户、公司" v-model="input" class="navi-input" @input="allow"
                     @keyup.enter.native="search">
-                    <el-button slot="suffix" icon="el-icon-search" @click="search" ref="button"></el-button>
+                    <el-button slot="suffix" icon="el-icon-search" @click="search" ref="button"
+                        :disabled="NotAllowedSearch"></el-button>
                 </el-input>
+            </div>
+            <div v-show="isLogin" class="photo">
+                <el-dropdown placement="bottom" @command="handleCommand">
+                    <el-avatar :size="35" :src="photoSrc"></el-avatar>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="a"><i class="el-icon-house"></i>主页</el-dropdown-item>
+                        <el-dropdown-item command="b"><i class="el-icon-star-off"></i>关注</el-dropdown-item>
+                        <!-- <el-dropdown-item command="c"><i class="el-icon-thumb"></i>推荐</el-dropdown-item> -->
+                        <el-dropdown-item divided command="d"><i class="el-icon-setting"></i>设置</el-dropdown-item>
+                        <el-dropdown-item command="e"><i class="el-icon-switch-button"></i>退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
             </div>
             <div v-show="!isLogin" class="loginButton">
                 <el-button @click="gotoLogin">登录/注册</el-button>
@@ -32,9 +45,11 @@ export default {
                 { content: "首页", link_to: "/main" },
                 { content: "公司", link_to: "/company" }
             ],
-            isLogin: false,
+            isLogin: true,
             select: '',
-            input: ''
+            input: '',
+            NotAllowedSearch: true,
+            photoSrc: require('../assets/photo.png')
         }
     },
     methods: {
@@ -49,14 +64,42 @@ export default {
         allow() {
             if (this.input !== null && this.input !== '') {
                 this.$refs.button.$el.style.cursor = 'pointer'
+                this.NotAllowedSearch = false
             } else {
                 this.$refs.button.$el.style.cursor = 'not-allowed'
+                this.NotAllowedSearch = true
             }
+        },
+        handleCommand(command) {
+            if (command === 'a' && this.$route.path !== '/php/1') {
+                // this.$router.push("/php/1")
+            }
+            if (command === 'b') {
+                // this.$router.push("/article/" + btoa(encodeURIComponent(JSON.stringify(this.id))));
+            }
+            if (command === 'd' && this.$route.path !== '/settings') {
+                // this.$router.push("/settings")
+            }
+            if (command === 'e') {
+                if (this.$route.path !== '/main') {
+                    this.$router.push("/main")
+                    this.isLogin = false
+                } else {
+                    this.isLogin = false
+                }
+            }
+        },
+        search() {
+            alert("搜索一次")
         }
     },
     created() {
         const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to == this.$route.path);
         this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
+        this.$watch('$route', () => {
+            const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to === this.$route.path);
+            this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
+        })
     },
     mounted() {
         if (this.input === null || this.input === '') {
@@ -66,7 +109,7 @@ export default {
 }
 </script>
 
-<style lang="css" >
+<style lang="css">
 .navi {
     width: 100%;
     /* background-color: #00bebd; */
@@ -131,75 +174,88 @@ export default {
 }
 
 .navi-search {
-  width: 496px;
-  float: left;
-  position: relative;
-  top: 5px;
-  left: 30px;
-  border-radius: 20px 0 0 20px;
+    width: 496px;
+    float: left;
+    position: relative;
+    top: 5px;
+    left: 30px;
+    border-radius: 20px 0 0 20px;
 }
 
 .navi-search .el-select {
-  float: left;
-  width: 80px;
-  height: 40px;
+    float: left;
+    width: 80px;
+    height: 40px;
 }
 
 .navi-search .el-select .el-input__inner {
-  background-color: #ffffff33;
-  color: #ffffffcc;
-  border-radius: 20px 0 0 20px;
-  border: 1px solid transparent;
-  padding: 10px 10px 10px 15px;
-  font-size: 12px;
+    background-color: #ffffff33;
+    color: #ffffffcc;
+    border-radius: 20px 0 0 20px;
+    border: 1px solid transparent;
+    padding: 10px 10px 10px 15px;
+    font-size: 12px;
 }
 
 .navi-search .el-select:hover .el-input__inner {
-  border: 1px solid transparent;
+    border: 1px solid transparent;
 }
 
 .navi-search .el-select .el-input__inner:focus {
-  color: white;
-  background-color: #ffffff33;
-  border: 1px solid transparent;
+    color: white;
+    background-color: #ffffff33;
+    border: 1px solid transparent;
 }
 
 .navi-search .el-select .el-input.is-focus .el-input__inner {
-  border: 1px solid transparent;
+    border: 1px solid transparent;
 }
 
 .navi-search .navi-input {
-  float: left;
-  width: 416px;
+    float: left;
+    width: 416px;
 }
 
 .navi-search .navi-input>.el-input__inner {
-  float: left;
-  width: 416px;
-  color: #ffffffcc;
-  background-color: #ffffff33;
-  font-size: 12px;
-  border-radius: 0 20px 20px 0;
-  border: 1px solid transparent;
+    float: left;
+    width: 416px;
+    color: #ffffffcc;
+    background-color: #ffffff33;
+    font-size: 12px;
+    border-radius: 0 20px 20px 0;
+    border: 1px solid transparent;
 }
 
 .navi-search .navi-input>.el-input__inner:focus {
-  color: #2f3a91;
-  background-color: #ffffff;
+    color: #2f3a91;
+    background-color: #ffffff;
 }
 
 .navi-search .navi-input .el-button {
-  height: 40px;
-  position: relative;
-  left: 5px;
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-radius: 0 20px 20px 0;
-  color: #bbbbbb;
+    height: 40px;
+    position: relative;
+    left: 5px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0 20px 20px 0;
+    color: #bbbbbb;
 }
 
 .navi-search .navi-input .el-button:hover {
-  color: black;
+    color: black;
+}
+
+.navi-inner .photo {
+    display: inline-block;
+    float: right;
+    position: relative;
+    height: 60px;
+    width: 60px;
+}
+
+.navi-inner .photo .el-avatar {
+    position: relative;
+    top: 7.5px;
 }
 
 
