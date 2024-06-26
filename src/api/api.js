@@ -34,7 +34,7 @@ export function leaveCompany(token, user_id, company_id) {
         headers: {
             'Authorization': `Token ${token}`,
         },
-        params: {
+        data: {
             'user_id': user_id,
             'company_id': company_id
         }
@@ -49,7 +49,7 @@ export function followCompany(token, username, company_id) {
         headers: {
             'Authorization': `Token ${token}`,
         },
-        params: {
+        data: {
             'username': username,
             'company_id': company_id
         }

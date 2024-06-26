@@ -6,8 +6,8 @@
         <div class="company-name">{{ companyName }}</div>
       </div>
       <div class="btn">
-        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="follow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
-        <el-button type="danger" @click="quick" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
+        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
+        <el-button type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
       </div>
     </header>
 
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { leaveCompany, followCompany, unFollowCompany } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -46,29 +47,81 @@ export default {
   data() {
     return {
       isFollowed: false,
-
       currentView: 'CompanyIntro',
-      companyName: '某某企业'
+
+      userid: "why",
+      username: "testUsername",
+      company_id: "9f9cdc179e2e414094389fab1a0d0063",
+      companyName: '某某企业',
+
     };
   },
   methods: {
-    follow() {
-      this.isFollowed = !this.isFollowed;
+    toggleFollow() {
+      if (this.isFollowed) {
+        this.cancelFollowCompany();
+      } else {
+        this.followCompany();
+      }
+    },
+    followCompany() {
+      var username = { username: this.username}
+      var company_id = { company_id: this.company_id}
+      followCompany(localStorage.getItem('token'), username, company_id).then(res => {
+        if (res.data.status === "success") {
+          console.log("关注企业成功")
+        }
+      })
       this.$message({
         message: '成功关注该企业！',
         type: 'success'
+      }).catch(error => {
+        console.log("关注企业失败", error);
+        this.$message({
+          message: '关注企业失败，请稍后再试！',
+          type: 'error'
+        });
+      });
+      this.isFollowed = true;
+    },
+    cancelFollowCompany() {
+      var username = { username: this.username}
+      var company_id = { company_id: this.company_id}
+      unFollowCompany(localStorage.getItem('token'), username, company_id).then(res => {
+        if (res.data.status === "success") {
+          console.log("取消关注企业成功")
+          this.$message({
+            message: '成功取消关注该企业！',
+            type: 'success'
+          });
+          this.isFollowed = false;
+        }
+      }).catch(error => {
+        console.log("取消关注企业失败", error);
+        this.$message({
+          message: '取消关注企业失败，请稍后再试！',
+          type: 'error'
+        });
       });
     },
-    quick() {
+    leaveCompany() {
       this.$confirm('是否确定退出该企业?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        var user_id = { username: this.username}
+        var company_id = { company_id: this.company_id}
+        leaveCompany(localStorage.getItem('token'), user_id, company_id).then(res => {
+          if (res.data.status === "success") {
+            console.log("退出企业成功")
+          }
+        })
         this.$message({
           type: 'success',
           message: '成功退出该企业!'
         });
+        this.$router.push("/home");
       }).catch(() => {
 
       });
@@ -99,19 +152,12 @@ header {
 .btn {
   position: absolute;
   right: 2.5%;
-  top: 13%
+  top: 11%
 }
 
 .btn-follow {
   margin-right: 5px;
   font-size: 20px;
-  background-color: #4c657a;
-  border-color: #4c657a;
-}
-
-.btn-follow:hover {
-  background-color: #00cfcf;
-  border-color: #00cfcf;
 }
 
 .company-name {
