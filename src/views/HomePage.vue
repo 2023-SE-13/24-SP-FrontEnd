@@ -71,7 +71,7 @@ export default {
     left: 50%;
     top: 5%;
     border: solid 3px #00bebd;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 /* .img-container .el-select .el-input {
@@ -92,7 +92,7 @@ export default {
 
 /deep/.el-select {
     width: 130px;
-    border-radius: null;
+    border-radius: 10px;
 }
 
 /deep/.el-input__inner {
@@ -122,13 +122,14 @@ export default {
     padding: 16px 20px;
     width: 120px;
     font-size: larger;
-    border-radius: 5px;
+    border-radius: 10px;
+   border: none;
 
 }
 
 /deep/.el-input-group__append {
-    background-color: #fff;
-    border-color: #fff;
+    background-color: #00bebd;
+    border-color: #00bebd;
 }
 
 /deep/.el-input__inner {

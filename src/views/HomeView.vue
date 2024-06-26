@@ -31,6 +31,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: linear-gradient(200deg,#f3e7e9,#e3eeff);
 }
 .navi {
   position: sticky;
