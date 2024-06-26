@@ -23,7 +23,7 @@
 </template>
 <script>
 import CompanyUnit from '../components/CompanyUnit.vue';
-import { SearchCompany } from '@/api/api';
+import { SearchCompany, getUser } from '@/api/api';
 export default {
   data() {
     return {
@@ -53,6 +53,15 @@ export default {
     goToCompanyRegister() {
       this.$router.push({ path: '/company-register' });
     }
+  },
+  created() {
+    console.log('local storage: ', localStorage.getItem('username'))
+    getUser(localStorage.getItem('username')).then(res => {
+      console.log(res.data.data)
+      if (res.data.data.company_id) {
+        this.isInComp = true
+      }
+    })
   },
   mounted() {
     if (this.$store.getters.searchButtonClicked) {
