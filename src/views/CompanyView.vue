@@ -55,7 +55,7 @@ export default {
         companyName: '',
       },
       company_id: localStorage.getItem('company_id'),
-      username: "suin"
+      username: localStorage.getItem('username')
     };
   },
   props:{
@@ -64,6 +64,7 @@ export default {
     }
   },
   created() {
+    console.log(this.username)
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.haveJoinCompany = res.data.status === "y";
     })
