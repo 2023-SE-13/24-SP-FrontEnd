@@ -89,7 +89,7 @@ export default {
           }
         },
         error=> {
-          var message = "发送失败"
+          const message = "发送失败"
           this.$notify({
             title: '警告',
             message: message,
@@ -154,10 +154,19 @@ export default {
                 type: 'success'
               });
               this.$router.push("/")
+            } else {
+              this.$notify({
+                title: '警告',
+                message: '验证码错误',
+                type: 'warning'
+              });
             }
           },
           error => {
             var message = "修改密码失败"
+            if(error.response.status === 401){
+              message = "验证码错误"
+            }
             this.$notify({
               title: '警告',
               message: message,

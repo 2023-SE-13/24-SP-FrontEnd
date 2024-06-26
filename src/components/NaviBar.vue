@@ -45,18 +45,23 @@ export default {
             activeIndex: null,
             naviUnits: [
                 { content: "首页", link_to: "/main" },
-                { content: "搜索", link_to: "/company" },
-                { content: "公司", link_to: "/company" }
+                { content: "搜索", link_to: "/user-list" },
+                { content: "公司", link_to: "/company-list" }
             ],
-            isLogin: true,
+            isLogin: false,
             select: '',
             input: '',
             NotAllowedSearch: true,
             photoSrc: require('../assets/photo.png')
         }
     },
-    methods: {
-        changeActive(index) {
+  beforeMount() {
+    if (localStorage.getItem('token') !== null) {
+      this.isLogin = true
+    }
+  },
+  methods: {
+      changeActive(index) {
             this.activeIndex = index
             console.log(this.activeIndex)
         },
@@ -87,8 +92,10 @@ export default {
                 if (this.$route.path !== '/main') {
                     this.$router.push("/main")
                     this.isLogin = false
+                    localStorage.clear()
                 } else {
                     this.isLogin = false
+                    localStorage.clear()
                 }
             }
         },

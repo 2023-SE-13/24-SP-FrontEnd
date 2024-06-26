@@ -25,7 +25,21 @@ export function SendCode(params) {
         }
     })
 }
-<<<<<<< HEAD
+
+export function GetUserInfo(params, token) {
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': params
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+
 //忘记密码
 export function ForgetPassword(data) {
     return service({
@@ -155,23 +169,10 @@ export function registCompany(token, company_name, company_description) {
         data: {
             company_name,
             company_description
-=======
-
-export function GetUserInfo(params, token) {
-    return service({
-        method: 'get',
-        url: '/user/get_user',
-        params: {
-            'username': params
-        },
-        headers: {
-            'Authorization': `Token ${token}`
->>>>>>> dev2
         }
     })
 }
 
-<<<<<<< HEAD
 // 添加企业员工
 export function addEmployee(token, username, company_id){
     return service({
@@ -231,7 +232,6 @@ export function getCompanyEmployee(company_id) {
         }
     });
 }
-=======
 export function UpdateUserInfo(data, token) {
     return service({
         method: 'post',
@@ -242,4 +242,13 @@ export function UpdateUserInfo(data, token) {
         }
     })
 }
->>>>>>> dev2
+
+// 搜索企业
+export function SearchCompany(data){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/company/search_company',
+        data
+    })
+}

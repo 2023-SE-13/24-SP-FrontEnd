@@ -8,7 +8,9 @@ import EnterpriseEditor from '../views/CompanyEditor.vue';
 import Register from "@/views/Register.vue";
 import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
-import AboutView from '@/views/AboutView.vue';
+import CompanyListView from '@/views/CompanyListView.vue';
+import UserListView from '@/views/UserListView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -46,8 +48,12 @@ const routes = [
         component: EnterpriseSearch
       },
       {
-        path:'/aboutus',
-        component:AboutView
+        path:'/company-list',
+        component:CompanyListView
+      },
+      {
+        path:'/user-list',
+        component:UserListView
       }
     ]
   },
