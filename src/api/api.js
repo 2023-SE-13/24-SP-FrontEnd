@@ -55,3 +55,18 @@ export function followCompany(token, username, company_id) {
         }
     })
 }
+
+// 企业注册
+export function registCompany(token, company_name, company_description) {
+    return service({
+        method: 'put',
+        url: '/company/create_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data: {
+            company_name,
+            company_description
+        }
+    })
+}
