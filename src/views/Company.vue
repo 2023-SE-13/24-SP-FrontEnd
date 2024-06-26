@@ -57,10 +57,13 @@ export default {
   },
   created() {
     isFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
-      this.isFollowed = res.data.status === "success";
+      if (res.data.status === "success") {
+        this.isFollowed = true;
+      } else {
+        this.isFollowed = false;
+      }
     })
     getCompany(this.company_id).then(res => {
-      console.log(res.data)
       if (res.data.status === "success") {
         this.company.companyName = res.data.data.company_name
       }

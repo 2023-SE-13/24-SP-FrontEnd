@@ -81,7 +81,7 @@ export function unFollowCompany(token, company_id) {
 //查询用户是否关注企业
 export function isFollowCompany(token, company_id) {
     let data = {
-        'company_id': company_id
+        "company_id": company_id
     }
     data = JSON.stringify(data)
     return service({
