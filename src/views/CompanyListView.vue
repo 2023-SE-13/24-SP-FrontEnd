@@ -63,7 +63,7 @@ export default {
     console.log('local storage: ', localStorage.getItem('username'))
     getUser(localStorage.getItem('username')).then(res => {
       console.log(res.data.data)
-      if (res.data.data.company_id) {
+      if (res.data.data.company_id && res.data.data.role === "Creator") {
         this.companyId = res.data.data.company_id
         this.isInComp = true
       }
