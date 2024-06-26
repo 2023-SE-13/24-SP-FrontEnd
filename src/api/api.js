@@ -45,9 +45,8 @@ export function leaveCompany(token, username, company_id) {
 }
 
 // 员工关注企业
-export function followCompany(token, username, company_id) {
+export function followCompany(token, company_id) {
     let data = {
-        'username': username,
         'company_id': company_id
     }
     data = JSON.stringify(data)
@@ -63,9 +62,8 @@ export function followCompany(token, username, company_id) {
 }
 
 // 员工取消关注企业
-export function unFollowCompany(token, username, company_id) {
+export function unFollowCompany(token, company_id) {
     let data = {
-        'username': username,
         'company_id': company_id
     }
     data = JSON.stringify(data)
@@ -76,6 +74,36 @@ export function unFollowCompany(token, username, company_id) {
             'Authorization': `Token ${token}`,
             'Content-Type': 'application/json'
         },
+        data
+    })
+}
+
+//查询用户是否关注企业
+export function isFollowCompany(token, company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/subscribe/do_subscribed_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询企业信息
+export function getCompany(company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'get',
+        url: '/company/get_company',
         data
     })
 }

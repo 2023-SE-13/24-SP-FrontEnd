@@ -3,7 +3,7 @@
     <header>
       <div class="company-header">
         <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
-        <div class="company-name">{{ companyName }}</div>
+        <div class="company-name">{{ company.companyName }}</div>
       </div>
       <div class="btn">
         <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany } from '@/api/api';
+import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -48,12 +48,23 @@ export default {
     return {
       isFollowed: false,
       currentView: 'CompanyIntro',
-
-      username: "why",
+      company: {
+        companyName: '某某企业',
+      },
       company_id: "9f9cdc179e2e414094389fab1a0d0063",
-      companyName: '某某企业',
 
     };
+  },
+  created() {
+    isFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
+      this.isFollowed = res.data.status === "success";
+    })
+    getCompany(this.company_id).then(res => {
+      console.log(res.data)
+      if (res.data.status === "success") {
+        this.company.companyName = res.data.data.company_name
+      }
+    })
   },
   methods: {
     toggleFollow() {
@@ -64,15 +75,14 @@ export default {
       }
     },
     followCompany() {
-      const username = {"username": this.username};
-      const company_id = {"company_id": this.company_id};
-      followCompany(localStorage.getItem('token'), username, company_id).then(res => {
+      followCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("关注企业成功")
           this.$message({
             message: '成功关注该企业！',
             type: 'success'
           })
+          this.isFollowed = true;
         }
       }).catch(error => {
         console.log("关注企业失败", error);
@@ -81,12 +91,9 @@ export default {
           type: 'error'
         });
       });
-      this.isFollowed = true;
     },
     unFollowCompany() {
-      const username = {"username": this.username};
-      const company_id = {"company_id": this.company_id};
-      unFollowCompany(localStorage.getItem('token'), username, company_id).then(res => {
+      unFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("取消关注企业成功")
           this.$message({
@@ -120,7 +127,7 @@ export default {
           type: 'success',
           message: '成功退出该企业!'
         });
-        this.$router.push("/home");
+        this.$router.push("/main");
       }).catch(error => {
         console.log("退出企业失败", error);
       });
@@ -135,7 +142,7 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: auto;
+  height: 100%;
 }
 
 header {
