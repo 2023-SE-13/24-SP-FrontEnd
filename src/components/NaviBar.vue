@@ -45,6 +45,7 @@ export default {
             activeIndex: null,
             naviUnits: [
                 { content: "首页", link_to: "/main" },
+                { content: "搜索", link_to: "/company" },
                 { content: "公司", link_to: "/company" }
             ],
             isLogin: true,

@@ -1,5 +1,17 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <CompanyUnit></CompanyUnit>
   </div>
 </template>
+<script>
+import CompanyUnit from '../components/CompanyUnit.vue';
+export default {
+  data() {
+    return {
+
+    }
+  },
+  components: { CompanyUnit }
+}
+</script>
+<style></style>
