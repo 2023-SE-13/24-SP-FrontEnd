@@ -91,11 +91,10 @@ export default {
         SendCode(params).then(res => {
           if (res.data.status === "success") {
             console.log("发送成功")
-          } else {
             this.$notify({
-              title: '警告',
-              message: '发送失败',
-              type: 'warning'
+              title: '成功',
+              message: '发送成功',
+              type: 'success'
             });
           }
         },
