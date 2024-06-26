@@ -25,3 +25,11 @@ export function SendCode(params) {
         }
     })
 }
+//忘记密码
+export function ForgetPassword(data) {
+    return service({
+        method: 'put',
+        url: '/user/forget_password',
+        data
+    })
+}

@@ -7,34 +7,26 @@
           <span style="font-size:20px;font-weight:1000;color: #00BAB7;">两个月直聘</span>
         </div>
         <div id="register">
-          <el-steps style="width:300px;background: white" :active=this.active simple>
-            <el-step title="验证邮箱"></el-step>
-            <el-step title="重置密码"></el-step>
-          </el-steps>
           <span class="title">
             找回密码
           </span>
           <el-form :model="registerForm" ref="registerForm" class="form">
-            <el-form-item v-show="this.active===0" prop="username">
-              <el-input style="width: 250px;" type="text" v-model="registerForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名" >
+            <el-form-item prop="username">
+              <el-input style="width: 330px;" type="text" v-model="registerForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名" >
               </el-input>
             </el-form-item>
-            <el-form-item v-show="this.active===0" prop="password">
-              <el-input style="width: 250px;" type="password" v-model="registerForm.password" show-password prefix-icon="el-icon-lock" placeholder="请输入密码"></el-input>
+            <el-form-item prop="password">
+              <el-input style="width: 330px;" type="password" v-model="registerForm.password" show-password prefix-icon="el-icon-lock" placeholder="请输入要更改的密码"></el-input>
             </el-form-item>
-            <el-form-item v-show="this.active===0" prop="password2">
-              <el-input style="width: 250px;" type="password" v-model="registerForm.password2" show-password prefix-icon="el-icon-lock" placeholder="请再次输入密码"></el-input>
+            <el-form-item prop="password2">
+              <el-input style="width: 330px;" type="password" v-model="registerForm.password2" show-password prefix-icon="el-icon-lock" placeholder="请再次输入密码"></el-input>
             </el-form-item>
-            <el-form-item v-show="this.active===1" prop="real_name">
-              <el-input style="width: 330px;" type="text" v-model="registerForm.real_name" prefix-icon="el-icon-user" placeholder="请输入真实姓名" >
-              </el-input>
-            </el-form-item>
-            <el-form-item v-show="this.active===1" prop="email">
+            <el-form-item prop="email">
               <el-input style="width: 330px;" type="text" v-model="registerForm.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" >
                 <el-link slot="suffix" @click="sendEmail" :underline="false">发送验证码</el-link>
               </el-input>
             </el-form-item>
-            <el-form-item v-show="this.active===1" prop="code">
+            <el-form-item prop="code">
               <el-input style="width: 330px;" type="text" v-model="registerForm.code" prefix-icon="el-icon-edit" placeholder="请输入验证码" >
               </el-input>
             </el-form-item>
@@ -42,7 +34,7 @@
               <el-link href="/login" :underline="false">返回登录</el-link>
             </div>
             <el-form-item>
-              <el-button id="registerButton" type="primary" @click="register()" class="button">{{this.buttonwords}}</el-button>
+              <el-button id="registerButton" type="primary" @click="forget()" class="button">{{this.buttonwords}}</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -52,14 +44,13 @@
 </template>
 
 <script>
-import {Register} from "@/api/api";
+import {ForgetPassword} from "@/api/api";
 import {SendCode} from "@/api/api";
 
 export default {
   data() {
     return {
-      buttonwords: '下一步',
-      active: 0,
+      buttonwords: '修改密码',
       registerForm: {
         username: '',
         password: '',
@@ -90,7 +81,11 @@ export default {
         }
         SendCode(params).then(res => {
           if (res.data.status === "success") {
-            console.log("发送成功")
+            this.$notify({
+              title: '成功',
+              message: '发送成功',
+              type: 'success'
+            });
           } else {
             this.$notify({
               title: '警告',
@@ -101,47 +96,36 @@ export default {
         })
       }
     },
-    register() {
+    forget() {
       //用户名、密码、确认密码不可为空
-      if(this.active === 0) {
         if (typeof this.registerForm.username == "undefined" || this.registerForm.username == null || this.registerForm.username === "") {
           this.$notify({
             title: '警告',
             message: '用户名不能为空',
             type: 'warning'
           });
+          return;
         }else if (typeof this.registerForm.password == "undefined" || this.registerForm.password == null || this.registerForm.password === "") {
           this.$notify({
             title: '警告',
             message: '密码不能为空',
             type: 'warning'
           });
+          return;
         }else if (typeof this.registerForm.password2 == "undefined" || this.registerForm.password2 == null || this.registerForm.password2 === "") {
           this.$notify({
             title: '警告',
             message: '确认密码不能为空',
             type: 'warning'
           });
+          return;
         }else if(this.registerForm.password !== this.registerForm.password2){
           this.$notify({
             title: '警告',
             message: '两次密码输入不一致',
             type: 'warning'
           });
-        } else{
-          this.active = 1
-          this.buttonwords = '注册'
-        }
-        return
-      }
-      //真实姓名、邮箱、验证码不可为空
-      if(this.active === 1) {
-        if (typeof this.registerForm.real_name == "undefined" || this.registerForm.real_name == null || this.registerForm.real_name === "") {
-          this.$notify({
-            title: '警告',
-            message: '真实姓名不能为空',
-            type: 'warning'
-          });
+          return;
         } else if (typeof this.registerForm.email == "undefined" || this.registerForm.email == null || this.registerForm.email === "") {
           this.$notify({
             title: '警告',
@@ -155,29 +139,30 @@ export default {
             type: 'warning'
           });
         } else {
-          //TODO: 发送注册请求
           const form_data = {
             username: this.registerForm.username,
             password: this.registerForm.password,
-            real_name: this.registerForm.real_name,
-            email: this.registerForm.email,
             code: this.registerForm.code
           }
-          //TODO: 发送注册请求
-          Register(form_data).then(res => {
+          ForgetPassword(form_data).then(res => {
             if (res.data.status === "success") {
-              console.log("注册成功")
-              this.$router.push("/")
-            } else {
               this.$notify({
-                title: '警告',
-                message: '验证码错误',
-                type: 'warning'
+                title: '成功',
+                message: '修改密码成功',
+                type: 'success'
               });
+              this.$router.push("/")
             }
+          },
+          error => {
+            var message = "修改密码错失败"
+            this.$notify({
+              title: '警告',
+              message: message,
+              type: 'warning'
+            });
           })
         }
-      }
     },
   }
 }
@@ -225,7 +210,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .title {
@@ -249,7 +234,6 @@ export default {
   font-family: 黑体, serif;
   color: white;
   background-image: linear-gradient(to bottom right, #00BAB9, #00BAB7);
-  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -257,7 +241,6 @@ export default {
 .navigation {
   width:250px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 
