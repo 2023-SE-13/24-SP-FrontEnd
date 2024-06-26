@@ -40,20 +40,31 @@ export default {
         },
         Search() {
             // alert("搜索一次")
+            let searchField={"type":'' ,"keywords":''}
             console.log("搜索一次")
             switch (this.select) {
                 case '1':
-                    SearchUser(this.input).then(res => {
-                        console.log(res)
-                    })
+                    // SearchUser(this.input).then(res => {
+                    //     console.log(res)
+                    // })
+                    searchField.type = 'user'
+                    searchField.keywords =this.input
+                    localStorage.setItem("searchField",searchField)
+                    this.$store.dispatch('updateButtonClicked', true)
+                    this.$router.push('/user-list')
+                
                     break
                 case '2':
-                    const data = {
-                        "keywords": this.input
-                    }
-                    SearchCompany(data).then(res => {
-                        console.log(res)
-                    })
+                    // const data = {
+                    //     "keywords": this.input
+                    // }
+                    // SearchCompany(data).then(res => {
+                    //     console.log(res)
+                    // })
+                    searchField.type = 'company'
+                    searchField.keywords =this.input
+                    localStorage.setItem("searchField",searchField)
+                    this.$router.push('/company-list')
                     break
             }
         }

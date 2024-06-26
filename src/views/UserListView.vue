@@ -49,6 +49,14 @@ export default {
 
         }
     },
+    mounted() {
+        if (this.$store.getters.searchButtonClicked) {
+            // 调用接口
+            console.log("跳转成果")
+            // 重置状态
+            this.$store.dispatch('updateButtonClicked', false);
+        }
+    },
     components: {
         UserUnit
     }

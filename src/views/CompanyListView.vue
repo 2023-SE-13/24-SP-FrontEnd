@@ -34,7 +34,8 @@ export default {
     return {
       input: '',
       NotAllowSearch: true,
-      isInComp: false
+      isInComp: false,
+      CompanyList:[]
     }
   },
   methods: {
