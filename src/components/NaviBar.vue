@@ -89,14 +89,21 @@ export default {
                 // this.$router.push("/settings")
             }
             if (command === 'e') {
-                if (this.$route.path !== '/main') {
-                    this.$router.push("/main")
-                    this.isLogin = false
-                    localStorage.clear()
-                } else {
-                    this.isLogin = false
-                    localStorage.clear()
-                }
+                this.$confirm("是否退出登录", '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                  localStorage.removeItem('token')
+                  this.isLogin = false
+                  if(this.$route.path !== "/main"){
+                    this.$router.push("/")
+                  }
+                }).catch(() => {
+                  if(this.$route.path !== "/main"){
+                    this.$router.push("/")
+                  }
+                });
             }
         },
         search() {
