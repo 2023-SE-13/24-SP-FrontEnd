@@ -7,7 +7,7 @@
       </div>
       <div class="btn">
         <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
-        <el-button type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
+        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
       </div>
     </header>
 
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany } from '@/api/api';
+import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany, isStaff } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       isFollowed: false,
+      isStaff: false,
       currentView: 'CompanyIntro',
       company: {
         companyName: '某某企业',
@@ -56,12 +57,11 @@ export default {
     };
   },
   created() {
+    isStaff(localStorage.getItem('token'), this.company_id).then(res => {
+      this.isStaff = res.data.status === "success";
+    })
     isFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
-      if (res.data.status === "success") {
-        this.isFollowed = true;
-      } else {
-        this.isFollowed = false;
-      }
+      this.isFollowed = res.data.status === "success";
     })
     getCompany(this.company_id).then(res => {
       if (res.data.status === "success") {
