@@ -2,7 +2,7 @@
   <div class="company">
     <header>
       <div class="company-header">
-        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
+<!--        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">-->
         <div class="company-name">{{ company.companyName }}</div>
       </div>
       <div class="btn">
@@ -50,7 +50,7 @@ export default {
       isStaff: false,
       currentView: 'CompanyIntro',
       company: {
-        companyName: '某某企业',
+        companyName: '',
       },
       company_id: "9f9cdc179e2e414094389fab1a0d0063",
 
@@ -146,10 +146,9 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: 100%;
-}
-
-header {
+  height: 87.2%;
+  width: 97.3%;
+  position: absolute;
 }
 
 .box {
@@ -162,7 +161,7 @@ header {
 .btn {
   position: absolute;
   right: 2.5%;
-  top: 11%
+  top: 10%
 }
 
 .btn-follow {
@@ -186,7 +185,7 @@ header {
   font-weight: bold;
   display: flex;
   align-items: center; /* 垂直居中 */
-  padding: 10px;
+  padding: 50px 10px 20px 20px;
 }
 
 .nav {
