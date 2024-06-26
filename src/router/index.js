@@ -62,7 +62,7 @@ const routes = [
     component: Company
   },
   {
-    path: '/user',
+    path: '/user/:name',
     name: 'User',
     component: User
   },

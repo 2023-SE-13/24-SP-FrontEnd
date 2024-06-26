@@ -113,6 +113,8 @@ export default {
             const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to === this.$route.path);
             this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
         })
+        this.token = localStorage.getItem('token');
+        this.isLogin = this.token != null;
     },
     mounted() {
         if (this.input === null || this.input === '') {

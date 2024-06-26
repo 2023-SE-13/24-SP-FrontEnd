@@ -25,6 +25,7 @@ export function SendCode(params) {
         }
     })
 }
+<<<<<<< HEAD
 //忘记密码
 export function ForgetPassword(data) {
     return service({
@@ -154,10 +155,23 @@ export function registCompany(token, company_name, company_description) {
         data: {
             company_name,
             company_description
+=======
+
+export function GetUserInfo(params, token) {
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': params
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+>>>>>>> dev2
         }
     })
 }
 
+<<<<<<< HEAD
 // 添加企业员工
 export function addEmployee(token, username, company_id){
     return service({
@@ -217,3 +231,15 @@ export function getCompanyEmployee(company_id) {
         }
     });
 }
+=======
+export function UpdateUserInfo(data, token) {
+    return service({
+        method: 'post',
+        url: '/user/update_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+>>>>>>> dev2
