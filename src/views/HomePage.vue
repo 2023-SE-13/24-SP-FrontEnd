@@ -23,7 +23,7 @@ import { SearchUser, SearchCompany } from '@/api/api'
 export default {
     data() {
         return {
-            select: '',
+            select: '1',
             input: '',
             NotAllowSearch: true
         }
