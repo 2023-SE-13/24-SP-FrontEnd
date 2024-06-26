@@ -109,7 +109,7 @@ textarea {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #00bebd;
   color: white;
   border: none;
   border-radius: 5px; /* 圆角边框 */
@@ -118,6 +118,6 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #004747;
 }
 </style>
