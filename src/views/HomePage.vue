@@ -45,6 +45,9 @@ export default {
                 this.$refs.button.$el.style.cursor = 'not-allowed'
                 this.NotAllowSearch = true
             }
+        },
+        Search(){
+            alert("搜索一次")
         }
     }
 }
