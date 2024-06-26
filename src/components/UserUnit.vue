@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="right">
-                <el-button class="right-button">详情</el-button>
+                <el-button class="right-button" @click="showDialog">详情</el-button>
             </div>
         </div>
     </div>
