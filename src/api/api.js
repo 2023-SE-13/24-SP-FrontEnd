@@ -95,18 +95,21 @@ export function isFollowCompany(token, company_id) {
     })
 }
 
-//查询企业信息
+// 查询企业信息
 export function getCompany(company_id) {
-    let data = {
-        'company_id': company_id
+    console.log("调用 getCompany，company_id:", company_id);
+    if (!company_id) {
+        console.log("缺少 company_id 参数", company_id);
     }
-    data = JSON.stringify(data)
     return service({
         method: 'get',
         url: '/company/get_company',
-        data
-    })
+        params: {
+            'company_id': company_id
+        }
+    });
 }
+
 
 // 企业注册
 export function registCompany(token, company_name, company_description) {
@@ -136,4 +139,15 @@ export function addEmployee(token, username, company_id){
             company_id
         }
     })
+}
+
+// 获取企业员工
+export function getCompanyEmployee(company_id) {
+    return service({
+        method: 'get',
+        url: '/company/get_staff',
+        params: {
+            'company_id': company_id
+        }
+    });
 }
