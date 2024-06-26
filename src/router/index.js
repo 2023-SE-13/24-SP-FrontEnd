@@ -5,6 +5,7 @@ import Company from '../views/Company.vue'
 import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
 import EnterpriseEditer from '../views/CompanyEditer.vue';
+import EnterpriseSearch from '../views/CompanySearch.vue';
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
         path: '/company-editer',
         name: 'CompanyEditer',
         component: EnterpriseEditer
+      },
+      {
+        path: '/company-search',
+        name: 'CompanySearch',
+        component: EnterpriseSearch
       }
     ]
   },
