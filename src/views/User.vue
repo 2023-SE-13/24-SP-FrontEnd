@@ -8,7 +8,7 @@
         <div id="main">
           <div id="infor" class="content">
             <div id="avatar">
-              <el-avatar :size="70" @error="errorHandler" id="img">头像</el-avatar>
+              <el-avatar :size="70" @error="errorHandler" src="../assets/photo.png" id="img">头像</el-avatar>
             </div>
             <div id="personInfor">
               <div id="userName">

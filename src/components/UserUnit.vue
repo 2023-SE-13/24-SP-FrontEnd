@@ -22,6 +22,15 @@ export default {
         return {
 
         }
+    },
+    props: {
+        userData: {
+        }
+    },
+    methods: {
+        showDialog() {
+            this.$router.push('/user/' + this.userData.username);
+        }
     }
 }
 
