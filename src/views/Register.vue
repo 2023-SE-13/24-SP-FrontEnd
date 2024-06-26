@@ -83,7 +83,14 @@ export default {
           message: '邮箱不能为空',
           type: 'warning'
         });
-      } else {
+      } else if(!this.registerForm.email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)) {
+        //邮箱格式是否合法
+        this.$notify({
+          title: '警告',
+          message: '邮箱格式不正确',
+          type: 'warning'
+        });
+      }  else {
         //TODO: 发送验证码请求
         const params = {
           email: this.registerForm.email
