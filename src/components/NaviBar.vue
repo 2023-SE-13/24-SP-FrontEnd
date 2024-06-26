@@ -27,14 +27,15 @@ export default {
     // name:'NaviBar',
     data() {
         return {
-            activeIndex: null,
-            naviUnits: [
-                { content: "首页", link_to: "/main" },
-                { content: "公司", link_to: "/company" }
-            ],
-            isLogin: false,
-            select: '',
-            input: ''
+          token: null,
+          activeIndex: null,
+          naviUnits: [
+            { content: "首页", link_to: "/main" },
+            { content: "公司", link_to: "/company" }
+          ],
+          isLogin: true,
+          select: '',
+          input: ''
         }
     },
     methods: {
@@ -57,6 +58,8 @@ export default {
     created() {
         const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to == this.$route.path);
         this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
+        this.token = localStorage.getItem('token');
+        this.isLogin = this.token != null;
     },
     mounted() {
         if (this.input === null || this.input === '') {

@@ -25,3 +25,27 @@ export function SendCode(params) {
         }
     })
 }
+
+export function GetUserInfo(params, token) {
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': params
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+export function UpdateUserInfo(data, token) {
+    return service({
+        method: 'post',
+        url: '/user/update_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
