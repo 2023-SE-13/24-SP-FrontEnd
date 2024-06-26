@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .upper-box{
     height: 100px;
 }
@@ -26,9 +26,16 @@ export default {
     width: 290px;
     height: 145px;
     background-color: white;
-    margin-left:100px ;
+    // margin-left:100px ;
     border-radius: 10px;
     transition: 0.5s;
+    float: left;
+    // padding: 10px;
+    // margin-left: 20px;
+    // margin-top: 20px;
+    box-sizing: border-box;
+    margin-left: 15px;
+    margin-top: 20px;
 }
 
 .company-unit:hover{
@@ -45,7 +52,7 @@ export default {
 }
 .lower-box{
     height: 45px;
-    background-color: black;
+    background-color: #f6fcfc;
     border-radius: 0 0 10px 10px;
 }
 </style>
