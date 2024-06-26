@@ -36,7 +36,8 @@ export default {
             }
         },
         Search() {
-            let data = JSON.parse(localStorage.getItem("searchField"))
+            let data = {"type":'user' ,"keywords":''}
+            data.keywords = this.input
             SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
