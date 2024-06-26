@@ -64,6 +64,7 @@ export default {
       this.isFollowed = res.data.status === "success";
     })
     getCompany(this.company_id).then(res => {
+      console.log(res.data)
       if (res.data.status === "success") {
         this.company.companyName = res.data.data.company_name
       }

@@ -113,15 +113,15 @@ export function isStaff(token, company_id) {
 }
 
 //查询企业信息
-// export function getCompany(company_id) {
-//     return service({
-//         method: 'get',
-//         url: '/company/get_company',
-//         params: {
-//             'company_id': company_id
-//         }
-//     })
-// }
+export function getCompany(company_id) {
+    return service({
+        method: 'get',
+        url: '/company/get_company',
+        params: {
+            "company_id":company_id
+        }
+    })
+}
 
 // 企业注册
 export function registCompany(token, company_name, company_description) {
