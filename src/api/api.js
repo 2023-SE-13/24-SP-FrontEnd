@@ -95,18 +95,33 @@ export function isFollowCompany(token, company_id) {
     })
 }
 
-//查询企业信息
-export function getCompany(company_id) {
+//查询是否为该企业员工
+export function isStaff(token, company_id) {
     let data = {
-        'company_id': company_id
+        "company_id": company_id
     }
     data = JSON.stringify(data)
     return service({
-        method: 'get',
-        url: '/company/get_company',
+        method: 'post',
+        url: '/company/is_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
         data
     })
 }
+
+//查询企业信息
+// export function getCompany(company_id) {
+//     return service({
+//         method: 'get',
+//         url: '/company/get_company',
+//         params: {
+//             'company_id': company_id
+//         }
+//     })
+// }
 
 // 企业注册
 export function registCompany(token, company_name, company_description) {
