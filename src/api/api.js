@@ -81,7 +81,7 @@ export function unFollowCompany(token, company_id) {
 //查询用户是否关注企业
 export function isFollowCompany(token, company_id) {
     let data = {
-        'company_id': company_id
+        "company_id": company_id
     }
     data = JSON.stringify(data)
     return service({
@@ -95,19 +95,48 @@ export function isFollowCompany(token, company_id) {
     })
 }
 
-// 查询企业信息
-export function getCompany(company_id) {
-    console.log("调用 getCompany，company_id:", company_id);
-    if (!company_id) {
-        console.log("缺少 company_id 参数", company_id);
+//查询是否为该企业员工
+export function isStaff(token, company_id) {
+    let data = {
+        "company_id": company_id
     }
+    return service({
+        method: 'post',
+        url: '/company/is_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询企业信息
+export function getCompany(company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/is_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询企业信息
+export function getCompany(company_id) {
     return service({
         method: 'get',
         url: '/company/get_company',
         params: {
-            'company_id': company_id
+            "company_id":company_id
         }
-    });
+    })
 }
 
 

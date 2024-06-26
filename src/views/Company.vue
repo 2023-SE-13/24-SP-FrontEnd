@@ -2,12 +2,12 @@
   <div class="company">
     <header>
       <div class="company-header">
-        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
+<!--        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">-->
         <div class="company-name">{{ company.companyName }}</div>
       </div>
       <div class="btn">
         <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
-        <el-button type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
+        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
       </div>
     </header>
 
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany } from '@/api/api';
+import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany, isStaff } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -47,15 +47,19 @@ export default {
   data() {
     return {
       isFollowed: false,
+      isStaff: false,
       currentView: 'CompanyIntro',
       company: {
-        companyName: '某某企业',
+        companyName: '',
       },
       company_id: "9f9cdc179e2e414094389fab1a0d0063",
 
     };
   },
   created() {
+    isStaff(localStorage.getItem('token'), this.company_id).then(res => {
+      this.isStaff = res.data.status === "success";
+    })
     isFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.isFollowed = res.data.status === "success";
     })
@@ -142,10 +146,9 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: 100%;
-}
-
-header {
+  height: 87.2%;
+  width: 97.3%;
+  position: absolute;
 }
 
 .box {
@@ -158,7 +161,7 @@ header {
 .btn {
   position: absolute;
   right: 2.5%;
-  top: 11%
+  top: 6.5%
 }
 
 .btn-follow {
@@ -182,7 +185,7 @@ header {
   font-weight: bold;
   display: flex;
   align-items: center; /* 垂直居中 */
-  padding: 10px;
+  padding: 30px 10px 20px 20px;
 }
 
 .nav {

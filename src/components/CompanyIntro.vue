@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>公司简介</h2>
-    <p>{{ company.company_description }}</p>
+    <p>{{ company.description }}</p>
 
 <!--    <h2>公司产品</h2>-->
 <!--    <ul>占位</ul>-->
@@ -25,14 +25,16 @@ export default {
   data() {
     return {
       company: {
-        company_description: "某某企业是一家致力于提供优质产品和服务的领先企业。",
-      }
+        description: '',
+      },
+      company_id: "9f9cdc179e2e414094389fab1a0d0063",
     };
   },
   created() {
     getCompany(this.company_id).then(res => {
-      console.log(res)
-      //this.company.company_description = res.data.data.company_description
+      if (res.data.status === "success") {
+        this.company.description = res.data.data.company_description
+      }
     })
   },
 };
