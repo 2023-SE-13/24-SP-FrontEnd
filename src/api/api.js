@@ -26,16 +26,13 @@ export function SendCode(params) {
     })
 }
 
-export function GetUserInfo(params, token) {
+export function GetUserInfo(params) {
     return service({
         method: 'get',
         url: '/user/get_user',
         params: {
             'username': params
         },
-        headers: {
-            'Authorization': `Token ${token}`
-        }
     })
 }
 

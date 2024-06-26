@@ -58,6 +58,7 @@ import {SendCode} from "@/api/api";
 export default {
   data() {
     return {
+      email: '',
       buttonwords: '下一步',
       active: 0,
       registerForm: {
@@ -90,7 +91,7 @@ export default {
           message: '邮箱格式不正确',
           type: 'warning'
         });
-      }  else {
+      } else {
         //TODO: 发送验证码请求
         const params = {
           email: this.registerForm.email

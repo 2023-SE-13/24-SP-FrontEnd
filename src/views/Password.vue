@@ -46,6 +46,7 @@
 <script>
 import {ForgetPassword} from "@/api/api";
 import {SendCode} from "@/api/api";
+import {GetUserInfo} from "@/api/api";
 
 export default {
   data() {
@@ -82,6 +83,33 @@ export default {
           type: 'warning'
         });
       } else {
+        //TODO: 获取用户信息
+        const param = {
+          username: this.registerForm.username
+        }
+        console.log(param.username)
+        GetUserInfo(param.username).then(res => {
+              if (res.data.status === "success") {
+                this.email = res.data.data.email
+              }
+            },
+            error => {
+              this.$notify({
+                title: '警告',
+                message: '用户不存在',
+                type: 'warning'
+              });
+            })
+        if(this.email === null || this.email === "" || this.email === undefined){
+          return
+        }else if(this.email !== this.registerForm.email){
+          this.$notify({
+            title: '警告',
+            message: '邮箱与用户名不匹配',
+            type: 'warning'
+          });
+          return
+        }
         //TODO: 发送验证码请求
         const params = {
           email: this.registerForm.email
