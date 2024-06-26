@@ -25,11 +25,24 @@ export function SendCode(params) {
         }
     })
 }
+<<<<<<< HEAD
 //忘记密码
 export function ForgetPassword(data) {
     return service({
         method: 'put',
         url: '/user/forget_password',
         data
+=======
+
+
+// 搜索用户
+export function SearchUser(params){
+    return service({
+        mathod:'get',
+        url:'/user/search_users',
+        params:{
+            'keyword':params
+        }
+>>>>>>> 770b991c8283d127408990a95cc620683d683b21
     })
 }

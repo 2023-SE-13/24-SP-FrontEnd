@@ -28,6 +28,8 @@
     </div>
 </template>
 <script>
+import { SearchUser } from '@/api/api'
+
 export default {
     data() {
         return {
@@ -46,18 +48,29 @@ export default {
                 this.NotAllowSearch = true
             }
         },
-        Search(){
-            alert("搜索一次")
+        Search() {
+            // alert("搜索一次")
+            console.log("搜索一次")
+            switch (this.select) {
+                case '1':
+                    SearchUser(this.input).then(res=>{
+                        console.log(res)
+                    })
+                    break
+                case '2':
+                    break
+            }
         }
     }
 }
 </script>
 <style scoped>
-.info-bar{
+.info-bar {
     width: 100%;
     height: 120px;
     background: #00bebd;
 }
+
 .img-container {
     display: block;
     width: 100%;
@@ -126,7 +139,7 @@ export default {
     width: 120px;
     font-size: larger;
     border-radius: 10px;
-   border: none;
+    border: none;
 
 }
 
