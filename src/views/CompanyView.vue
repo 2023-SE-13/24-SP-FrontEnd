@@ -54,10 +54,14 @@ export default {
       company: {
         companyName: '',
       },
-      company_id: "9f9cdc179e2e414094389fab1a0d0063",
+      company_id: localStorage.getItem('company_id'),
       username: "suin"
-
     };
+  },
+  props:{
+    companyData:{
+
+    }
   },
   created() {
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
