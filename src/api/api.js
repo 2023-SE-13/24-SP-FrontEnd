@@ -27,7 +27,7 @@ export function SendCode(params) {
 }
 
 // 员工退出企业
-export function leaveCompany(token, user_id, company_id) {
+export function leaveCompany(token, params) {
     return service({
         method: 'post',
         url: '/company/leave_company',
@@ -35,8 +35,8 @@ export function leaveCompany(token, user_id, company_id) {
             'Authorization': `Token ${token}`,
         },
         params: {
-            'user_id': user_id,
-            'company_id': company_id
+            'user_id': params.user_id,
+            'company_id': params.company_id
         }
     })
 }
@@ -49,7 +49,7 @@ export function followCompany(token, username, company_id) {
         headers: {
             'Authorization': `Token ${token}`,
         },
-        params: {
+        data: {
             'username': username,
             'company_id': company_id
         }
