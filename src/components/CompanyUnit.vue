@@ -1,5 +1,5 @@
 <template>
-    <div class="company-unit">
+    <div class="company-unit" @click="gotoCompanyView">
         <div class="upper-box">
             <el-avatar shape="square" :size="55" :src="photoSrc"></el-avatar>
             <span >{{companyData.company_name}}</span>
@@ -25,6 +25,12 @@ export default {
     },
     created(){
         console.log(this.companyData)
+    },
+    methods: {
+      gotoCompanyView() {
+        localStorage.setItem('company_id', this.companyData.company_id)
+        this.$router.push("/company");
+      },
     }
 }
 </script>
