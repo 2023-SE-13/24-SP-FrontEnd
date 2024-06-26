@@ -49,7 +49,7 @@ export default {
                     // })
                     searchField.type = 'user'
                     searchField.keywords =this.input
-                    localStorage.setItem("searchField",searchField)
+                    localStorage.setItem("searchField",JSON.stringify(searchField))
                     this.$store.dispatch('updateButtonClicked', true)
                     this.$router.push('/user-list')
                 
@@ -63,7 +63,8 @@ export default {
                     // })
                     searchField.type = 'company'
                     searchField.keywords =this.input
-                    localStorage.setItem("searchField",searchField)
+                    localStorage.setItem("searchField",JSON.stringify(searchField))
+                    this.$store.dispatch('updateButtonClicked', true)
                     this.$router.push('/company-list')
                     break
             }

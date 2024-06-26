@@ -4,14 +4,14 @@
             <div class="left">
                 <el-avatar class="avatar" :size="55" src="../assets/photo.png"></el-avatar>
                 <div class="left-inner">
-                    <h3>111</h3>
+                    <h3>{{userData.username}}</h3>
                     <span>暂无企业</span>
                     <!-- <i class="el-icon-document">11</i>
                     <i class="el-icon-collection">11</i> -->
                 </div>
             </div>
             <div class="right">
-                <el-button class="right-button" @click="showDialog">详情</el-button>
+                <el-button class="right-button">详情</el-button>
             </div>
         </div>
     </div>
@@ -20,6 +20,11 @@
 export default {
     data() {
         return {
+
+        }
+    },
+    props:{
+        userData:{
 
         }
     }

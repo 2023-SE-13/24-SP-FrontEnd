@@ -2,42 +2,32 @@
     <div>
         <div class="upper-bar">
             <div class="search-bar">
-                <el-input placeholder="搜索用户、公司" @input="allow" v-model="input" class="input-with-select">
-                    <el-select class="select" v-model="select" slot="prepend" placeholder="请选择">
-                        <el-option label="用户" value="1"></el-option>
-                        <el-option label="公司" value="2"></el-option>
-                    </el-select>
+                <el-input placeholder="搜索用户" @input="allow" v-model="input" class="input-with-select">
                     <el-button slot="append" id="search-button" icon="el-icon-search" @click="Search" ref="button"
                         :disabled="NotAllowSearch">搜索</el-button>
                 </el-input>
             </div>
         </div>
         <div class="lower-bar">
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
-            <UserUnit></UserUnit>
+            <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
+
         </div>
     </div>
 </template>
 <script>
 import UserUnit from '../components/UserUnit.vue'
+import { SearchUser } from '@/api/api'
 export default {
     data() {
         return {
-            select: '',
             input: '',
-            NotAllowSearch: true
+            NotAllowSearch: true,
+            userList: []
         }
     },
     methods: {
         allow() {
-            if (this.select !== null && this.select !== '' && this.input !== null && this.input !== '') {
+            if (this.input !== null && this.input !== '') {
                 this.$refs.button.$el.style.cursor = 'pointer'
                 this.NotAllowSearch = false
             } else {
@@ -46,13 +36,22 @@ export default {
             }
         },
         Search() {
-
+            let data = JSON.parse(localStorage.getItem("searchField"))
+            SearchUser(data.keywords).then(res => {
+                console.log(res)
+                this.userList = res.data
+            })
         }
     },
     mounted() {
         if (this.$store.getters.searchButtonClicked) {
             // 调用接口
-            console.log("跳转成果")
+            let data = JSON.parse(localStorage.getItem("searchField"))
+            console.log(data.keywords)
+            SearchUser(data.keywords).then(res => {
+                console.log(res)
+                this.userList = res.data
+            })
             // 重置状态
             this.$store.dispatch('updateButtonClicked', false);
         }

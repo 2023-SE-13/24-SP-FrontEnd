@@ -15,27 +15,22 @@
     </div>
     <div class="lower-bar">
       <div class="company-container">
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
-        <CompanyUnit></CompanyUnit>
+        <CompanyUnit v-for="(Company,index) in CompanyList" :key="index" :company-data="Company"></CompanyUnit>
+
       </div>
     </div>
   </div>
 </template>
 <script>
 import CompanyUnit from '../components/CompanyUnit.vue';
+import { SearchCompany } from '@/api/api';
 export default {
   data() {
     return {
       input: '',
       NotAllowSearch: true,
       isInComp: false,
-      CompanyList:[]
+      CompanyList: []
     }
   },
   methods: {
@@ -48,6 +43,29 @@ export default {
         this.NotAllowSearch = true
       }
     },
+    Search(){
+      let data = {"keywords":this.input}
+      SearchCompany(data).then(res=>{
+        this.CompanyList = res.data.data
+        console.log(this.CompanyList)
+      })
+    }
+  },
+  mounted() {
+    if (this.$store.getters.searchButtonClicked) {
+      // 调用接口
+      console.log("跳转成果")
+      let data = JSON.parse(localStorage.getItem("searchField"))
+      console.log(data)
+      data = { "keywords": data.keywords}
+      SearchCompany(data).then(res=>{
+        // console.log(res.data.data)
+        this.CompanyList = res.data.data
+        console.log(this.CompanyList)
+      })
+      // 重置状态
+      this.$store.dispatch('updateButtonClicked', false);
+    }
   },
   components: { CompanyUnit }
 }

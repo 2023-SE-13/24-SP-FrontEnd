@@ -2,9 +2,12 @@
     <div class="company-unit">
         <div class="upper-box">
             <el-avatar shape="square" :size="55" :src="photoSrc"></el-avatar>
-            <span >周星达</span>
+            <span >{{companyData.company_name}}</span>
+            <span>关注数:{{ companyData.company_subscription }}</span>
         </div>
-        <div class="lower-box"></div>
+        <div class="lower-box">
+            <span>{{ companyData.company_description }}</span>
+        </div>
     </div>
 </template>
 
@@ -14,6 +17,14 @@ export default {
         return {
             photoSrc:require('../assets/photo.png')
         }
+    },
+    props:{
+        companyData:{
+
+        }
+    },
+    created(){
+        console.log(this.companyData)
     }
 }
 </script>
