@@ -79,8 +79,8 @@ export default {
             }
         },
         handleCommand(command) {
-            if (command === 'a' && this.$route.path !== '/php/1') {
-                // this.$router.push("/php/1")
+            if (command === 'a' && this.$route.path !== '/user/' + localStorage.getItem('username')) {
+                this.$router.push("/user/" + localStorage.getItem('username'));
             }
             if (command === 'b') {
                 // this.$router.push("/article/" + btoa(encodeURIComponent(JSON.stringify(this.id))));
@@ -111,6 +111,10 @@ export default {
                 case '2':
                     break
             }
+        },
+        goToUserPage() {
+            console.log("aaaaaaaa");
+            this.$router.push("/user/" + localStorage.getItem("username"));
         }
     },
     created() {
