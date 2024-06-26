@@ -152,3 +152,14 @@ export function addEmployee(token, username, company_id){
         }
     })
 }
+
+// 获取企业员工
+export function getCompanyEmployee(company_id) {
+    return service({
+        method: 'get',
+        url: '/company/get_staff',
+        params: {
+            'company_id': company_id
+        }
+    });
+}
