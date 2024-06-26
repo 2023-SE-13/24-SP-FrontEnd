@@ -36,6 +36,8 @@
     </div>
 </template>
 <script>
+import { SearchUser } from '@/api/api'
+
 export default {
     // name:'NaviBar',
     data() {
@@ -90,7 +92,17 @@ export default {
             }
         },
         search() {
-            alert("搜索一次")
+            // alert("搜索一次")
+            console.log("搜索一次")
+            switch (this.select) {
+                case '1':
+                    SearchUser(this.input).then(res=>{
+                        console.log(res)
+                    })
+                    break
+                case '2':
+                    break
+            }
         }
     },
     created() {
