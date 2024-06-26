@@ -86,13 +86,15 @@ export default {
               message: '发送成功',
               type: 'success'
             });
-          } else {
-            this.$notify({
-              title: '警告',
-              message: '发送失败',
-              type: 'warning'
-            });
           }
+        },
+        error=> {
+          var message = "发送失败"
+          this.$notify({
+            title: '警告',
+            message: message,
+            type: 'warning'
+          });
         })
       }
     },
@@ -155,7 +157,7 @@ export default {
             }
           },
           error => {
-            var message = "修改密码错失败"
+            var message = "修改密码失败"
             this.$notify({
               title: '警告',
               message: message,

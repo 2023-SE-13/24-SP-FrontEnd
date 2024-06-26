@@ -9,8 +9,6 @@
                     <el-select class="select" v-model="select" slot="prepend" placeholder="请选择">
                         <el-option label="用户" value="1"></el-option>
                         <el-option label="公司" value="2"></el-option>
-                        <!-- <el-option label="作者" value="3"></el-option>
-                        <el-option label="学者" value="4"></el-option> -->
                     </el-select>
                     <!-- <el-select class="select select-right" v-model="select2" slot="prepend" placeholder="请选择">
                         <el-option label="精确" value="1"></el-option>
