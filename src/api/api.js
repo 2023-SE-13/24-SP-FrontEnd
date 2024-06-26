@@ -32,7 +32,7 @@ export function GetUserInfo(params) {
         url: '/user/get_user',
         params: {
             'username': params
-        },
+        }
     })
 }
 
@@ -231,7 +231,7 @@ export function getCompanyEmployee(company_id) {
 }
 export function UpdateUserInfo(data, token) {
     return service({
-        method: 'post',
+        method: 'put',
         url: '/user/update_user',
         data,
         headers: {

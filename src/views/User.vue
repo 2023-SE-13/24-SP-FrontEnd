@@ -8,7 +8,7 @@
         <div id="main">
           <div id="infor" class="content">
             <div id="avatar">
-              <el-avatar :size="70" @error="errorHandler" id="img">头像</el-avatar>
+              <el-avatar :size="70" @error="errorHandler" src="../assets/photo.png" id="img">头像</el-avatar>
             </div>
             <div id="personInfor">
               <div id="userName">
@@ -23,7 +23,7 @@
 <!--                <span style="position: relative;left: 5%">{{ user.school }}</span>-->
               </div>
               <div id="work">
-                <span>博客或仓库: <a :href="user.blog_link" id="link">{{ user.work }}</a></span>
+                <span>博客或仓库: <a :href="user.blog_link" id="link">{{ user.blog_link }}</a></span>
               </div>
             </div>
             <div v-if="isSelf" id="edit">
@@ -32,17 +32,17 @@
                 <i class="el-icon-caret-right"></i>
               </el-button>
               <el-dialog center title="编辑资料" :append-to-body="true" :visible.sync="dialogVisible" @close="editCancel">
-                <el-form :model="user">
-                  <el-form-item label="姓名">
+                <el-form :model="user" :rules="rules" ref="user">
+                  <el-form-item label="姓名" prop="real_name">
                     <el-input clearable v-model="user.real_name"></el-input>
                   </el-form-item>
-                  <el-form-item label="学历">
+                  <el-form-item label="学历" prop="education">
                     <el-input clearable v-model="user.education"></el-input>
                   </el-form-item>
 <!--                  <el-form-item label="学校">-->
 <!--                    <el-input clearable v-model="user.school"></el-input>-->
 <!--                  </el-form-item>-->
-                  <el-form-item label="期望职位">
+                  <el-form-item label="期望职位" prop="desired_position">
                     <el-input clearable v-model="user.desired_position"></el-input>
                   </el-form-item>
                   <el-form-item label="博客或仓库">
@@ -57,7 +57,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="editCancel">取 消</el-button>
-                  <el-button type="primary" @click="editSuccess">确 定</el-button>
+                  <el-button type="primary" @click="editSuccess(user)">确 定</el-button>
                 </span>
               </el-dialog>
             </div>
@@ -70,7 +70,6 @@
             <div id="uploadRes">
               <el-upload
                   action="#"
-                  limit="1"
                   list-type="picture-card"
                   :on-preview="handlePreview"
                   :on-remove="handleRemove"
@@ -109,19 +108,23 @@ export default {
     this.defaultUser.name = this.user.name;
     if (this.user.name !== localStorage.getItem("username")) {
       console.log("不是当前用户");
+      console.log(this.token);
+      console.log(this.user.name);
+      console.log(localStorage.getItem("username"));
       // this.isSelf = false;
     }
-    GetUserInfo(this.user.name, this.token).then(res => {
+    GetUserInfo(this.user.name).then(res => {
       if (res.data.status == "success") {
-        this.user.realName = res.data.data.real_name;
-        this.user.name = res.data.data.name;
+        this.user.real_name = res.data.data.real_name;
+        this.user.name = res.data.data.username;
         this.user.education = res.data.data.education;
         this.user.school = res.data.data.school;
-        this.user.desiredPosition = res.data.data.desired_position;
-        this.user.work = res.data.data.work;
+        this.user.desired_position = res.data.data.desired_position;
+        this.user.blog_link = res.data.data.blog_link;
         this.user.position = res.data.data.position;
         this.user.workYear = res.data.data.work_year;
         const json = JSON.stringify(this.user);
+        console.log(json);
         this.defaultUser = JSON.parse(json);
       }
     },
@@ -167,7 +170,18 @@ export default {
         position: "",
         workYear: ""
       },
-      dialogVisible: false
+      dialogVisible: false,
+      rules: {
+        real_name: [
+          { required: true, message: "请输入姓名", trigger: "change" }
+        ],
+        education: [
+          { required: true, message: "请输入学历", trigger: "change" }
+        ],
+        desired_position: [
+          { required: true, message: "请输入期望职位", trigger: "change" }
+        ]
+      }
     };
   },
   methods: {
@@ -178,28 +192,72 @@ export default {
       this.dialogVisible = true;
     },
     editSuccess() {
-      UpdateUserInfo(this.user, this.token).then(res => {
-        if (res.data.status === "success") {
-          const json = JSON.stringify(this.user);
-          this.defaultUser = JSON.parse(json);
+      this.$refs["user"].validate(valid => {
+        if (valid) {
+          console.log("aaaaaaaa");
+          UpdateUserInfo(this.user, this.token).then(res => {
+                if (res.data.status === "success") {
+                  const json = JSON.stringify(this.user);
+                  this.defaultUser = JSON.parse(json);
+                  this.$notify({
+                    title: "成功",
+                    message: "修改成功",
+                    type: "success"
+                  });
+                }
+              },
+              error => {
+                if (error.response.status === 401) {
+                  this.$notify({
+                    title: "错误",
+                    message: "修改错误",
+                    type: "error"
+                  });
+                }
+              }
+          );
+          this.dialogVisible = false;
+          setTimeout(() => {
+            GetUserInfo(this.user.name).then(res => {
+                  if (res.data.status == "success") {
+                    this.user.real_name = res.data.data.real_name;
+                    this.user.name = res.data.data.username;
+                    this.user.education = res.data.data.education;
+                    this.user.school = res.data.data.school;
+                    this.user.desired_position = res.data.data.desired_position;
+                    this.user.blog_link = res.data.data.blog_link;
+                    this.user.position = res.data.data.position;
+                    this.user.workYear = res.data.data.work_year;
+                    const json = JSON.stringify(this.user);
+                    console.log(json);
+                    this.defaultUser = JSON.parse(json);
+                  }},
+                error => {
+                  if (error.response.status === 400) {
+                    this.$notify({
+                      title: "错误",
+                      message: "未知错误",
+                      type: "error"
+                    });
+                  }
+                  if (error.response.status === 404) {
+                    this.$notify({
+                      title: "错误",
+                      message: "用户不存在",
+                      type: "error"
+                    });
+                  }
+                }
+            );
+          }, 100);
+        } else {
           this.$notify({
-            title: "成功",
-            message: "修改成功",
-            type: "success"
+            title: "错误",
+            message: "请检查输入",
+            type: "error"
           });
         }
-      },
-          error => {
-            if (error.response.status === 401) {
-              this.$notify({
-                title: "错误",
-                message: "修改错误",
-                type: "error"
-              });
-            }
-          }
-      );
-      this.dialogVisible = false;
+      });
     },
     editCancel() {
       const json = JSON.stringify(this.defaultUser);
