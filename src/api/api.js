@@ -25,3 +25,33 @@ export function SendCode(params) {
         }
     })
 }
+
+// 员工退出企业
+export function leaveCompany(token, user_id, company_id) {
+    return service({
+        method: 'post',
+        url: '/company/leave_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        params: {
+            'user_id': user_id,
+            'company_id': company_id
+        }
+    })
+}
+
+// 员工关注企业
+export function followCompany(token, username, company_id) {
+    return service({
+        method: 'post',
+        url: '/subscribe/subscribe_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        params: {
+            'username': username,
+            'company_id': company_id
+        }
+    })
+}
