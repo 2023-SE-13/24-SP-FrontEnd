@@ -199,7 +199,7 @@ export default {
 }
 
 .navi-search .navi-input .el-button:hover {
-  color: #2f3a91;
+  color: black;
 }
 
 

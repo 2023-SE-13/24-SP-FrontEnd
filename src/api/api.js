@@ -16,10 +16,12 @@ export function Register(data) {
     })
 }
 //发送验证码
-export function SendCode(data) {
+export function SendCode(params) {
     return service({
         method: 'post',
         url: '/user/verification',
-        data
+        params: {
+            'email': params.email
+        }
     })
 }
