@@ -24,7 +24,7 @@
         <h2>员工列表</h2>
         <ul class="employee-list">
           <li v-for="(employee, index) in company.employees" :key="index" class="employee-item">
-            {{ employee.name }} - {{ employee.role }}
+            {{ employee.user.username }} - {{ employee.role }}
           </li>
         </ul>
         <div class="add-employee">
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { addEmployee, getCompany, getCompanyEmployee} from "@/api/api";
+
 export default {
   data() {
     return {
@@ -52,31 +54,57 @@ export default {
         name: "示例公司",
         address: "示例地址",
         description: "示例公司描述",
-        employees: [
-          { name: "员工A", role: "开发人员" },
-          { name: "员工B", role: "设计师" },
-          { name: "员工C", role: "架构师" },
-          { name: "员工B", role: "开发人员" }
-        ]
+        employees: []
       },
       newEmployee: {
         name: "",
         role: ""
-      }
+      },
+      token: '', // 替换为实际的token
+      companyId: '9f9cdc179e2e414094389fab1a0d0063' // 替换为实际的公司ID
     };
   },
-  methods: {
-    addEmployee() {
-      if (this.newEmployee.name && this.newEmployee.role) {
-        this.company.employees.push({ ...this.newEmployee });
-        this.newEmployee.name = "";
-        this.newEmployee.role = "";
+  created() {
+    getCompany(this.companyId).then(res => {
+      console.log(res.data)
+      if (res.data.status === "success") {
+        this.company.name = res.data.data.company_name
+      }
+    })
+    getCompanyEmployee(this.companyId).then(res => {
+      if (res.data.status === "success" && Array.isArray(res.data.data)) {
+        this.company.employees = res.data.data;
+        console.log("get company employees", this.company.employees)
       } else {
-        alert("请填写完整的员工信息");
+        console.log("get company employees error !!!")
+      }
+    }).catch(error => {
+      console.error('获取公司员工信息失败:', error);
+    })
+  },
+  methods: {
+    async addEmployee() {
+      if (this.newEmployee.name && this.newEmployee.role) {
+        try {
+          this.token = localStorage.getItem("token");
+          const response = await addEmployee(this.token, this.newEmployee.name, this.companyId);
+          console.log('员工添加成功:', response.data);
+          this.newEmployee.name = "";
+          this.newEmployee.role = "";
+        } catch (error) {
+          if (error.response.status === 404 && error.response.data.message === "User not found") {
+            console.log('用户不存在');
+          } else {
+            console.error('添加员工失败:', error);
+          }
+        }
+      } else {
+        console.log("请填写完整的员工信息");
       }
     }
   }
 };
+
 </script>
 
 <style scoped>

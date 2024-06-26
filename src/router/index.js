@@ -4,7 +4,7 @@ import Login from '../views/Login.vue'
 import Company from '../views/Company.vue'
 import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
-import EnterpriseEditer from '../views/CompanyEditer.vue';
+import EnterpriseEditor from '../views/CompanyEditor.vue';
 import Register from "@/views/Register.vue";
 import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
@@ -36,9 +36,9 @@ const routes = [
         component: EnterpriseRegister
       },
       {
-        path: '/company-editer',
+        path: '/company-editor',
         name: 'CompanyEditer',
-        component: EnterpriseEditer
+        component: EnterpriseEditor
       },
       {
         path: '/company-search',

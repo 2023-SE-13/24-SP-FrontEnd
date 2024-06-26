@@ -2,12 +2,13 @@
   <div class="company">
     <header>
       <div class="company-header">
-        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
-        <div class="company-name">{{ companyName }}</div>
+<!--        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">-->
+        <div class="company-name">{{ company.companyName }}</div>
       </div>
       <div class="btn">
+        <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany" style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px">接受邀请</el-button>
         <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
-        <el-button type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder">退出企业</el-button>
+        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;">退出企业</el-button>
       </div>
     </header>
 
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany } from '@/api/api';
+import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany, isStaff, joinCompany, haveJoinCompany } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -47,33 +48,71 @@ export default {
   data() {
     return {
       isFollowed: false,
+      isStaff: false,
+      haveJoinCompany: false,
       currentView: 'CompanyIntro',
-
-      companyName: '某某企业',
-      username: "testUsername",
+      company: {
+        companyName: '',
+      },
       company_id: "9f9cdc179e2e414094389fab1a0d0063",
-      userid: "why",
+      username: "suin"
+
     };
   },
+  created() {
+    haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
+      this.haveJoinCompany = res.data.status === "y";
+    })
+    isStaff(localStorage.getItem('token'), this.company_id).then(res => {
+      this.isStaff = res.data.status === "success";
+    })
+    isFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
+      this.isFollowed = res.data.status === "success";
+    })
+    getCompany(this.company_id).then(res => {
+      if (res.data.status === "success") {
+        this.company.companyName = res.data.data.company_name
+      }
+    })
+  },
   methods: {
+    joinCompany() {
+      joinCompany(localStorage.getItem('token'), this.company_id).then(res => {
+        console.log(localStorage.getItem('token'))
+        if (res.data.status === "success") {
+          console.log(res.data)
+          console.log("验证加入企业成功")
+          this.$message({
+            message: '成功加入该企业！',
+            type: 'success'
+          })
+          this.$router.push("/company");
+        }
+      }).catch(error => {
+        console.log("验证加入企业失败", error);
+        this.$message({
+          message: '加入企业失败，请稍后再试！',
+          type: 'error'
+        });
+      });
+    },
     toggleFollow() {
       if (this.isFollowed) {
-        this.cancelFollowCompany();
+        this.unFollowCompany();
       } else {
         this.followCompany();
       }
     },
     followCompany() {
-      var username = { username: this.username}
-      var company_id = { username: this.username}
-      followCompany(localStorage.getItem('token'), username, company_id).then(res => {
+      followCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("关注企业成功")
+          this.$message({
+            message: '成功关注该企业！',
+            type: 'success'
+          })
+          this.isFollowed = true;
         }
-      })
-      this.$message({
-        message: '成功关注该企业！',
-        type: 'success'
       }).catch(error => {
         console.log("关注企业失败", error);
         this.$message({
@@ -81,12 +120,9 @@ export default {
           type: 'error'
         });
       });
-      this.isFollowed = true;
     },
-    cancelFollowCompany() {
-      var username = { username: this.username}
-      var company_id = { username: this.username}
-      unFollowCompany(localStorage.getItem('token'), username, company_id).then(res => {
+    unFollowCompany() {
+      unFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("取消关注企业成功")
           this.$message({
@@ -109,22 +145,19 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const params = {
-          user_id: localStorage.getItem('user_id'),
-          company_id: this.company_id
-        }
-        leaveCompany(localStorage.getItem('token'), params).then(res => {
+        const username = this.username;
+        const company_id = this.company_id;
+        leaveCompany(localStorage.getItem('token'), username, company_id).then(res => {
           if (res.data.status === "success") {
-            console.log("退出企业成功")
+            this.$message({
+              type: 'success',
+              message: '成功退出该企业!'
+            });
+            this.$router.push("/main");
           }
         })
-        this.$message({
-          type: 'success',
-          message: '成功退出该企业!'
-        });
-        this.$router.push("/home");
-      }).catch(() => {
-
+      }).catch(error => {
+        console.log("退出企业失败", error);
       });
     }
   }
@@ -137,10 +170,9 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: auto;
-}
-
-header {
+  height: 87.2%;
+  width: 97.3%;
+  position: absolute;
 }
 
 .box {
@@ -153,7 +185,7 @@ header {
 .btn {
   position: absolute;
   right: 2.5%;
-  top: 11%
+  top: 6.5%
 }
 
 .btn-follow {
@@ -177,7 +209,7 @@ header {
   font-weight: bold;
   display: flex;
   align-items: center; /* 垂直居中 */
-  padding: 10px;
+  padding: 30px 10px 20px 20px;
 }
 
 .nav {

@@ -2,16 +2,25 @@
   <div>
     <h2>招聘职位</h2>
     <ul>
-      <li>职位1: 软件工程师</li>
-      <li>职位2: 产品经理</li>
-      <li>职位3: 设计师</li>
+      <li v-for="job in jobs" :key="job.jobsName">
+        <h3>{{ job.jobsName }}</h3>
+        <p>{{ job.jobsInfo }}</p>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'companyJobs'
+  name: 'companyJobs',
+  data() {
+    return {
+      jobs: [
+        { jobsName: "技术人员", jobsInfo: "岗位要求：熟悉JavaScript，具备Vue.js开发经验" },
+        { jobsName: "产品经理", jobsInfo: "岗位要求：有项目管理经验，良好的沟通能力" },
+      ]
+    };
+  }
 };
 </script>
 

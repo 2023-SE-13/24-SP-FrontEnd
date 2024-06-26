@@ -45,31 +45,100 @@ export function SearchUser(params){
     })
 }
 // 员工退出企业
-export function leaveCompany(token, params) {
+export function leaveCompany(token, username, company_id) {
+    let data = {
+        "username": username,
+        "company_id": company_id
+    }
+
+    data = JSON.stringify(data)
+    console.log(data)
     return service({
         method: 'post',
         url: '/company/leave_company',
         headers: {
             'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
         },
-        params: {
-            'user_id': params.user_id,
-            'company_id': params.company_id
-        }
+        data
     })
 }
 
 // 员工关注企业
-export function followCompany(token, username, company_id) {
+export function followCompany(token, company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
     return service({
         method: 'post',
         url: '/subscribe/subscribe_company',
         headers: {
             'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
         },
-        data: {
-            'username': username,
-            'company_id': company_id
+        data
+    })
+}
+
+// 员工取消关注企业
+export function unFollowCompany(token, company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'delete',
+        url: '/subscribe/unsubscribe_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询用户是否关注企业
+export function isFollowCompany(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/subscribe/do_subscribed_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询是否为该企业员工
+export function isStaff(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/is_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+//查询企业信息
+export function getCompany(company_id) {
+    return service({
+        method: 'get',
+        url: '/company/get_company',
+        params: {
+            "company_id":company_id
         }
     })
 }
@@ -87,4 +156,64 @@ export function registCompany(token, company_name, company_description) {
             company_description
         }
     })
+}
+
+// 添加企业员工
+export function addEmployee(token, username, company_id){
+    return service({
+        method: 'post',
+        url: '/company/send_join_verification',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data: {
+            username,
+            company_id
+        }
+    })
+}
+
+// 员工是否收到企业邀请
+export function haveJoinCompany(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/is_to_join',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 员工验证加入企业
+export function joinCompany(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/accept_join_verification',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 获取企业员工
+export function getCompanyEmployee(company_id) {
+    return service({
+        method: 'get',
+        url: '/company/get_staff',
+        params: {
+            'company_id': company_id
+        }
+    });
 }
