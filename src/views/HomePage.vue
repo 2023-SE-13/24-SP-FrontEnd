@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import { SearchUser } from '@/api/api'
+import { SearchUser,SearchCompany } from '@/api/api'
 
 export default {
     data() {
@@ -56,6 +56,12 @@ export default {
                     })
                     break
                 case '2':
+                    const data = {
+                        "keywords":this.input
+                    }
+                    SearchCompany(data).then(res=>{
+                        console.log(res)
+                    })
                     break
             }
         }

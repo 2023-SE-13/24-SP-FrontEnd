@@ -88,3 +88,13 @@ export function registCompany(token, company_name, company_description) {
         }
     })
 }
+
+// 搜索企业
+export function SearchCompany(data){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/company/search_company',
+        data
+    })
+}
