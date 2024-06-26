@@ -50,7 +50,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        const token = 'eb59d3d9a188e81d94d7e9ebc904e52c73da79f6'; // 替换为实际的token
+        const token = localStorage.getItem("token"); // 替换为实际的token
         const response = await registCompany(token, this.form.companyName, this.form.companyDescription);
         console.log('注册成功:', response.data);
         // 你可以在这里添加更多逻辑，例如跳转到其他页面或显示成功消息

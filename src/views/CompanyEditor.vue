@@ -60,7 +60,7 @@ export default {
         name: "",
         role: ""
       },
-      token: 'eb59d3d9a188e81d94d7e9ebc904e52c73da79f6', // 替换为实际的token
+      token: '', // 替换为实际的token
       companyId: '9f9cdc179e2e414094389fab1a0d0063' // 替换为实际的公司ID
     };
   },
@@ -86,6 +86,7 @@ export default {
     async addEmployee() {
       if (this.newEmployee.name && this.newEmployee.role) {
         try {
+          this.token = localStorage.getItem("token");
           const response = await addEmployee(this.token, this.newEmployee.name, this.companyId);
           console.log('员工添加成功:', response.data);
           this.newEmployee.name = "";
