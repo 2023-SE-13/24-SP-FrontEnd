@@ -87,7 +87,7 @@ export default {
       if (this.newEmployee.name && this.newEmployee.role) {
         try {
           this.token = localStorage.getItem("token");
-          const response = await addEmployee(this.token, this.newEmployee.name, this.companyId);
+          const response = await addEmployee(this.token, this.newEmployee.name, localStorage.getItem('company_id'));
           console.log('员工添加成功:', response.data);
           this.newEmployee.name = "";
           this.newEmployee.role = "";
