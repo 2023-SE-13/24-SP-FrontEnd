@@ -249,3 +249,37 @@ export function SearchCompany(data){
         data
     })
 }
+
+export function SubscribeUser(data, token) {
+    return service({
+        method: 'post',
+        url: '/subscribe/subscribe_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+export function UnSubscribeUser(data, token) {
+    return service({
+        method: 'delete',
+        url: '/subscribe/unsubscribe_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+export function DoSubscribeUser(data, token) {
+    return service({
+        method: 'post',
+        url: '/subscribe/do_subscribed_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+

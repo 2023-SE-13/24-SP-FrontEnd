@@ -13,6 +13,8 @@
             <div id="personInfor">
               <div id="userName">
                 <span style="position: relative;left: 5%">{{ user.name }}</span>
+                <span v-if="!isSelf && !isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="changeFavor"><i class="el-icon-plus"> 关注</i></span>
+                <span v-if="!isSelf && isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" id="isFavor" @click="changeFavor"><i class="el-icon-s-operation">已关注</i></span>
               </div>
               <div id="userDesired">
                 <span>期望: {{ user.desired_position }}</span>
@@ -93,7 +95,7 @@
 
 <script>
 import NaviBar from "@/components/NaviBar.vue";
-import {GetUserInfo, UpdateUserInfo} from "@/api/api";
+import {GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser} from "@/api/api";
 export default {
   name: "User",
   components: {
@@ -106,12 +108,18 @@ export default {
     }
     this.user.name = this.$route.params.name;
     this.defaultUser.name = this.user.name;
+    this.isSelf = true;
+    this.isFavor = false;
     if (this.user.name !== localStorage.getItem("username")) {
-      console.log("不是当前用户");
-      console.log(this.token);
-      console.log(this.user.name);
-      console.log(localStorage.getItem("username"));
-      // this.isSelf = false;
+      this.isSelf = false;
+      const data = {
+        username: this.user.name
+      }
+      DoSubscribeUser(data, this.token).then(res => {
+        if (res.data.status === "success") {
+          this.isFavor = true;
+        }
+      });
     }
     GetUserInfo(this.user.name).then(res => {
       if (res.data.status == "success") {
@@ -149,7 +157,8 @@ export default {
   data() {
     return {
       token: null,
-      isSelf: true,
+      isSelf: false,
+      isFavor: false,
       user: {
         real_name: "张三",
         education: "本科",
@@ -187,6 +196,37 @@ export default {
   methods: {
     errorHandler() {
       return true;
+    },
+    changeFavor() {
+      if (this.isFavor) {
+        const data = {
+          username: this.user.name
+        }
+        UnSubscribeUser(data, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.$notify({
+              title: "成功",
+              message: "取消关注成功",
+              type: "success"
+            });
+            this.isFavor = false;
+          }
+        });
+      } else {
+        const data = {
+          username: this.user.name
+        }
+        SubscribeUser(data, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.$notify({
+              title: "成功",
+              message: "关注成功",
+              type: "success"
+            });
+            this.isFavor = true;
+          }
+        });
+      }
     },
     editInfor() {
       this.dialogVisible = true;
@@ -333,6 +373,27 @@ export default {
     float: left;
     position: relative;
     top: 12%;
+  }
+  #userName .favor {
+    border-radius: 5px;
+    background-color: rgba(0, 190, 189, 0.5);
+    font-size: 12px;
+    color: white;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #userName .favor:hover {
+    background-color: #00BEBD;
+  }
+  #userName #isFavor {
+    background-color: rgba(114, 118, 123, 0.7);
+    color: rgba(0, 0, 0, 0.8);
+  }
+  #userName #isFavor:hover {
+    color: rgba(0, 0, 0, 0.5);
   }
   #userEdu, #work{
     position: relative;
