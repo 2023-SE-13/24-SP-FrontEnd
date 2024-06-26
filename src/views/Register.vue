@@ -67,7 +67,7 @@ export default {
         real_name: '',
         email: '',
         code: ''
-      }
+      },
     }
   },
 
@@ -85,10 +85,11 @@ export default {
         });
       } else {
         //TODO: 发送验证码请求
-        let form_data = new FormData()
-        form_data.append('email', this.registerForm.email)
-        SendCode(form_data).then(res => {
-          if (res.data.result === 0) {
+        const params = {
+          email: this.registerForm.email
+        }
+        SendCode(params).then(res => {
+          if (res.data.status === "success") {
             console.log("发送成功")
           } else {
             this.$notify({
@@ -155,15 +156,16 @@ export default {
           });
         } else {
             //TODO: 发送注册请求
-          let form_data = new FormData()
-          form_data.append('username', this.registerForm.username)
-          form_data.append('password', this.registerForm.password)
-          form_data.append('real_name', this.registerForm.real_name)
-          form_data.append('email', this.registerForm.email)
-          form_data.append('code', this.registerForm.code)
+          const form_data = {
+            username: this.registerForm.username,
+            password: this.registerForm.password,
+            real_name: this.registerForm.real_name,
+            email: this.registerForm.email,
+            code: this.registerForm.code
+          }
           //TODO: 发送注册请求
           Register(form_data).then(res => {
-            if (res.data.result === 0) {
+            if (res.data.status === "success") {
               console.log("注册成功")
               this.$router.push("/")
             } else {
