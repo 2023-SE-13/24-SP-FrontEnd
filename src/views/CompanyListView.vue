@@ -9,7 +9,7 @@
       </div>
       <div class="my-company">
         <!-- 我的企业 -->
-        <el-button v-show="isInComp">我的企业 <i class="el-icon-office-building"></i></el-button>
+        <el-button v-show="isInComp" @click="gotoCompanyView">我的企业 <i class="el-icon-office-building"></i></el-button>
         <el-button v-show="!isInComp" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
       </div>
     </div>
@@ -23,17 +23,22 @@
 </template>
 <script>
 import CompanyUnit from '../components/CompanyUnit.vue';
-import { SearchCompany } from '@/api/api';
+import { SearchCompany, getUser } from '@/api/api';
 export default {
   data() {
     return {
       input: '',
       NotAllowSearch: true,
       isInComp: false,
-      CompanyList: []
+      CompanyList: [],
+      companyId: ''
     }
   },
   methods: {
+    gotoCompanyView() {
+        localStorage.setItem('company_id', this.companyId)
+        this.$router.push("/company");
+      },
     allow() {
       if (this.input !== null && this.input !== '') {
         this.$refs.button.$el.style.cursor = 'pointer'
@@ -53,6 +58,16 @@ export default {
     goToCompanyRegister() {
       this.$router.push({ path: '/company-register' });
     }
+  },
+  created() {
+    console.log('local storage: ', localStorage.getItem('username'))
+    getUser(localStorage.getItem('username')).then(res => {
+      console.log(res.data.data)
+      if (res.data.data.company_id) {
+        this.companyId = res.data.data.company_id
+        this.isInComp = true
+      }
+    })
   },
   mounted() {
     if (this.$store.getters.searchButtonClicked) {

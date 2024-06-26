@@ -229,6 +229,7 @@ export function getCompanyEmployee(company_id) {
         }
     });
 }
+
 export function UpdateUserInfo(data, token) {
     return service({
         method: 'put',
@@ -283,3 +284,13 @@ export function DoSubscribeUser(data, token) {
     })
 }
 
+// 获取员工
+export function getUser(username) {
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': username
+        }
+    });
+}
