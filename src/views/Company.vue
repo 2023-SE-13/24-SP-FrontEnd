@@ -49,31 +49,31 @@ export default {
       isFollowed: false,
       currentView: 'CompanyIntro',
 
-      companyName: '某某企业',
-      username: "testUsername",
+      username: "why",
       company_id: "9f9cdc179e2e414094389fab1a0d0063",
-      userid: "why",
+      companyName: '某某企业',
+
     };
   },
   methods: {
     toggleFollow() {
       if (this.isFollowed) {
-        this.cancelFollowCompany();
+        this.unFollowCompany();
       } else {
         this.followCompany();
       }
     },
     followCompany() {
-      var username = { username: this.username}
-      var company_id = { username: this.username}
+      const username = {"username": this.username};
+      const company_id = {"company_id": this.company_id};
       followCompany(localStorage.getItem('token'), username, company_id).then(res => {
         if (res.data.status === "success") {
           console.log("关注企业成功")
+          this.$message({
+            message: '成功关注该企业！',
+            type: 'success'
+          })
         }
-      })
-      this.$message({
-        message: '成功关注该企业！',
-        type: 'success'
       }).catch(error => {
         console.log("关注企业失败", error);
         this.$message({
@@ -83,9 +83,9 @@ export default {
       });
       this.isFollowed = true;
     },
-    cancelFollowCompany() {
-      var username = { username: this.username}
-      var company_id = { username: this.username}
+    unFollowCompany() {
+      const username = {"username": this.username};
+      const company_id = {"company_id": this.company_id};
       unFollowCompany(localStorage.getItem('token'), username, company_id).then(res => {
         if (res.data.status === "success") {
           console.log("取消关注企业成功")
@@ -109,11 +109,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const params = {
-          user_id: localStorage.getItem('user_id'),
-          company_id: this.company_id
-        }
-        leaveCompany(localStorage.getItem('token'), params).then(res => {
+        const username = {"username": this.username};
+        const company_id = {"company_id": this.company_id};
+        leaveCompany(localStorage.getItem('token'), username, company_id).then(res => {
           if (res.data.status === "success") {
             console.log("退出企业成功")
           }
@@ -123,8 +121,8 @@ export default {
           message: '成功退出该企业!'
         });
         this.$router.push("/home");
-      }).catch(() => {
-
+      }).catch(error => {
+        console.log("退出企业失败", error);
       });
     }
   }

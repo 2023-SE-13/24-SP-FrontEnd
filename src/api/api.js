@@ -27,32 +27,56 @@ export function SendCode(params) {
 }
 
 // 员工退出企业
-export function leaveCompany(token, params) {
+export function leaveCompany(token, username, company_id) {
+    let data = {
+        'username': username,
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
     return service({
         method: 'post',
         url: '/company/leave_company',
         headers: {
             'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
         },
-        params: {
-            'user_id': params.user_id,
-            'company_id': params.company_id
-        }
+        data
     })
 }
 
 // 员工关注企业
 export function followCompany(token, username, company_id) {
+    let data = {
+        'username': username,
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
     return service({
         method: 'post',
         url: '/subscribe/subscribe_company',
         headers: {
             'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
         },
-        data: {
-            'username': username,
-            'company_id': company_id
-        }
+        data
+    })
+}
+
+// 员工取消关注企业
+export function unFollowCompany(token, username, company_id) {
+    let data = {
+        'username': username,
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'delete',
+        url: '/subscribe/unsubscribe_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
     })
 }
 
