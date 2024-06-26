@@ -55,3 +55,18 @@ export function followCompany(token, username, company_id) {
         }
     })
 }
+
+// 员工取消关注企业
+export function unfollowCompany(token, username, company_id) {
+    return service({
+        method: 'post',
+        url: '/subscribe/unsubscribe_company',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data: {
+            'username': username,
+            'company_id': company_id
+        }
+    })
+}
