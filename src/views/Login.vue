@@ -75,18 +75,29 @@ export default {
         username: this.loginForm.username,
         password: this.loginForm.password
       }
+      console.log(form_data)
       //TODO: 发送登录请求
       Login(form_data).then(res => {
         if (res.data.status === "success") {
           localStorage.setItem("token", res.data.token)
+          localStorage.setItem("username", this.loginForm.username)
           this.$router.push("/")
-        } else {
-          this.$notify({
-            title: '警告',
-            message: '用户名或密码错误',
-            type: 'warning'
-          });
         }
+      },
+      error => {
+        var message = ""
+        if(error.response.status === 401){
+          message = "密码错误"
+        } else if(error.response.status === 404){
+          message = "用户不存在"
+        } else {
+          message = "未知错误"
+        }
+        this.$notify({
+          title: '警告',
+          message: message,
+          type: 'warning'
+        });
       })
     },
   }
