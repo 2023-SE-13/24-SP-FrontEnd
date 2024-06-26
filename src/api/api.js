@@ -70,3 +70,18 @@ export function registCompany(token, company_name, company_description) {
         }
     })
 }
+
+// 添加企业员工
+export function addEmployee(token, username, company_id){
+    return service({
+        method: 'post',
+        url: '/company/send_join_verification',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data: {
+            username,
+            company_id
+        }
+    })
+}
