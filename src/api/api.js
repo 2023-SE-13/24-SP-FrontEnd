@@ -29,10 +29,12 @@ export function SendCode(params) {
 // 员工退出企业
 export function leaveCompany(token, username, company_id) {
     let data = {
-        'username': username,
-        'company_id': company_id
+        "username": username,
+        "company_id": company_id
     }
+
     data = JSON.stringify(data)
+    console.log(data)
     return service({
         method: 'post',
         url: '/company/leave_company',
@@ -150,6 +152,40 @@ export function addEmployee(token, username, company_id){
             username,
             company_id
         }
+    })
+}
+
+// 员工是否收到企业邀请
+export function haveJoinCompany(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/is_to_join',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 员工验证加入企业
+export function joinCompany(token, company_id) {
+    let data = {
+        "company_id": company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/accept_join_verification',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
     })
 }
 
