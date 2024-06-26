@@ -1,9 +1,6 @@
 <template>
-    <div class="home-page">
-        <div class="info-bar">
-
-        </div>
-        <div class="img-container">
+    <div>
+        <div class="upper-bar">
             <div class="search-bar">
                 <el-input placeholder="搜索用户、公司" @input="allow" v-model="input" class="input-with-select">
                     <el-select class="select" v-model="select" slot="prepend" placeholder="请选择">
@@ -15,11 +12,21 @@
                 </el-input>
             </div>
         </div>
+        <div class="lower-bar">
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+            <UserUnit></UserUnit>
+        </div>
     </div>
 </template>
 <script>
-import { SearchUser, SearchCompany } from '@/api/api'
-
+import UserUnit from '../components/UserUnit.vue'
 export default {
     data() {
         return {
@@ -39,51 +46,35 @@ export default {
             }
         },
         Search() {
-            // alert("搜索一次")
-            console.log("搜索一次")
-            switch (this.select) {
-                case '1':
-                    SearchUser(this.input).then(res => {
-                        console.log(res)
-                    })
-                    break
-                case '2':
-                    const data = {
-                        "keywords": this.input
-                    }
-                    SearchCompany(data).then(res => {
-                        console.log(res)
-                    })
-                    break
-            }
+
         }
+    },
+    components: {
+        UserUnit
     }
 }
 </script>
-<style scoped>
-.info-bar {
-    width: 100%;
-    height: 120px;
-    background: #00bebd;
-}
 
-.img-container {
-    display: block;
-    width: 100%;
-    height: 435px;
-    /* background-image: url("../assets/bg.webp"); */
-    /* float: left; */
+<style lang="scss" scoped>
+.upper-bar {
+    width: 80%;
+    margin: 20px auto;
+    height: 200px;
+    background-color: white;
+    // overflow: hidden;
     position: relative;
+    border-radius: 10px;
 }
 
 .search-bar {
-    margin: 20px -400px;
-    float: left;
+    // margin: 20px -400px;
+    float: none;
     position: absolute;
     left: 50%;
-    top: 5%;
+    top: 20%;
     border: solid 3px #00bebd;
     border-radius: 10px;
+    transform: translateX(-60%);
 }
 
 /* .img-container .el-select .el-input {

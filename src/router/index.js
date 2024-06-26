@@ -9,6 +9,8 @@ import Register from "@/views/Register.vue";
 import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
+import UserListView from '@/views/UserListView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -48,6 +50,10 @@ const routes = [
       {
         path:'/company-list',
         component:CompanyListView
+      },
+      {
+        path:'/user-list',
+        component:UserListView
       }
     ]
   },
