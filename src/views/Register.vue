@@ -4,7 +4,7 @@
       <div class="register">
         <div id="logo" @click="tohome()" style="cursor: pointer">
           <img src="../assets/logo.png" style="width:50px;height:50px;margin-top: 50px">
-          <span style="font-size:20px;font-weight:1000;color: #00BAB7;">两个月直聘</span>
+          <span style="font-size:20px;font-weight:1000;color: #00BAB7;">Leader直聘</span>
         </div>
         <div id="register">
           <el-steps style="width:300px;background: white" :active=this.active simple>
