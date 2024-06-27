@@ -90,7 +90,7 @@ export default {
       this.$router.push("/company");
     },
     async addEmployee() {
-      if (this.newEmployee.name && this.newEmployee.role) {
+      if (this.newEmployee.name) {
         try {
           this.token = localStorage.getItem("token");
           const response = await addEmployee(this.token, this.newEmployee.name, localStorage.getItem('company_id'));
