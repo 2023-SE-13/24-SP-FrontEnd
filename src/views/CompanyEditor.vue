@@ -54,7 +54,7 @@ export default {
       company: {
         name: "",
         address: "示例地址",
-        description: "示例公司描述",
+        description: "",
         employees: []
       },
       newEmployee: {
@@ -70,6 +70,7 @@ export default {
       console.log(res.data)
       if (res.data.status === "success") {
         this.company.name = res.data.data.company_name
+        this.company.description = res.data.data.company_description
       }
     })
     getCompanyEmployee(localStorage.getItem('company_id')).then(res => {

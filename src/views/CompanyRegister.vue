@@ -62,7 +62,7 @@ export default {
           Message.error('企业名称已注册');
         } else if (error.response.status === 400 && error.response.data.message === "You are already a member of a company") {
           console.log('用户不可重复注册公司');
-          Message.error('用户不可重复注册公司');
+          Message.error('企业成员不可重复注册');
         } else {
           console.error('注册失败:', error);
           Message.error('注册失败');
