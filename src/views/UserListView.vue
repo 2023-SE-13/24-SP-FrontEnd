@@ -50,12 +50,12 @@ export default {
             }
         }
     },
-    mounted() {
+    async mounted() {
         if (this.$store.getters.searchButtonClicked) {
             // 调用接口
             let data = JSON.parse(localStorage.getItem("searchField"))
             console.log(data.keywords)
-            SearchUser(data.keywords).then(res => {
+            await SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
             })

@@ -157,9 +157,6 @@ export default {
   },
   created() {
     this.token = localStorage.getItem("token");
-    if (this.token == null) {
-      this.$router.push("/login");
-    }
     this.user.name = this.$route.params.name;
     this.defaultUser.name = this.user.name;
     this.isSelf = true;
@@ -169,11 +166,13 @@ export default {
       const data = {
         username: this.user.name
       }
-      DoSubscribeUser(data, this.token).then(res => {
-        if (res.data.status === "success") {
-          this.isFavor = true;
-        }
-      });
+      if(this.token !== null){
+        DoSubscribeUser(data, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.isFavor = true;
+          }
+        });
+      }
     }
     GetUserInfo(this.user.name).then(res => {
       if (res.data.status == "success") {
@@ -252,6 +251,14 @@ export default {
       return true;
     },
     changeFavor() {
+      if(this.token === null){
+        this.$notify({
+          title: "错误",
+          message: "请先登录",
+          type: "error"
+        });
+        return;
+      }
       if (this.isFavor) {
         const data = {
           username: this.user.name
