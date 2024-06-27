@@ -15,8 +15,10 @@
     </div>
     <div class="lower-bar">
       <div class="company-container">
-        <CompanyUnit v-for="(Company, index) in CompanyList" :key="index" :company-data="Company"></CompanyUnit>
-
+        <CompanyUnit v-show="defaultShow" v-for="(Company, index) in CompanyList" :key="index" :company-data="Company">
+        </CompanyUnit>
+        <CompanyUnit v-show="!defaultShow" v-for="(Company, index) in CompanyList" :key="index" :company-data="Company">
+        </CompanyUnit>
       </div>
     </div>
   </div>
@@ -31,7 +33,8 @@ export default {
       NotAllowSearch: true,
       isInComp: false,
       CompanyList: [],
-      companyId: ''
+      companyId: '',
+      defaultShow: true
     }
   },
   methods: {
@@ -49,6 +52,7 @@ export default {
       }
     },
     Search() {
+      this.defaultShow = false
       let data = { "keywords": this.input }
       SearchCompany(data).then(res => {
         this.CompanyList = res.data.data
@@ -70,6 +74,12 @@ export default {
     })
   },
   mounted() {
+    let defaultData = { "keywords": "w" }
+    SearchCompany(defaultData).then(res => {
+      // console.log(res.data.data)
+      this.CompanyList = res.data.data
+      console.log(this.CompanyList)
+    })
     if (this.$store.getters.searchButtonClicked) {
       // 调用接口
       console.log("跳转成果")
