@@ -2,8 +2,9 @@
   <div class="company">
     <header>
       <div class="company-header">
-<!--        <img src="@/assets/logo.png" alt="公司logo" class="company-logo">-->
+        <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
         <div class="company-name">{{ company.companyName }}</div>
+        <div class="company-subscription">关注数: {{ company.companySubscription }}</div>
       </div>
       <div class="btn">
         <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany" style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px" class="custom-btn">接受邀请</el-button>
@@ -53,7 +54,9 @@ export default {
       currentView: 'CompanyIntro',
       company: {
         companyName: '',
+        companySubscription: 0
       },
+      company_logo:require('../assets/photo.png'),
       company_id: localStorage.getItem('company_id'),
       username: localStorage.getItem('username')
     };
@@ -70,8 +73,11 @@ export default {
       this.isFollowed = res.data.status === "success";
     })
     getCompany(this.company_id).then(res => {
+      console.log(res.data.data)
       if (res.data.status === "success") {
         this.company.companyName = res.data.data.company_name
+        this.company.companySubscription = res.data.data.company_subscription
+        //this.company_logo = res.data.data.company_image
       }
     })
   },
@@ -165,6 +171,11 @@ export default {
 </script>
 
 <style scoped>
+.el-avatar{
+  float: left;
+  margin: 0px 20px;
+}
+
 .company {
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -180,6 +191,31 @@ export default {
   padding: 2px 15px 15px 15px;
   border-radius: 12px;
   margin-top: 18px;
+}
+
+.company-header {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  padding: 30px 10px 20px 20px;
+}
+
+.company-name {
+  font-size: 1.5em;
+}
+
+.company-subscription {
+  margin-left: 20px;
+  font-size: 0.75em;
+  color: #2C3E50DF;
+}
+
+.company-logo {
+  width: 45px; /* 调整企业logo的大小 */
+  height: auto; /* 自动调整高度 */
+  margin-right: 15px; /* 调整logo与文字之间的间距 */
 }
 
 .btn {
@@ -201,25 +237,6 @@ export default {
 .btn-follow {
   margin-right: 5px;
   font-size: 20px;
-}
-
-.company-name {
-  font-size: 1.5em;
-}
-
-.company-logo {
-  width: 45px; /* 调整企业logo的大小 */
-  height: auto; /* 自动调整高度 */
-  margin-right: 15px; /* 调整logo与文字之间的间距 */
-}
-
-.company-header {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  font-weight: bold;
-  display: flex;
-  align-items: center; /* 垂直居中 */
-  padding: 30px 10px 20px 20px;
 }
 
 .nav {
