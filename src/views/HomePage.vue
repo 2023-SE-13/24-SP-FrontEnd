@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="post-container">
-            <!-- <span>热招岗位</span>
+            <span>热门</span>
             <PostUnit></PostUnit>
             <PostUnit></PostUnit>
             <PostUnit></PostUnit>
@@ -25,7 +25,7 @@
             <PostUnit></PostUnit>
             <PostUnit></PostUnit>
             <PostUnit></PostUnit>
-            <PostUnit></PostUnit> -->
+            <PostUnit></PostUnit>
         </div>
     </div>
 </template>
