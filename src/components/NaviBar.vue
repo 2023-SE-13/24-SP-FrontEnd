@@ -5,7 +5,7 @@
                 :class="{ active: activeIndex === index }">
                 <router-link :to="naviUnit.link_to">{{ naviUnit.content }}</router-link>
             </div>
-            <div class="navi-search" v-show="this.$route.path !== '/main'">
+            <!-- <div class="navi-search" v-show="this.$route.path !== '/main'">
                 <el-select v-model="select" :popper-append-to-body="false" slot="prepend" class="navi-select">
                     <el-option label="用户" value="1" @click="select = '用户'"></el-option>
                     <el-option label="公司" value="2" @click="select = '公司'"></el-option>
@@ -15,7 +15,7 @@
                     <el-button slot="suffix" icon="el-icon-search" @click="search" ref="button"
                         :disabled="NotAllowedSearch"></el-button>
                 </el-input>
-            </div>
+            </div> -->
             <div v-show="isLogin" class="photo">
                 <el-dropdown placement="bottom" @command="handleCommand">
                     <el-avatar :size="35" :src="photoSrc"></el-avatar>
@@ -45,8 +45,8 @@ export default {
             activeIndex: null,
             naviUnits: [
                 { content: "首页", link_to: "/main" },
-                { content: "用户搜索", link_to: "/user-list" },
-                { content: "公司搜索", link_to: "/company-list" }
+                { content: "用户", link_to: "/user-list" },
+                { content: "公司", link_to: "/company-list" }
             ],
             isLogin: false,
             select: '',

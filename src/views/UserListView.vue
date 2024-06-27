@@ -79,7 +79,7 @@ export default {
     float: none;
     position: absolute;
     left: 50%;
-    top: 20%;
+    top: 25%;
     border: solid 3px #00bebd;
     border-radius: 10px;
     transform: translateX(-60%);
