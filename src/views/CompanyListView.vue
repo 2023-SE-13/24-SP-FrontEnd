@@ -9,8 +9,8 @@
       </div>
       <div class="my-company">
         <!-- 我的企业 -->
-        <el-button v-show="isInComp" @click="gotoCompanyEditor">我的企业 <i class="el-icon-office-building"></i></el-button>
-        <el-button v-show="!isInComp" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
+        <el-button v-show="isInComp && isLogin" @click="gotoCompanyEditor">我的企业 <i class="el-icon-office-building"></i></el-button>
+        <el-button v-show="!isInComp && isLogin" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
       </div>
     </div>
     <div class="lower-bar">
@@ -31,7 +31,8 @@ export default {
       NotAllowSearch: true,
       isInComp: false,
       CompanyList: [],
-      companyId: ''
+      companyId: '',
+      isLogin: false
     }
   },
   methods: {
@@ -60,6 +61,9 @@ export default {
     }
   },
   created() {
+    if(localStorage.getItem('token')) {
+      this.isLogin = true;
+    }
     console.log('local storage: ', localStorage.getItem('username'))
     getUser(localStorage.getItem('username')).then(res => {
       console.log(res.data.data)
