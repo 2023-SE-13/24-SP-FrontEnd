@@ -105,9 +105,14 @@ export default {
     align-items: flex-start;
     font-size: 15px;
     color: #666;
+
 }
 .lower-box span{
-
+    max-width: 280px;
+    // min-width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .description{
     margin-top: 10px;

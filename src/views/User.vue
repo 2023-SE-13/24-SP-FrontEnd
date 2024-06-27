@@ -64,7 +64,7 @@
               </el-dialog>
             </div>
           </div>
-          <div id="resume" class="content">
+          <div v-if="isSelf" id="resume" class="content">
             <div id="uploadResTitle">
               <span>上传简历</span>
               <span id="uploadIcon"><i class="el-icon-plus"></i></span>

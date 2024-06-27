@@ -186,7 +186,7 @@ export default {
                 message: '修改密码成功',
                 type: 'success'
               });
-              this.$router.push("/")
+              this.$router.push("/login")
             } else {
               this.$notify({
                 title: '警告',
