@@ -163,7 +163,7 @@ button:hover {
 </template>
 
 <script>
-import { registCompany } from "@/api/api";
+import { registCompany, getUser } from "@/api/api";
 import { Message } from 'element-ui';
 
 export default {
@@ -175,7 +175,7 @@ export default {
         contactPhone: '',
         companyAddress: '',
         companyDescription: ''
-      }
+      },
     };
   },
   methods: {
@@ -185,7 +185,12 @@ export default {
         const response = await registCompany(token, this.form.companyName, this.form.companyDescription);
         console.log('注册成功:', response.data);
         Message.success('注册成功');
-        // 你可以在这里添加更多逻辑，例如跳转到其他页面或显示成功消息
+        getUser(localStorage.getItem('username')).then(res => {
+          if (res.data.data.company_id && res.data.data.role === "Creator") {
+            localStorage.setItem('company_id', res.data.data.company_id);
+          }
+          this.$router.push("/company-editor");
+        })
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.error('企业名称已注册');
