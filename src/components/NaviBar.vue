@@ -99,7 +99,12 @@ export default {
                   if(this.$route.path !== "/main"){
                     this.$router.push("/")
                   }
-                })
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '已取消退出'
+                  });
+                });
             }
         },
         search() {
