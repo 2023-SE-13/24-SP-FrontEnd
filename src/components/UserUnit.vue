@@ -5,7 +5,7 @@
                 <el-avatar class="avatar" :size="55" src="../assets/photo.png"></el-avatar>
                 <div class="left-inner">
                     <h3>{{userData.username}}</h3>
-                    <span class="belong">所属企业 <span class="divider"></span>111</span>
+                    <span class="belong">所属企业 <span class="divider"></span>{{ userData.company_name }}</span>
                     <!-- <i class="el-icon-document">11</i>
                     <i class="el-icon-collection">11</i> -->
                 </div>
