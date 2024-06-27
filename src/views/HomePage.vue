@@ -30,7 +30,6 @@
     </div>
 </template>
 <script>
-import { SearchUser, SearchCompany } from '@/api/api'
 import PostUnit from '@/components/PostUnit.vue'
 export default {
     data() {
