@@ -184,7 +184,12 @@ export default {
         const token = localStorage.getItem("token"); // 替换为实际的token
         const response = await registCompany(token, this.form.companyName, this.form.companyDescription);
         console.log('注册成功:', response.data);
-        Message.success('注册成功');
+        // Message.success('注册成功');
+        this.$notify({
+          title: "成功",
+          message: '注册成功！',
+          type: 'success'
+        })
         getUser(localStorage.getItem('username')).then(res => {
           if (res.data.data.company_id && res.data.data.role === "Creator") {
             localStorage.setItem('company_id', res.data.data.company_id);
@@ -194,13 +199,28 @@ export default {
       } catch (error) {
         if (error.response && error.response.status === 409) {
           console.error('企业名称已注册');
-          Message.error('企业名称已注册');
+          // Message.error('企业名称已注册');
+          this.$notify({
+            title: "失败",
+            message: '企业名称已注册！',
+            type: 'error'
+          });
         } else if (error.response.status === 400 && error.response.data.message === "You are already a member of a company") {
           console.log('用户不可重复注册公司');
-          Message.error('企业成员不可重复注册');
+          // Message.error('企业成员不可重复注册');
+          this.$notify({
+            title: "失败",
+            message: '企业成员不可重复注册！',
+            type: 'error'
+          });
         } else {
           console.error('注册失败:', error);
-          Message.error('注册失败');
+          // Message.error('注册失败');
+          this.$notify({
+            title: "失败",
+            message: '注册失败，请联系管理员！',
+            type: 'error'
+          });
         }
       }
     }
