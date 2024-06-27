@@ -99,11 +99,7 @@ export default {
                   if(this.$route.path !== "/main"){
                     this.$router.push("/")
                   }
-                }).catch(() => {
-                  if(this.$route.path !== "/main"){
-                    this.$router.push("/")
-                  }
-                });
+                })
             }
         },
         search() {
