@@ -46,6 +46,7 @@
 
 <script>
 import { addEmployee, getCompany, getCompanyEmployee} from "@/api/api";
+import { Message } from 'element-ui';
 
 export default {
   data() {
@@ -89,13 +90,16 @@ export default {
           this.token = localStorage.getItem("token");
           const response = await addEmployee(this.token, this.newEmployee.name, localStorage.getItem('company_id'));
           console.log('员工添加成功:', response.data);
+          Message.success('添加员工成功');
           this.newEmployee.name = "";
           this.newEmployee.role = "";
         } catch (error) {
           if (error.response.status === 404 && error.response.data.message === "User not found") {
             console.log('用户不存在');
+            Message.error('用户不存在');
           } else {
             console.error('添加员工失败:', error);
+            Message.error('添加员工失败');
           }
         }
       } else {

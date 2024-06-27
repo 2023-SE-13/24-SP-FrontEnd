@@ -49,22 +49,6 @@ export default {
     };
   },
   methods: {
-    // async submitForm() {
-    //   try {
-    //     const token = localStorage.getItem("token"); // 替换为实际的token
-    //     const response = await registCompany(token, this.form.companyName, this.form.companyDescription);
-    //     console.log('注册成功:', response.data);
-    //     // 你可以在这里添加更多逻辑，例如跳转到其他页面或显示成功消息
-    //   } catch (error) {
-    //     if (error.response && error.response.status === 409) {
-    //       console.error('企业名称已注册');
-    //     } else if (error.response.status === 400 && error.response.data.message === "You are already a member of a company") {
-    //       console.log('用户不可重复注册公司');
-    //     } else {
-    //       console.error('注册失败:', error);
-    //     }
-    //   }
-    // }
     async submitForm() {
       try {
         const token = localStorage.getItem("token"); // 替换为实际的token
