@@ -10,7 +10,6 @@
         </div>
         <div class="lower-bar">
             <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
-
         </div>
     </div>
 </template>
@@ -35,13 +34,20 @@ export default {
                 this.NotAllowSearch = true
             }
         },
-        Search() {
+        async Search() {
             let data = {"type":'user' ,"keywords":''}
             data.keywords = this.input
-            SearchUser(data.keywords).then(res => {
+            await SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
             })
+            if(this.userList.length === 0){
+                this.$notify({
+                    title: '提示',
+                    message: '未找到相关用户',
+                    type: 'warning'
+                });
+            }
         }
     },
     mounted() {
@@ -53,6 +59,13 @@ export default {
                 console.log(res)
                 this.userList = res.data
             })
+            if(this.userList.length === 0){
+              this.$notify({
+                title: '提示',
+                message: '未找到相关用户',
+                type: 'warning'
+              });
+            }
             // 重置状态
             this.$store.dispatch('updateButtonClicked', false);
         }
