@@ -15,7 +15,7 @@
     </div>
     <div class="lower-bar">
       <div class="company-container">
-        <CompanyUnit v-for="(Company,index) in CompanyList" :key="index" :company-data="Company"></CompanyUnit>
+        <CompanyUnit v-for="(Company, index) in CompanyList" :key="index" :company-data="Company"></CompanyUnit>
 
       </div>
     </div>
@@ -36,9 +36,9 @@ export default {
   },
   methods: {
     gotoCompanyEditor() {
-        localStorage.setItem('company_id', this.companyId)
-        this.$router.push("/company-editor");
-      },
+      localStorage.setItem('company_id', this.companyId)
+      this.$router.push("/company-editor");
+    },
     allow() {
       if (this.input !== null && this.input !== '') {
         this.$refs.button.$el.style.cursor = 'pointer'
@@ -48,9 +48,9 @@ export default {
         this.NotAllowSearch = true
       }
     },
-    Search(){
-      let data = {"keywords":this.input}
-      SearchCompany(data).then(res=>{
+    Search() {
+      let data = { "keywords": this.input }
+      SearchCompany(data).then(res => {
         this.CompanyList = res.data.data
         console.log(this.CompanyList)
       })
@@ -75,8 +75,8 @@ export default {
       console.log("跳转成果")
       let data = JSON.parse(localStorage.getItem("searchField"))
       console.log(data)
-      data = { "keywords": data.keywords}
-      SearchCompany(data).then(res=>{
+      data = { "keywords": data.keywords }
+      SearchCompany(data).then(res => {
         // console.log(res.data.data)
         this.CompanyList = res.data.data
         console.log(this.CompanyList)
@@ -91,7 +91,6 @@ export default {
 <style lang="scss" scoped>
 .company-container {
   width: 80%;
-
   margin: 20px auto;
   overflow: hidden;
   justify-content: center;
@@ -99,9 +98,13 @@ export default {
 }
 
 .upper-bar {
-  width: 100%;
+  width: 80%;
+  margin: 20px auto;
   height: 200px;
   background-color: white;
+  // overflow: hidden;
+  position: relative;
+  border-radius: 10px;
 }
 
 .info-bar {
@@ -123,19 +126,21 @@ export default {
   margin: 40px -600px;
   float: left;
   position: absolute;
-  left: 50%;
+  left: 60%;
   top: 5%;
   border: solid 3px #00bebd;
   border-radius: 10px;
 }
 
 .my-company {
-  float: right;
-  margin-top: 30px;
-  margin-right: 300px;
+  // float: right;
+  // margin-top: 30px;
+  top: 25%;
+  left: 80%;
   border: solid 3px #00bebd;
   border-radius: 10px;
   transition: 0.5s;
+  position: absolute;
 }
 
 .my-company:hover {
