@@ -116,14 +116,14 @@ export default {
 .admin-company-view {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f8ff; /* 浅蓝色 */
-  padding: 20px;
+  padding: 20px 20px 5.7%;
 }
 
 .company-header {
   display: flex;
   align-items: center;
   padding: 20px;
-  background-color: #007bff;
+  background-color: #00cfcf;
   color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -188,7 +188,7 @@ textarea {
 
 button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #00cfcf;
   color: white;
   border: none;
   border-radius: 5px;
@@ -198,12 +198,11 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #02F1F1FF;
 }
 
 .employee-list {
   list-style: none;
-  padding: 0;
   max-height: 200px; /* 限制高度，允许滚动 */
   overflow-y: auto;
   margin-bottom: 20px;

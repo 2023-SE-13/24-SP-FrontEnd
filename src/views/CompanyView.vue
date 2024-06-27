@@ -6,9 +6,9 @@
         <div class="company-name">{{ company.companyName }}</div>
       </div>
       <div class="btn">
-        <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany" style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px">接受邀请</el-button>
-        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#4c657a', borderColor: isFollowed ? '#00cfcf' : '#4c657a' }"></el-button>
-        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;">退出企业</el-button>
+        <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany" style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px" class="custom-btn">接受邀请</el-button>
+        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#000000', borderColor: isFollowed ? '#00cfcf' : '#212121' }"></el-button>
+        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;" class="custom-btn">退出企业</el-button>
       </div>
     </header>
 
@@ -186,6 +186,16 @@ export default {
   position: absolute;
   right: 2.5%;
   top: 6.5%
+}
+
+.custom-btn:hover {
+  background-color: #02F1F1FF !important;
+  border-color: #02F1F1FF !important;
+}
+
+.btn-follow:hover {
+  background-color: #02F1F1FF !important;
+  border-color: #02F1F1FF !important;
 }
 
 .btn-follow {
