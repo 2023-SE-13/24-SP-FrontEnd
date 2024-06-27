@@ -73,7 +73,12 @@ export function leaveCompany(token, username, company_id) {
             'Content-Type': 'application/json'
         },
         data
-    })
+    }).catch(error => {
+        if (error.response.status === 405) {
+            console.log('管理员无法退出企业！');
+            throw error;
+        }
+    });
 }
 
 // 员工关注企业

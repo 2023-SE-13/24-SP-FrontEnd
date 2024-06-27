@@ -161,9 +161,21 @@ export default {
             });
             this.$router.push("/main");
           }
-        })
-      }).catch(error => {
-        console.log("退出企业失败", error);
+        }).catch(error => {
+          if (error.response && error.response.status === 405) {
+            this.$message({
+              type: 'warning',
+              message: '管理员无法退出企业！'
+            });
+          } else {
+            this.$message({
+              type: 'error',
+              message: '退出企业失败，请稍后再试！'
+            });
+          }
+        });
+      }).catch(() => {
+        // 用户取消确认对话框时不做任何操作
       });
     }
   }
@@ -173,7 +185,7 @@ export default {
 <style scoped>
 .el-avatar{
   float: left;
-  margin: 0px 20px;
+  margin: 0 20px;
 }
 
 .company {
