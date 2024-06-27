@@ -9,7 +9,8 @@
             </div>
         </div>
         <div class="lower-bar">
-            <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
+            <UserUnit v-show="defaultShow" v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
+            <UserUnit v-show="!defaultShow" v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
         </div>
     </div>
 </template>
@@ -21,7 +22,8 @@ export default {
         return {
             input: '',
             NotAllowSearch: true,
-            userList: []
+            userList: [],
+            defaultShow: true
         }
     },
     methods: {
@@ -35,13 +37,13 @@ export default {
             }
         },
         async Search() {
-            let data = {"type":'user' ,"keywords":''}
+            let data = { "type": 'user', "keywords": '' }
             data.keywords = this.input
             await SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
             })
-            if(this.userList.length === 0){
+            if (this.userList.length === 0) {
                 this.$notify({
                     title: '提示',
                     message: '未找到相关用户',
@@ -51,6 +53,10 @@ export default {
         }
     },
     async mounted() {
+        SearchUser("w").then(res => {
+            console.log(res)
+            this.userList = res.data
+        })
         if (this.$store.getters.searchButtonClicked) {
             // 调用接口
             let data = JSON.parse(localStorage.getItem("searchField"))
@@ -59,12 +65,12 @@ export default {
                 console.log(res)
                 this.userList = res.data
             })
-            if(this.userList.length === 0){
-              this.$notify({
-                title: '提示',
-                message: '未找到相关用户',
-                type: 'warning'
-              });
+            if (this.userList.length === 0) {
+                this.$notify({
+                    title: '提示',
+                    message: '未找到相关用户',
+                    type: 'warning'
+                });
             }
             // 重置状态
             this.$store.dispatch('updateButtonClicked', false);
