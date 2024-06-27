@@ -88,7 +88,8 @@ export default {
         if (res.data.status === "success") {
           console.log(res.data)
           console.log("验证加入企业成功")
-          this.$message({
+          this.$notify({
+            title: '成功',
             message: '成功加入该企业！',
             type: 'success'
           })
@@ -96,7 +97,8 @@ export default {
         }
       }).catch(error => {
         console.log("验证加入企业失败", error);
-        this.$message({
+        this.$notify({
+          title: '失败',
           message: '加入企业失败，请稍后再试！',
           type: 'error'
         });
@@ -113,7 +115,8 @@ export default {
       followCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("关注企业成功")
-          this.$message({
+          this.$notify({
+            title: "成功",
             message: '成功关注该企业！',
             type: 'success'
           })
@@ -121,7 +124,8 @@ export default {
         }
       }).catch(error => {
         console.log("关注企业失败", error);
-        this.$message({
+        this.$notify({
+          title: "失败",
           message: '关注企业失败，请稍后再试！',
           type: 'error'
         });
@@ -131,7 +135,8 @@ export default {
       unFollowCompany(localStorage.getItem('token'), this.company_id).then(res => {
         if (res.data.status === "success") {
           console.log("取消关注企业成功")
-          this.$message({
+          this.$notify({
+            title: '成功',
             message: '成功取消关注该企业！',
             type: 'success'
           });
@@ -139,7 +144,8 @@ export default {
         }
       }).catch(error => {
         console.log("取消关注企业失败", error);
-        this.$message({
+        this.$notify({
+          title: "失败",
           message: '取消关注企业失败，请稍后再试！',
           type: 'error'
         });
@@ -155,7 +161,8 @@ export default {
         const company_id = this.company_id;
         leaveCompany(localStorage.getItem('token'), username, company_id).then(res => {
           if (res.data.status === "success") {
-            this.$message({
+            this.$notify({
+              title: "成功",
               type: 'success',
               message: '成功退出该企业!'
             });
@@ -163,12 +170,14 @@ export default {
           }
         }).catch(error => {
           if (error.response && error.response.status === 405) {
-            this.$message({
-              type: 'warning',
+            this.$notify({
+              title: "失败",
+              type: 'error',
               message: '管理员无法退出企业！'
             });
           } else {
-            this.$message({
+            this.$notify({
+              title: '失败',
               type: 'error',
               message: '退出企业失败，请稍后再试！'
             });
