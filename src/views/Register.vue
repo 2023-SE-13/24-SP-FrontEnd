@@ -181,7 +181,7 @@ export default {
           Register(form_data).then(res => {
             if (res.data.status === "success") {
               console.log("注册成功")
-              this.$router.push("/")
+              this.$router.push("/login")
             }
           },
           error => {
