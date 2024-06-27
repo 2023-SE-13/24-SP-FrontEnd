@@ -3,6 +3,7 @@
     <header class="company-header">
       <img src="@/assets/logo.png" alt="公司logo" class="company-logo">
       <div class="company-name">{{ company.name }}</div>
+      <el-button type="danger" @click="gotoCompanyView" style="padding: 13px 20px; margin-left: 80%; font-size: 17px;font-weight: bolder; background-color: #05d7d7; border:solid 2px #02f1f1;border-radius: 6px;" class="custom-btn">企业展示页</el-button>
     </header>
     <div class="main-content">
       <div class="left-panel">
@@ -85,6 +86,9 @@ export default {
     })
   },
   methods: {
+    gotoCompanyView() {
+      this.$router.push("/company");
+    },
     async addEmployee() {
       if (this.newEmployee.name && this.newEmployee.role) {
         try {
@@ -199,6 +203,15 @@ button {
 
 button:hover {
   background-color: #02F1F1FF;
+}
+
+.custom-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* 添加过渡效果 */
+}
+.custom-btn:hover {
+  background-color: #02f1f1; /* 更改悬停背景颜色 */
+  color: black; /* 更改悬停字体颜色 */
+  border-color: black; /* 更改悬停边框颜色 */
 }
 
 .employee-list {
