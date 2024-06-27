@@ -205,20 +205,13 @@ export default {
   position: absolute;
 }
 
-.box {
-  background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
-  border-radius: 12px;
-  margin-top: 18px;
-}
-
 .company-header {
   font-size: 1.5em;
   margin-bottom: 10px;
   font-weight: bold;
   display: flex;
-  align-items: center; /* 垂直居中 */
-  padding: 30px 10px 20px 20px;
+  align-items: center;
+  padding: 30px 10px 20px 40px;
 }
 
 .company-name {
@@ -239,7 +232,7 @@ export default {
 
 .btn {
   position: absolute;
-  right: 2.5%;
+  right: 5.5%;
   top: 6.5%
 }
 
@@ -260,12 +253,13 @@ export default {
 
 .nav {
   font-size: 1.1em;
-  width: 100%;
+  width: 92%;
   background-color: rgb(255, 255, 255);
   height: 40px;
   color: #d5d8e9;
   margin-bottom: 1%;
   border-radius: 15px;
+  margin-left: 4%;
 }
 
 .nav-inner {
@@ -324,5 +318,14 @@ export default {
 .nav-inner .nav-item.active a {
   font-weight: bold;
   color: #fff;
+}
+
+.box {
+  background-color: #ffffff;
+  padding: 2px 15px 15px 15px;
+  border-radius: 12px;
+  margin-top: 18px;
+  width: 90%;
+  margin-left: 4%;
 }
 </style>
