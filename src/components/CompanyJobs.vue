@@ -50,31 +50,9 @@ export default {
       currentPage: 1,
       pageSize: 4,
       JobsList: [
-        {
-          "position_id": "ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a",
-          "company_id": "2007e0f9-cd8e-4dd4-b287-48ebee85b260",
-          "position_name": "Software Engineer1",
-          "position_description": "Responsible for developing and maintaining software applications.",
-          "location": "New York, NY",
-          "education_requirement": "Bachelor's Degree in Computer Science or related field",
-          "salary_min": "7000.00",
-          "salary_max": "70000.00",
-          "posted_at": "2024-06-28T17:02:46.630491+08:00"
-        },
-        {
-          "position_id": "ea3851b4-ecb2-42e8-8aa7-8ba294d90d8b",
-          "company_id": "2007e0f9-cd8e-4dd4-b287-48ebee85b260",
-          "position_name": "Software Engineer2",
-          "position_description": "Responsible for developing and maintaining software applications.",
-          "location": "New York, NY",
-          "education_requirement": "Bachelor's Degree in Computer Science or related field",
-          "salary_min": "7000.00",
-          "salary_max": "70000.00",
-          "posted_at": "2024-06-28T17:02:46.630491+08:00"
-        }
       ],
       JobData: {},
-      company_id: '2007e0f9cd8e4dd4b28748ebee85b260',
+      company_id: '',
       positionId: ''
     };
   },

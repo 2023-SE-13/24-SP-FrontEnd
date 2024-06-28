@@ -3,18 +3,6 @@
     <h2>公司简介</h2>
     <p>{{ company.description }}</p>
 
-    <h2>公司产品</h2>
-    <ul>占位</ul>
-
-    <h2>工商信息</h2>
-    <ul>
-<!--      <li>企业名称: {{ company.address }}</li>-->
-<!--      <li>法人代表: {{ company.legalRepresentative }}</li>-->
-<!--      <li>注册号: {{ company.registrationNumber }}</li>-->
-<!--      <li>成立日期: {{ company.establishmentDate }}</li>-->
-<!--      <li>公司地址: {{ company.address }}</li>-->
-    </ul>
-
     <h2>在招岗位</h2>
     <div class="jobs-list">
       <div>
@@ -72,7 +60,7 @@ export default {
   border-radius: 12px;
   margin-top: 18px;
   width: 35%;
-  min-height: 400px;
+  min-height: 150px;
   height: auto;
 }
 
