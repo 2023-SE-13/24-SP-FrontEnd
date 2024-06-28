@@ -15,22 +15,18 @@
     </div>
 
     <div class="jobs-message">
-      <h2>岗位名称</h2>
       <el-button type="danger" class="custom-btn" icon="el-icon-star-off">收藏</el-button>
       <el-button type="danger" class="custom-btn" icon="el-icon-s-promotion">立即沟通</el-button>
+      <h2>岗位名称</h2>
+
+      <div class="tag-box">
+        <span class="tag"><i class="el-icon-location"></i>北京</span>
+      </div>
+
       <p style="margin-top: 2%; color: red">薪酬: {{ JobsList.jobSalary }}</p>
       <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
 
-      <el-button type="danger" style="float: left;margin-top: 2%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多信息</el-button>
+      <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多</el-button>
     </div>
   </div>
 </template>
@@ -50,60 +46,9 @@ export default {
       currentPage: 1,
       pageSize: 4,
       JobsList: [
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
       ],
 
     };
@@ -138,11 +83,13 @@ export default {
 
 .jobs-list {
   background-color: #ffffff;
-  padding: 2px 15px 30px 15px;
+  padding: 2px 15px 65px 15px;
   border-radius: 12px;
   margin-top: 18px;
   width: 27%;
   margin-left: 4%;
+  min-height: 400px;
+  height: auto;
 }
 
 .jobs-message {
@@ -159,7 +106,7 @@ export default {
 .custom-btn {
   float: right;
   margin-right: 7px;
-  margin-top: -45px;
+  margin-top: 40px;
   padding: 13px 20px;
   font-size: 17px;
   font-weight: bolder;
@@ -191,5 +138,22 @@ p {
   margin-left: 2.5%;
   margin-right: 1%;
   font-weight: bold;
+}
+
+.tag-box {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  border-radius: 4px;
+  margin-top: 2px;
+  margin-left: 10px;
+  margin-bottom: 8px;
 }
 </style>
