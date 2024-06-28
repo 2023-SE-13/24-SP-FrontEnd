@@ -1,29 +1,40 @@
 <template>
-  <div class="jobs-unit">
+  <div class="jobs-unit" @click="showJobView">
     <div class="upper-box">
-      <h3>{{ jobData.jobName }}</h3>
-      <span style="color: red; font-weight: bold;">薪酬: {{ jobData.jobSalaryMin }}-{{ jobData.jobSalaryMax }}</span>
+      <h3>{{ jobData.position_name }}</h3>
+      <span style="color: red; font-weight: bold;">{{ formatSalary(jobData.salary_min) }} - {{ formatSalary(jobData.salary_max) }}</span>
     </div>
     <div class="lower-box">
-      <span>岗位要求: {{ jobData.jobInfo }}</span>
+<!--      <span>学历要求: {{ jobData.education_requirement }}</span>-->
+      <span>学历要求: 本科</span>
+
     </div>
   </div>
 </template>
 
 <script>
 
+import { getPosition } from "@/api/api";
 export default {
   data() {
     return {}
   },
   props: {
-    jobData: {}
+    jobData: {
+
+    }
   },
   created() {
-    //console.log(this.jobData)
   },
   methods: {
+    formatSalary(salary) {
+      return Math.floor(salary)/1000 + 'k'; // 去掉小数点取整 + k
+    },
+    showJobView() {
+      getPosition('ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a').then(res => {
 
+      })
+    }
   },
 }
 </script>
@@ -73,6 +84,13 @@ h3 {
   background-color: rgb(246, 246, 247);
   border-radius: 0 0 10px 10px;
   padding-right: 4%;
+  padding-bottom: 5%;
+}
+
+.lower-box span {
+  display: inline-block;
+  float: left;
+  margin-left: 4%;
   padding-bottom: 5%;
 }
 </style>

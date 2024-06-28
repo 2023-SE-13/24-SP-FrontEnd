@@ -17,14 +17,18 @@
     <div class="jobs-message">
       <el-button type="danger" class="custom-btn" icon="el-icon-star-off">收藏</el-button>
       <el-button type="danger" class="custom-btn" icon="el-icon-s-promotion">立即沟通</el-button>
-      <h2>岗位名称</h2>
+      <h2>{{JobData.position_name}}</h2>
 
       <div class="tag-box">
-        <span class="tag"><i class="el-icon-location"></i>北京</span>
+        <span class="tag"><i class="el-icon-location"></i>{{ JobData.location }}</span>
+<!--        <span class="tag"><i class="el-icon-location"></i>{{ JobData.education_requirement }}</span>-->
+        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>
+
       </div>
 
-      <p style="margin-top: 2%; color: red">薪酬: {{ JobData.jobSalary }}</p>
-      <p>岗位描述: {{ JobData.jobInfo }}</p>
+      <p style="margin-top: 2%; color: red">薪酬: {{ formatSalary(JobData.salary_min) }} - {{ formatSalary(JobData.salary_max) }}</p>
+      <p>岗位描述:</p>
+      <p style="font-weight: normal">{{ JobData.position_description }}</p>
 
       <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多</el-button>
     </div>
@@ -46,33 +50,25 @@ export default {
       currentPage: 1,
       pageSize: 4,
       JobsList: [],
-      JobData: [],
-      company_id: '29323fa0842d43c8bcef7d52ae46b930',
+      JobData: {
+      },
+      company_id: '2007e0f9cd8e4dd4b28748ebee85b260',
       position_id: 'ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a'
     };
   },
   created() {
     getPositionList(this.company_id).then(res => {
-      console.log(1)
-  //     console.log(this.company_id)
-  //     console.log(res.data)
-  //     console.log(localStorage)
-  //
-  //     if (res.data.status === "200") {
-  //       //this.JobsList = res.data.data
-  //       //this.position_id =
-  //       //localStorage.setItem('position_id', this.position_id)
-  //     }
+      this.JobsList = res.data
+    })
+    getPosition(this.position_id).then(res => {
+      console.log(res.data)
+      this.JobData = res.data
     })
   },
   methods: {
-    // showJobView() {
-    //   getPosition(this.position_id).then(res => {
-    //     this.jobData = res.data.data
-    //     console.log(this.CompanyList)
-    //   })
-    //   console.log(1)
-    // }
+    formatSalary(salary) {
+      return Math.floor(salary)/1000 + 'k'; // 去掉小数点取整 + k
+    },
   },
   computed: {
     paginatedJobs() {
@@ -80,6 +76,9 @@ export default {
       const end = start + this.pageSize;
       return this.JobsList.slice(start, end);
     }
+  },
+  props: {
+
   }
 };
 </script>
@@ -144,10 +143,11 @@ p {
   background-color: #f9f9f9;
   border-radius: 5px;
   text-align: left;
-  padding: 12px 25px 10px 25px;
+  padding: 12px 25px 15px 25px;
   margin-left: 2.5%;
   margin-right: 1%;
   font-weight: bold;
+  font-size: 1.1em;
 }
 
 .tag-box {
@@ -165,5 +165,9 @@ p {
   margin-top: 2px;
   margin-left: 10px;
   margin-bottom: 8px;
+}
+
+.tag i{
+  margin-right: 3px;
 }
 </style>
