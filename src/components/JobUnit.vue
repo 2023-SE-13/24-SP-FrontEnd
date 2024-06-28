@@ -23,7 +23,7 @@ export default {
     }
   },
   created(){
-    console.log(this.jobData)
+    //console.log(this.jobData)
   },
   methods: {
     showJobView() {

@@ -3,15 +3,26 @@
     <div class="jobs-list">
       <h2>招聘岗位</h2>
       <div>
-        <JobUnit v-for="(jobs,index) in JobsList" :key="index" :job-data="jobs"></JobUnit>
+        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs"></JobUnit>
       </div>
+      <el-pagination
+          :page-size="pageSize"
+          :pager-count="7"
+          layout="prev, pager, next"
+          :total="JobsList.length"
+          style="position: absolute; top: 93%">
+      </el-pagination>
     </div>
 
     <div class="jobs-message">
       <h2>岗位名称</h2>
       <el-button type="danger" class="custom-btn" icon="el-icon-star-off">收藏</el-button>
-      <el-button type="danger" class="custom-btn">立即沟通</el-button>
+      <el-button type="danger" class="custom-btn" icon="el-icon-s-promotion">立即沟通</el-button>
       <p style="margin-top: 2%; color: red">薪酬: {{ JobsList.jobSalary }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
       <p>岗位描述: {{ JobsList.jobInfo }}</p>
       <p>岗位描述: {{ JobsList.jobInfo }}</p>
       <p>岗位描述: {{ JobsList.jobInfo }}</p>
@@ -26,18 +37,95 @@
 
 <script>
 import JobUnit from "@/components/JobUnit.vue";
+import {
+  getPositionList,
+  getPosition
+} from '@/api/api';
+
 export default {
   name: 'companyJobs',
   components: { JobUnit },
   data() {
     return {
+      currentPage: 1,
+      pageSize: 4,
       JobsList: [
-        { jobName: "技术人员", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
-        { jobName: "产品经理", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
-        { jobName: "产品经理", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "2", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "3", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "4", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "5", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "6", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "7", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "8", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "9", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
       ],
+
     };
-  }
+  },
+  created() {
+    // getPositionList(localStorage.getItem('company_id')).then(res => {
+    //   console.log(res.data.data)
+    //   this.JobsList = res.data.data
+    // })
+  },
+  methods: {
+    handlePageChange(page) {
+      this.currentPage = page;
+    }
+  },
+  computed: {
+    paginatedJobs() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      return this.JobsList.slice(start, end);
+    }
+  },
 };
 </script>
 
@@ -53,7 +141,7 @@ export default {
   padding: 2px 15px 30px 15px;
   border-radius: 12px;
   margin-top: 18px;
-  width: 25%;
+  width: 27%;
   margin-left: 4%;
 }
 
@@ -65,6 +153,7 @@ export default {
   width: 62%;
   margin-left: 4%;
   margin-right: 4%;
+  position: sticky;
 }
 
 .custom-btn {

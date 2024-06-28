@@ -91,7 +91,6 @@ export default {
       }
     })
     getCompanyEmployee(this.company_id).then(res => {
-      console.log(res.data.data)
       if (res.data.status === "success") {
         if (res.data.role === 'Creator') {
           this.isManager = true
