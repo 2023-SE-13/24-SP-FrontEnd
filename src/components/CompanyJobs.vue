@@ -3,7 +3,7 @@
     <div class="jobs-list">
       <h2>招聘岗位</h2>
       <div>
-        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs" @click="showJobView"></JobUnit>
+        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs" :position-id="positionId" @click.native="showJobView(jobs.position_id)"></JobUnit>
       </div>
       <el-pagination
           :page-size="pageSize"
@@ -21,8 +21,8 @@
 
       <div class="tag-box">
         <span class="tag"><i class="el-icon-location"></i>{{ JobData.location }}</span>
-<!--        <span class="tag"><i class="el-icon-location"></i>{{ JobData.education_requirement }}</span>-->
-        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>
+        <span class="tag"><i class="el-icon-location"></i>{{ JobData.education_requirement }}</span>
+<!--        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>-->
 
       </div>
 
@@ -49,26 +49,55 @@ export default {
     return {
       currentPage: 1,
       pageSize: 4,
-      JobsList: [],
-      JobData: {
-      },
+      JobsList: [
+        {
+          "position_id": "ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a",
+          "company_id": "2007e0f9-cd8e-4dd4-b287-48ebee85b260",
+          "position_name": "Software Engineer1",
+          "position_description": "Responsible for developing and maintaining software applications.",
+          "location": "New York, NY",
+          "education_requirement": "Bachelor's Degree in Computer Science or related field",
+          "salary_min": "7000.00",
+          "salary_max": "70000.00",
+          "posted_at": "2024-06-28T17:02:46.630491+08:00"
+        },
+        {
+          "position_id": "ea3851b4-ecb2-42e8-8aa7-8ba294d90d8b",
+          "company_id": "2007e0f9-cd8e-4dd4-b287-48ebee85b260",
+          "position_name": "Software Engineer2",
+          "position_description": "Responsible for developing and maintaining software applications.",
+          "location": "New York, NY",
+          "education_requirement": "Bachelor's Degree in Computer Science or related field",
+          "salary_min": "7000.00",
+          "salary_max": "70000.00",
+          "posted_at": "2024-06-28T17:02:46.630491+08:00"
+        }
+      ],
+      JobData: {},
       company_id: '2007e0f9cd8e4dd4b28748ebee85b260',
-      position_id: 'ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a'
+      positionId: ''
     };
   },
   created() {
     getPositionList(this.company_id).then(res => {
       this.JobsList = res.data
-    })
-    getPosition(this.position_id).then(res => {
-      console.log(res.data)
-      this.JobData = res.data
+      console.log(this.JobsList[0].position_id)
+      this.positionId = this.JobsList[0].position_id
+      console.log(this.positionId)
+      getPosition(this.positionId).then(res => {
+        this.JobData = res.data
+      })
     })
   },
   methods: {
     formatSalary(salary) {
       return Math.floor(salary)/1000 + 'k'; // 去掉小数点取整 + k
     },
+    showJobView(positionId) {
+      getPosition(positionId).then(res => {
+        this.JobData = res.data
+      })
+    }
   },
   computed: {
     paginatedJobs() {
@@ -77,9 +106,6 @@ export default {
       return this.JobsList.slice(start, end);
     }
   },
-  props: {
-
-  }
 };
 </script>
 

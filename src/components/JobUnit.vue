@@ -5,22 +5,20 @@
       <span style="color: red; font-weight: bold;">{{ formatSalary(jobData.salary_min) }} - {{ formatSalary(jobData.salary_max) }}</span>
     </div>
     <div class="lower-box">
-<!--      <span>学历要求: {{ jobData.education_requirement }}</span>-->
-      <span>学历要求: 本科</span>
+      <span>学历要求: {{ jobData.education_requirement }}</span>
+<!--      <span>学历要求: 本科</span>-->
 
     </div>
   </div>
 </template>
 
 <script>
-
-import { getPosition } from "@/api/api";
 export default {
   data() {
     return {}
   },
   props: {
-    jobData: {
+    jobData:{
 
     }
   },
@@ -31,9 +29,7 @@ export default {
       return Math.floor(salary)/1000 + 'k'; // 去掉小数点取整 + k
     },
     showJobView() {
-      getPosition('ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a').then(res => {
-
-      })
+      this.$emit('click', this.jobData.position_id);
     }
   },
 }

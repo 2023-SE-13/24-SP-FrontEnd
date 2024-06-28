@@ -302,8 +302,6 @@ export function getUser(username) {
 
 // 获取公司所有岗位
 export function getPositionList(company_id) {
-    console.log(0)
-    console.log(company_id)
     return service({
         method: 'get',
         url: '/position/get_position_list',

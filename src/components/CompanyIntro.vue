@@ -17,24 +17,16 @@
 
     <h2>在招岗位</h2>
     <div class="jobs-list">
-      <h2>招聘岗位</h2>
       <div>
         <JobUnit v-for="(jobs,index) in JobsList" :key="index" :job-data="jobs"></JobUnit>
       </div>
-      <el-pagination
-          :page-size="pageSize"
-          :pager-count="7"
-          layout="prev, pager, next"
-          :total="JobsList.length"
-          style="position: absolute; top: 93%">
-      </el-pagination>
       </div>
     </div>
 </template>
 
 <script>
 import JobUnit from "@/components/JobUnit.vue";
-import { getCompany } from "@/api/api";
+import {getCompany, getPositionList} from "@/api/api";
 
 export default {
   name: 'companyIntro',
@@ -45,7 +37,6 @@ export default {
         description: '',
       },
       JobsList: [
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
       ]
     };
   },
@@ -55,7 +46,13 @@ export default {
         this.company.description = res.data.data.company_description
       }
     })
+    getPositionList(this.company_id).then(res => {
+      this.JobsList = res.data
+    })
   },
+  components: {
+    JobUnit
+  }
 };
 </script>
 
@@ -74,8 +71,7 @@ export default {
   padding: 2px 15px 65px 15px;
   border-radius: 12px;
   margin-top: 18px;
-  width: 27%;
-  margin-left: 4%;
+  width: 35%;
   min-height: 400px;
   height: auto;
 }
