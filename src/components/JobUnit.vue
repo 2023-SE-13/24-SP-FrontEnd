@@ -2,9 +2,10 @@
   <div class="jobs-unit" @click="showJobView">
     <div class="upper-box">
       <h3>{{ jobData.jobName }}</h3>
+      <span style="color: red; font-weight: bold;">薪酬: {{ jobData.jobSalary }}</span>
     </div>
     <div class="lower-box">
-      <span>{{ jobData.jobInfo }}</span>
+      <span>岗位要求: {{ jobData.jobInfo }}</span>
     </div>
   </div>
 </template>
@@ -43,7 +44,7 @@ h3 {
 
 .jobs-unit {
   width: 90%;
-  height: 40%;
+  height: 100%;
   background-color: rgb(246, 246, 247);
   border-radius: 10px;
   transition: 0.5s;
@@ -61,15 +62,20 @@ h3 {
 
 .upper-box {
   height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .upper-box span{
   display: inline-block;
   float: left;
+  margin-right: 10%;
+  margin-top: 3.7%;
 }
 
 .lower-box{
-  height: 45px;
+  height: auto;
   background-color: rgb(246, 246, 247);
   border-radius: 0 0 10px 10px;
   padding-right: 4%;

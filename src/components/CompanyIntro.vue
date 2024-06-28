@@ -43,15 +43,15 @@ export default {
 <style scoped>
 .message-box {
   background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
+  padding: 15px 40px 15px 45px;
   border-radius: 12px;
-  margin-top: 18px;
-  width: 90%;
+  margin-top: 33px;
+  width: 86%;
   margin-left: 4%;
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 1.7em;
   margin-bottom: 10px;
   margin-top: 1%;
 }
@@ -60,7 +60,8 @@ p, ul {
   background-color: #f6f6f7;
   border-radius: 5px;
   text-align: left;
-  padding: 10px 25px 10px 25px;
+  padding: 10px 0 10px 25px;
+  margin: 20px 0 25px 10px;
 }
 
 li {

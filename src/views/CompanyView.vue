@@ -219,7 +219,8 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: 87.2%;
+  min-height: 87.2%;
+  height: auto;
   width: 97.3%;
   position: absolute;
 }
@@ -250,9 +251,10 @@ export default {
 }
 
 .btn {
-  position: absolute;
-  right: 5.5%;
-  top: 6.5%
+  display: flex;
+  float: right;
+  margin-right: 7.5%;
+  margin-top: -5.3%;
 }
 
 .custom-btn:hover {
@@ -338,5 +340,4 @@ export default {
   font-weight: bold;
   color: #fff;
 }
-
 </style>

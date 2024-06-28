@@ -8,10 +8,18 @@
     </div>
 
     <div class="jobs-message">
-      <h2>岗位详情</h2>
-      <!-- 这里添加岗位详情的具体内容 -->
-      <el-button type="danger"  style="" class="custom-btn">收藏岗位</el-button>
-      <el-button type="danger"  style="" class="custom-btn">立即沟通</el-button>
+      <h2>岗位名称</h2>
+      <el-button type="danger" class="custom-btn" icon="el-icon-star-off">收藏</el-button>
+      <el-button type="danger" class="custom-btn">立即沟通</el-button>
+      <p style="margin-top: 2%; color: red">薪酬: {{ JobsList.jobSalary }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+
+      <el-button type="danger" style="float: left;margin-top: 2%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多信息</el-button>
     </div>
   </div>
 </template>
@@ -24,8 +32,9 @@ export default {
   data() {
     return {
       JobsList: [
-        { jobName: "技术人员", jobInfo: "岗位要求：熟悉JavaScript，具备Vue.js开发经验" },
-        { jobName: "产品经理", jobInfo: "岗位要求：有项目管理经验，良好的沟通能力" },
+        { jobName: "技术人员", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalary: "6k-13k" },
+        { jobName: "产品经理", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
+        { jobName: "产品经理", jobInfo: "有项目管理经验，良好的沟通能力", jobSalary: "6k-13k" },
       ],
     };
   }
@@ -41,7 +50,7 @@ export default {
 
 .jobs-list {
   background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
+  padding: 2px 15px 30px 15px;
   border-radius: 12px;
   margin-top: 18px;
   width: 25%;
@@ -50,7 +59,7 @@ export default {
 
 .jobs-message {
   background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
+  padding: 0 25px 15px 15px;
   border-radius: 12px;
   margin-top: 18px;
   width: 62%;
@@ -60,8 +69,8 @@ export default {
 
 .custom-btn {
   float: right;
-  margin-left: 7px;
-  margin-top: -40px;
+  margin-right: 7px;
+  margin-top: -45px;
   padding: 13px 20px;
   font-size: 17px;
   font-weight: bolder;
@@ -81,19 +90,17 @@ export default {
 
 h2 {
   font-size: 1.5em;
-  margin-bottom: 10px;
-  margin-top: 2.5%;
-  margin-left: 1%;
+  margin-top: 5.5%;
+  margin-left: 3.5%;
 }
 
-p, ul {
+p {
   background-color: #f9f9f9;
   border-radius: 5px;
   text-align: left;
-  padding: 10px 25px 10px 25px;
-}
-
-li {
-  margin-bottom: 5px;
+  padding: 12px 25px 10px 25px;
+  margin-left: 2.5%;
+  margin-right: 1%;
+  font-weight: bold;
 }
 </style>
