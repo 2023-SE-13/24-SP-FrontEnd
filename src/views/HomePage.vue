@@ -1,7 +1,7 @@
 <template>
     <div class="home-page">
         <div class="info-bar">
-
+            <span>找工作 上Leader直聘！</span>
         </div>
         <div class="img-container">
             <div class="search-bar">
@@ -15,11 +15,22 @@
                 </el-input>
             </div>
         </div>
+        <div class="post-container">
+            <span>热门</span>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+            <PostUnit></PostUnit>
+        </div>
     </div>
 </template>
 <script>
-import { SearchUser, SearchCompany } from '@/api/api'
-
+import PostUnit from '@/components/PostUnit.vue'
 export default {
     data() {
         return {
@@ -27,6 +38,9 @@ export default {
             input: '',
             NotAllowSearch: true
         }
+    },
+    components: {
+        PostUnit
     },
     methods: {
         allow() {
@@ -40,7 +54,7 @@ export default {
         },
         Search() {
             // alert("搜索一次")
-            let searchField={"type":'' ,"keywords":''}
+            let searchField = { "type": '', "keywords": '' }
             console.log("搜索一次")
             switch (this.select) {
                 case '1':
@@ -48,11 +62,11 @@ export default {
                     //     console.log(res)
                     // })
                     searchField.type = 'user'
-                    searchField.keywords =this.input
-                    localStorage.setItem("searchField",JSON.stringify(searchField))
+                    searchField.keywords = this.input
+                    localStorage.setItem("searchField", JSON.stringify(searchField))
                     this.$store.dispatch('updateButtonClicked', true)
                     this.$router.push('/user-list')
-                
+
                     break
                 case '2':
                     // const data = {
@@ -62,8 +76,8 @@ export default {
                     //     console.log(res)
                     // })
                     searchField.type = 'company'
-                    searchField.keywords =this.input
-                    localStorage.setItem("searchField",JSON.stringify(searchField))
+                    searchField.keywords = this.input
+                    localStorage.setItem("searchField", JSON.stringify(searchField))
                     this.$store.dispatch('updateButtonClicked', true)
                     this.$router.push('/company-list')
                     break
@@ -73,16 +87,40 @@ export default {
 }
 </script>
 <style scoped>
+.post-container {
+    width: 85%;
+    margin: 0 auto;
+    /* background-color: chocolate; */
+    overflow: hidden;
+}
+.post-container span{
+    display: block;
+    font-size: 35px;
+    font-weight: 1000;
+    color: black;
+}
+
 .info-bar {
     width: 100%;
     height: 120px;
     background: #00bebd;
 }
 
+.info-bar span {
+    display: block;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+    /* margin-top: 10px; */
+    position: absolute;
+    top: 12%;
+    left: 20%;
+}
+
 .img-container {
     display: block;
     width: 100%;
-    height: 435px;
+    height: 120px;
     /* background-image: url("../assets/bg.webp"); */
     /* float: left; */
     position: relative;
@@ -93,7 +131,7 @@ export default {
     float: left;
     position: absolute;
     left: 50%;
-    top: 5%;
+    top: 15%;
     border: solid 3px #00bebd;
     border-radius: 10px;
 }

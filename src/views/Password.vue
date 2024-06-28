@@ -1,40 +1,40 @@
 <template>
   <div class="box">
     <div class="main">
-      <div class="register">
+      <div class="password">
         <div id="logo" @click="tohome()" style="cursor: pointer">
           <img src="../assets/logo.png" style="width:50px;height:50px;margin-top: 50px">
-          <span style="font-size:20px;font-weight:1000;color: #00BAB7;">两个月直聘</span>
+          <span style="font-size:20px;font-weight:1000;color: #00BAB7;">Leader直聘</span>
         </div>
-        <div id="register">
+        <div id="password">
           <span class="title">
             找回密码
           </span>
-          <el-form :model="registerForm" ref="registerForm" class="form">
+          <el-form :model="passwordForm" ref="passwordForm" class="form">
             <el-form-item prop="username">
-              <el-input style="width: 330px;" type="text" v-model="registerForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名" >
+              <el-input style="width: 330px;" type="text" v-model="passwordForm.username" prefix-icon="el-icon-user" placeholder="请输入用户名" >
               </el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input style="width: 330px;" type="password" v-model="registerForm.password" show-password prefix-icon="el-icon-lock" placeholder="请输入要更改的密码"></el-input>
+              <el-input style="width: 330px;" type="password" v-model="passwordForm.password" show-password prefix-icon="el-icon-lock" placeholder="请输入要更改的密码"></el-input>
             </el-form-item>
             <el-form-item prop="password2">
-              <el-input style="width: 330px;" type="password" v-model="registerForm.password2" show-password prefix-icon="el-icon-lock" placeholder="请再次输入密码"></el-input>
+              <el-input style="width: 330px;" type="password" v-model="passwordForm.password2" show-password prefix-icon="el-icon-lock" placeholder="请再次输入密码"></el-input>
             </el-form-item>
             <el-form-item prop="email">
-              <el-input style="width: 330px;" type="text" v-model="registerForm.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" >
+              <el-input style="width: 330px;" type="text" v-model="passwordForm.email" prefix-icon="el-icon-message" placeholder="请输入邮箱" >
                 <el-link slot="suffix" @click="sendEmail" :underline="false">发送验证码</el-link>
               </el-input>
             </el-form-item>
             <el-form-item prop="code">
-              <el-input style="width: 330px;" type="text" v-model="registerForm.code" prefix-icon="el-icon-edit" placeholder="请输入验证码" >
+              <el-input style="width: 330px;" type="text" v-model="passwordForm.code" prefix-icon="el-icon-edit" placeholder="请输入验证码" >
               </el-input>
             </el-form-item>
             <div class="navigation">
               <el-link href="/login" :underline="false">返回登录</el-link>
             </div>
             <el-form-item>
-              <el-button id="registerButton" type="primary" @click="forget()" class="button">{{this.buttonwords}}</el-button>
+              <el-button id="passwordButton" type="primary" @click="forget()" class="button">修改密码</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -51,8 +51,7 @@ import {GetUserInfo} from "@/api/api";
 export default {
   data() {
     return {
-      buttonwords: '修改密码',
-      registerForm: {
+      passwordForm: {
         username: '',
         password: '',
         password2: '',
@@ -67,15 +66,15 @@ export default {
     tohome() {
       this.$router.push("/")
     },
-    sendEmail() {
+    async sendEmail() {
       //邮箱不可为空
-      if (typeof this.registerForm.email == "undefined" || this.registerForm.email == null || this.registerForm.email === "") {
+      if (typeof this.passwordForm.email == "undefined" || this.passwordForm.email == null || this.passwordForm.email === "") {
         this.$notify({
           title: '警告',
           message: '邮箱不能为空',
           type: 'warning'
         });
-      } else if(!this.registerForm.email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)) {
+      } else if (!this.passwordForm.email.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)) {
         //邮箱格式是否合法
         this.$notify({
           title: '警告',
@@ -85,10 +84,9 @@ export default {
       } else {
         //TODO: 获取用户信息
         const param = {
-          username: this.registerForm.username
+          username: this.passwordForm.username
         }
-        console.log(param.username)
-        GetUserInfo(param.username).then(res => {
+        await GetUserInfo(param.username).then(res => {
               if (res.data.status === "success") {
                 this.email = res.data.data.email
               }
@@ -100,9 +98,13 @@ export default {
                 type: 'warning'
               });
             })
-        if(this.email === null || this.email === "" || this.email === undefined){
-          return
-        }else if(this.email !== this.registerForm.email){
+        if (this.email === null || this.email === "" || this.email === undefined) {
+          this.$notify({
+            title: '警告',
+            message: '用户不存在',
+            type: 'warning'
+          });
+        } else if (this.email !== this.passwordForm.email) {
           this.$notify({
             title: '警告',
             message: '邮箱与用户名不匹配',
@@ -112,64 +114,60 @@ export default {
         }
         //TODO: 发送验证码请求
         const params = {
-          email: this.registerForm.email
+          email: this.passwordForm.email
         }
         SendCode(params).then(res => {
-          if (res.data.status === "success") {
-            this.$notify({
-              title: '成功',
-              message: '发送成功',
-              type: 'success'
-            });
-          }
-        },
-        error=> {
-          const message = "发送失败"
-          this.$notify({
-            title: '警告',
-            message: message,
-            type: 'warning'
-          });
-        })
+              if (res.data.status === "success") {
+                this.$notify({
+                  title: '成功',
+                  message: '发送成功',
+                  type: 'success'
+                });
+              }
+            },
+            error => {
+              const message = "发送失败"
+              this.$notify({
+                title: '警告',
+                message: message,
+                type: 'warning'
+              });
+            })
       }
     },
     forget() {
       //用户名、密码、确认密码不可为空
-        if (typeof this.registerForm.username == "undefined" || this.registerForm.username == null || this.registerForm.username === "") {
+        if (typeof this.passwordForm.username == "undefined" || this.passwordForm.username == null || this.passwordForm.username === "") {
           this.$notify({
             title: '警告',
             message: '用户名不能为空',
             type: 'warning'
           });
-          return;
-        }else if (typeof this.registerForm.password == "undefined" || this.registerForm.password == null || this.registerForm.password === "") {
+        }else if (typeof this.passwordForm.password == "undefined" || this.passwordForm.password == null || this.passwordForm.password === "") {
           this.$notify({
             title: '警告',
             message: '密码不能为空',
             type: 'warning'
           });
-          return;
-        }else if (typeof this.registerForm.password2 == "undefined" || this.registerForm.password2 == null || this.registerForm.password2 === "") {
+        }else if (typeof this.passwordForm.password2 == "undefined" || this.passwordForm.password2 == null || this.passwordForm.password2 === "") {
           this.$notify({
             title: '警告',
             message: '确认密码不能为空',
             type: 'warning'
           });
-          return;
-        }else if(this.registerForm.password !== this.registerForm.password2){
+        }else if(this.passwordForm.password !== this.passwordForm.password2){
           this.$notify({
             title: '警告',
             message: '两次密码输入不一致',
             type: 'warning'
           });
-          return;
-        } else if (typeof this.registerForm.email == "undefined" || this.registerForm.email == null || this.registerForm.email === "") {
+        } else if (typeof this.passwordForm.email == "undefined" || this.passwordForm.email == null || this.passwordForm.email === "") {
           this.$notify({
             title: '警告',
             message: '邮箱不能为空',
             type: 'warning'
           });
-        } else if (typeof this.registerForm.code == "undefined" || this.registerForm.code == null || this.registerForm.code === "") {
+        } else if (typeof this.passwordForm.code == "undefined" || this.passwordForm.code == null || this.passwordForm.code === "") {
           this.$notify({
             title: '警告',
             message: '验证码不能为空',
@@ -177,9 +175,9 @@ export default {
           });
         } else {
           const form_data = {
-            username: this.registerForm.username,
-            password: this.registerForm.password,
-            code: this.registerForm.code
+            username: this.passwordForm.username,
+            password: this.passwordForm.password,
+            code: this.passwordForm.code
           }
           ForgetPassword(form_data).then(res => {
             if (res.data.status === "success") {
@@ -188,7 +186,7 @@ export default {
                 message: '修改密码成功',
                 type: 'success'
               });
-              this.$router.push("/")
+              this.$router.push("/login")
             } else {
               this.$notify({
                 title: '警告',
@@ -240,7 +238,7 @@ export default {
   align-items: center;
 }
 
-.register {
+.password {
   width: 640px;
   height: 450px;
   background-color: white;
@@ -304,7 +302,7 @@ a {
   align-items: center;
 }
 
-#register {
+#password {
   width: 70%;
   height: 100%;
   display: flex;

@@ -64,7 +64,7 @@
               </el-dialog>
             </div>
           </div>
-          <div id="resume" class="content">
+          <div v-if="isSelf" id="resume" class="content">
             <div id="uploadResTitle">
               <span>上传简历</span>
               <span id="uploadIcon"><i class="el-icon-plus"></i></span>
@@ -101,11 +101,62 @@ export default {
   components: {
     NaviBar
   },
+  watch: {
+    $route:{
+      handler: function () {
+        this.user.name = this.$route.params.name;
+        this.defaultUser.name = this.user.name;
+        this.isSelf = true;
+        this.isFavor = false;
+        if (this.user.name !== localStorage.getItem("username")) {
+          this.isSelf = false;
+          const data = {
+            username: this.user.name
+          }
+          DoSubscribeUser(data, this.token).then(res => {
+            if (res.data.status === "success") {
+              this.isFavor = true;
+            }
+          });
+        }
+        GetUserInfo(this.user.name).then(res => {
+          if (res.data.status == "success") {
+            this.user.real_name = res.data.data.real_name;
+            this.user.name = res.data.data.username;
+            this.user.education = res.data.data.education;
+            this.user.school = res.data.data.school;
+            this.user.desired_position = res.data.data.desired_position;
+            this.user.blog_link = res.data.data.blog_link;
+            this.user.position = res.data.data.position;
+            this.user.workYear = res.data.data.work_year;
+            const json = JSON.stringify(this.user);
+            console.log(json);
+            this.defaultUser = JSON.parse(json);
+          }
+        },
+            error => {
+              if (error.response.status === 400) {
+                this.$notify({
+                  title: "错误",
+                  message: "未知错误",
+                  type: "error"
+                });
+              }
+              if (error.response.status === 404) {
+                this.$notify({
+                  title: "错误",
+                  message: "用户不存在",
+                  type: "error"
+                });
+              }
+            }
+        );
+      },
+      deep: true
+    }
+  },
   created() {
     this.token = localStorage.getItem("token");
-    if (this.token == null) {
-      this.$router.push("/login");
-    }
     this.user.name = this.$route.params.name;
     this.defaultUser.name = this.user.name;
     this.isSelf = true;
@@ -115,11 +166,13 @@ export default {
       const data = {
         username: this.user.name
       }
-      DoSubscribeUser(data, this.token).then(res => {
-        if (res.data.status === "success") {
-          this.isFavor = true;
-        }
-      });
+      if(this.token !== null){
+        DoSubscribeUser(data, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.isFavor = true;
+          }
+        });
+      }
     }
     GetUserInfo(this.user.name).then(res => {
       if (res.data.status == "success") {
@@ -198,6 +251,14 @@ export default {
       return true;
     },
     changeFavor() {
+      if(this.token === null){
+        this.$notify({
+          title: "错误",
+          message: "请先登录",
+          type: "error"
+        });
+        return;
+      }
       if (this.isFavor) {
         const data = {
           username: this.user.name

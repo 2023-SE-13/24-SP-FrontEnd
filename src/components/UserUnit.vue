@@ -5,7 +5,7 @@
                 <el-avatar class="avatar" :size="55" src="../assets/photo.png"></el-avatar>
                 <div class="left-inner">
                     <h3>{{userData.username}}</h3>
-                    <span>暂无企业</span>
+                    <span class="belong">所属企业 <span class="divider"></span>{{ userData.company_name }}</span>
                     <!-- <i class="el-icon-document">11</i>
                     <i class="el-icon-collection">11</i> -->
                 </div>
@@ -31,6 +31,9 @@ export default {
         showDialog() {
             this.$router.push('/user/' + this.userData.username);
         }
+    },
+    created(){
+        console.log(this.userData)
     }
 }
 
@@ -76,9 +79,9 @@ export default {
     height: 100%;
 }
 
-.left-inner span {
+.left-inner .belong {
     display: inline-block;
-    max-width: 100px;
+    max-width: 300px;
     min-width: 100px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -86,7 +89,7 @@ export default {
     /* vertical-align: bottom;
      */
     color: #6e7781;
-    font-size: x-small;
+    font-size: 14px;
     margin-top: 20px;
     vertical-align: bottom;
     text-align: left;
@@ -138,5 +141,13 @@ export default {
 
 .avatar {
     float: left;
+}
+.divider{
+    display: inline-block;
+    height: 20px; /* 可根据需要调整 */
+    width: 1px;
+    background-color: #aa9d9d;
+    margin: 0 10px; /* 可根据需要调整 */
+    vertical-align: middle;
 }
 </style>

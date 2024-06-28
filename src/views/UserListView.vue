@@ -9,8 +9,8 @@
             </div>
         </div>
         <div class="lower-bar">
-            <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
-
+            <UserUnit v-show="defaultShow" v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
+            <UserUnit v-show="!defaultShow" v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit>
         </div>
     </div>
 </template>
@@ -22,7 +22,8 @@ export default {
         return {
             input: '',
             NotAllowSearch: true,
-            userList: []
+            userList: [],
+            defaultShow: true
         }
     },
     methods: {
@@ -35,24 +36,42 @@ export default {
                 this.NotAllowSearch = true
             }
         },
-        Search() {
-            let data = {"type":'user' ,"keywords":''}
+        async Search() {
+            let data = { "type": 'user', "keywords": '' }
             data.keywords = this.input
-            SearchUser(data.keywords).then(res => {
+            await SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
             })
+            if (this.userList.length === 0) {
+                this.$notify({
+                    title: '提示',
+                    message: '未找到相关用户',
+                    type: 'warning'
+                });
+            }
         }
     },
-    mounted() {
+    async mounted() {
+        SearchUser("w").then(res => {
+            console.log(res)
+            this.userList = res.data
+        })
         if (this.$store.getters.searchButtonClicked) {
             // 调用接口
             let data = JSON.parse(localStorage.getItem("searchField"))
             console.log(data.keywords)
-            SearchUser(data.keywords).then(res => {
+            await SearchUser(data.keywords).then(res => {
                 console.log(res)
                 this.userList = res.data
             })
+            if (this.userList.length === 0) {
+                this.$notify({
+                    title: '提示',
+                    message: '未找到相关用户',
+                    type: 'warning'
+                });
+            }
             // 重置状态
             this.$store.dispatch('updateButtonClicked', false);
         }
@@ -79,7 +98,7 @@ export default {
     float: none;
     position: absolute;
     left: 50%;
-    top: 20%;
+    top: 25%;
     border: solid 3px #00bebd;
     border-radius: 10px;
     transform: translateX(-60%);
