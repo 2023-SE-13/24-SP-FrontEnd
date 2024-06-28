@@ -68,8 +68,7 @@ export default {
         companySubscription: 0
       },
       role: '',
-      //company_logo:require('../assets/photo.png'),
-      company_logo: `url(http://se.leonardsaikou.top/avatars/${localStorage.getItem("username")}_avatar.png)`,
+      company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
       company_id: localStorage.getItem('company_id'),
       username: localStorage.getItem('username')
     };
