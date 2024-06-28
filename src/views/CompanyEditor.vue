@@ -34,10 +34,10 @@
             <label for="employeeName">员工姓名</label>
             <input type="text" id="employeeName" v-model="newEmployee.name" />
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="employeeRole">员工角色</label>
             <input type="text" id="employeeRole" v-model="newEmployee.role" />
-          </div>
+          </div> -->
           <button @click="addEmployee">添加</button>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default {
       },
       newEmployee: {
         name: "",
-        role: ""
+        // role: ""
       },
       token: localStorage.getItem('token'), 
     };
@@ -90,7 +90,7 @@ export default {
       this.$router.push("/company");
     },
     async addEmployee() {
-      if (this.newEmployee.name && this.newEmployee.role) {
+      if (this.newEmployee.name) {
         try {
           this.token = localStorage.getItem("token");
           const response = await addEmployee(this.token, this.newEmployee.name, localStorage.getItem('company_id'));

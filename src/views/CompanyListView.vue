@@ -10,7 +10,7 @@
       <div class="my-company">
         <!-- 我的企业 -->
         <el-button v-show="isInComp && isLogin" @click="gotoCompanyEditor">我的企业 <i class="el-icon-office-building"></i></el-button>
-        <el-button v-show="!isInComp && isLogin" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
+        <el-button v-show="!isInComp && isLogin && !haveCompany" @click="goToCompanyRegister">创建企业 <i class="el-icon-plus"></i></el-button>
       </div>
     </div>
     <div class="lower-bar">
@@ -32,7 +32,8 @@ export default {
       isInComp: false,
       CompanyList: [],
       companyId: '',
-      isLogin: false
+      isLogin: false,
+      haveCompany: false,
     }
   },
   methods: {
@@ -70,6 +71,9 @@ export default {
       if (res.data.data.company_id && res.data.data.role === "Creator") {
         this.companyId = res.data.data.company_id
         this.isInComp = true
+      }
+      if(res.data.data.is_staff) {
+        this.haveCompany = true
       }
     })
   },
