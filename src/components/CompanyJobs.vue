@@ -3,7 +3,7 @@
     <div class="jobs-list">
       <h2>招聘岗位</h2>
       <div>
-        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs"></JobUnit>
+        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs" @click="showJobView"></JobUnit>
       </div>
       <el-pagination
           :page-size="pageSize"
@@ -23,8 +23,8 @@
         <span class="tag"><i class="el-icon-location"></i>北京</span>
       </div>
 
-      <p style="margin-top: 2%; color: red">薪酬: {{ JobsList.jobSalary }}</p>
-      <p>岗位描述: {{ JobsList.jobInfo }}</p>
+      <p style="margin-top: 2%; color: red">薪酬: {{ JobData.jobSalary }}</p>
+      <p>岗位描述: {{ JobData.jobInfo }}</p>
 
       <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多</el-button>
     </div>
@@ -34,8 +34,8 @@
 <script>
 import JobUnit from "@/components/JobUnit.vue";
 import {
+  getPosition,
   getPositionList,
-  getPosition
 } from '@/api/api';
 
 export default {
@@ -45,24 +45,34 @@ export default {
     return {
       currentPage: 1,
       pageSize: 4,
-      JobsList: [
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
-        { jobName: "1", jobInfo: "熟悉JavaScript，具备Vue.js开发经验", jobSalaryMin: "6k", jobSalaryMax: "18k" },
-      ],
-
+      JobsList: [],
+      JobData: [],
+      company_id: '29323fa0842d43c8bcef7d52ae46b930',
+      position_id: 'ea3851b4-ecb2-42e8-8aa7-8ba294d90d8a'
     };
   },
   created() {
-    // getPositionList(localStorage.getItem('company_id')).then(res => {
-    //   console.log(res.data.data)
-    //   this.JobsList = res.data.data
-    // })
+    getPositionList(this.company_id).then(res => {
+      console.log(1)
+  //     console.log(this.company_id)
+  //     console.log(res.data)
+  //     console.log(localStorage)
+  //
+  //     if (res.data.status === "200") {
+  //       //this.JobsList = res.data.data
+  //       //this.position_id =
+  //       //localStorage.setItem('position_id', this.position_id)
+  //     }
+    })
   },
   methods: {
-    handlePageChange(page) {
-      this.currentPage = page;
-    }
+    // showJobView() {
+    //   getPosition(this.position_id).then(res => {
+    //     this.jobData = res.data.data
+    //     console.log(this.CompanyList)
+    //   })
+    //   console.log(1)
+    // }
   },
   computed: {
     paginatedJobs() {
@@ -70,7 +80,7 @@ export default {
       const end = start + this.pageSize;
       return this.JobsList.slice(start, end);
     }
-  },
+  }
 };
 </script>
 

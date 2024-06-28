@@ -299,3 +299,27 @@ export function getUser(username) {
         }
     });
 }
+
+// 获取公司所有岗位
+export function getPositionList(company_id) {
+    console.log(0)
+    console.log(company_id)
+    return service({
+        method: 'get',
+        url: '/position/get_position_list',
+        params: {
+            'company_id': company_id
+        }
+    });
+}
+
+// 获取岗位所有信息
+export function getPosition(position_id) {
+    return service({
+        method: 'get',
+        url: '/position/get_position',
+        params: {
+            'position_id': position_id
+        }
+    });
+}

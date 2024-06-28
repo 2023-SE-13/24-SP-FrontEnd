@@ -1,5 +1,5 @@
 <template>
-  <div class="jobs-unit" @click="showJobView">
+  <div class="jobs-unit">
     <div class="upper-box">
       <h3>{{ jobData.jobName }}</h3>
       <span style="color: red; font-weight: bold;">薪酬: {{ jobData.jobSalaryMin }}-{{ jobData.jobSalaryMax }}</span>
@@ -11,26 +11,20 @@
 </template>
 
 <script>
+
 export default {
   data() {
-    return {
-
-    }
+    return {}
   },
-  props:{
-    jobData:{
-
-    }
+  props: {
+    jobData: {}
   },
-  created(){
+  created() {
     //console.log(this.jobData)
   },
   methods: {
-    showJobView() {
-      // localStorage.setItem('company_id', this.companyData.company_id)
 
-    },
-  }
+  },
 }
 </script>
 
@@ -56,7 +50,7 @@ h3 {
   padding-top: 3%;
 }
 
-.jobs-unit:hover{
+.jobs-unit:hover {
   box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
 
@@ -67,14 +61,14 @@ h3 {
   justify-content: space-between;
 }
 
-.upper-box span{
+.upper-box span {
   display: inline-block;
   float: left;
   margin-right: 10%;
   margin-top: 3.7%;
 }
 
-.lower-box{
+.lower-box {
   height: auto;
   background-color: rgb(246, 246, 247);
   border-radius: 0 0 10px 10px;
