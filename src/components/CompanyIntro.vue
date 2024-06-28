@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="message-box">
     <h2>公司简介</h2>
     <p>{{ company.description }}</p>
 
@@ -41,6 +41,15 @@ export default {
 </script>
 
 <style scoped>
+.message-box {
+  background-color: #ffffff;
+  padding: 2px 15px 15px 15px;
+  border-radius: 12px;
+  margin-top: 18px;
+  width: 90%;
+  margin-left: 4%;
+}
+
 h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
@@ -57,4 +66,5 @@ p, ul {
 li {
   margin-bottom: 5px;
 }
+
 </style>

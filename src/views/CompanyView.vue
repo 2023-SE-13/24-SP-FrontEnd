@@ -339,12 +339,4 @@ export default {
   color: #fff;
 }
 
-.box {
-  background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
-  border-radius: 12px;
-  margin-top: 18px;
-  width: 90%;
-  margin-left: 4%;
-}
 </style>
