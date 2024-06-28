@@ -3,7 +3,7 @@
     <div class="upper-bar">
       <div class="search-bar">
         <el-input placeholder="搜索公司" @input="allow" v-model="input" class="input-with-select">
-          <el-button id="search-button" icon="el-icon-search" @click="Search" ref="button"
+          <el-button slot="append" id="search-button" icon="el-icon-search" @click="Search" ref="button"
             :disabled="NotAllowSearch">搜索 </el-button>
         </el-input>
       </div>
