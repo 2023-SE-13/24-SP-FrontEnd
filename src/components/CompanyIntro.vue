@@ -51,7 +51,7 @@ export default {
 }
 
 h2 {
-  font-size: 1.7em;
+  font-size: 1.6em;
   margin-bottom: 10px;
   margin-top: 1%;
 }

@@ -21,9 +21,9 @@
         <div class="nav-item" :class="{ 'active': currentView === 'CompanyJobs' }" @click="currentView = 'CompanyJobs'">
           招聘职位
         </div>
-        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTaste' }" @click="currentView = 'CompanyTaste'">
-          员工动态
-        </div>
+<!--        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTaste' }" @click="currentView = 'CompanyTaste'">-->
+<!--          员工动态-->
+<!--        </div>-->
       </div>
     </div>
 

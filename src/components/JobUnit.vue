@@ -2,7 +2,7 @@
   <div class="jobs-unit" @click="showJobView">
     <div class="upper-box">
       <h3>{{ jobData.jobName }}</h3>
-      <span style="color: red; font-weight: bold;">薪酬: {{ jobData.jobSalary }}</span>
+      <span style="color: red; font-weight: bold;">薪酬: {{ jobData.jobSalaryMin }}-{{ jobData.jobSalaryMax }}</span>
     </div>
     <div class="lower-box">
       <span>岗位要求: {{ jobData.jobInfo }}</span>
