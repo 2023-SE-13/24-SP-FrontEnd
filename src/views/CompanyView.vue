@@ -34,7 +34,17 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany, isStaff, joinCompany, haveJoinCompany } from '@/api/api';
+import {
+  leaveCompany,
+  followCompany,
+  unFollowCompany,
+  getCompany,
+  isFollowCompany,
+  isStaff,
+  joinCompany,
+  haveJoinCompany,
+  getCompanyEmployee
+} from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -50,12 +60,14 @@ export default {
     return {
       isFollowed: false,
       isStaff: false,
+      isManager: false,
       haveJoinCompany: false,
       currentView: 'CompanyIntro',
       company: {
         companyName: '',
         companySubscription: 0
       },
+      role: '',
       //company_logo:require('../assets/photo.png'),
       company_logo: `url(http://se.leonardsaikou.top/avatars/${localStorage.getItem("username")}_avatar.png)`,
       company_id: localStorage.getItem('company_id'),
@@ -63,7 +75,6 @@ export default {
     };
   },
   created() {
-    console.log(this.username)
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.haveJoinCompany = res.data.status === "y";
     })
@@ -74,11 +85,18 @@ export default {
       this.isFollowed = res.data.status === "success";
     })
     getCompany(this.company_id).then(res => {
-      console.log(res.data.data)
       if (res.data.status === "success") {
         this.company.companyName = res.data.data.company_name
         this.company.companySubscription = res.data.data.company_subscription
-        //this.company_logo = res.data.data.company_image
+      }
+    })
+    getCompanyEmployee(this.company_id).then(res => {
+      console.log(res.data.data)
+      if (res.data.status === "success") {
+        if (res.data.role === 'Creator') {
+          this.isManager = true
+          this.isStaff = false
+        }
       }
     })
   },
