@@ -15,13 +15,11 @@
     </div>
 
     <div class="jobs-message">
-      <el-button type="danger" class="custom-btn" icon="el-icon-star-off">收藏</el-button>
-      <el-button type="danger" class="custom-btn" icon="el-icon-s-promotion">立即沟通</el-button>
       <h2>{{JobData.position_name}}</h2>
 
       <div class="tag-box">
         <span class="tag"><i class="el-icon-location"></i>{{ JobData.location }}</span>
-        <span class="tag"><i class="el-icon-location"></i>{{ JobData.education_requirement }}</span>
+        <span class="tag"><i class="el-icon-s-custom"></i>{{ JobData.education_requirement }}</span>
 <!--        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>-->
 
       </div>
@@ -30,7 +28,7 @@
       <p>岗位描述:</p>
       <p style="font-weight: normal">{{ JobData.position_description }}</p>
 
-      <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search">查看更多</el-button>
+      <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search" @click="gotoJobView">查看更多</el-button>
     </div>
   </div>
 </template>
@@ -75,6 +73,9 @@ export default {
       getPosition(positionId).then(res => {
         this.JobData = res.data
       })
+    },
+    gotoJobView(){
+      this.$router.push("/company"); // TODO 跳转到岗位详情页面
     }
   },
   computed: {
