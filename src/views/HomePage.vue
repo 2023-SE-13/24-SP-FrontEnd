@@ -33,7 +33,7 @@
                 </PostUserUnit>
             </div>
         </div>
-        <el-dialog center title="请完善个人信息" :append-to-body="true" :visible.sync="dialogVisible" :show-close="false"
+        <el-dialog center :close-on-click-modal="false" title="请完善个人信息" :append-to-body="true" :visible.sync="dialogVisible" :show-close="false"
             width="40%">
             <el-form :model="user" :rules="rules" ref="user">
                 <el-row :gutter="20">
