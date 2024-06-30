@@ -1,24 +1,40 @@
 <template>
-    <div class="post-unit">
+    <div class="post-unit" @click="gotoCompany">
         <div class="upper-box">
-            <span class="post">前端开发工程师</span>
-            <span class="salary">8-12K</span>
+          <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
+            <span class="post">{{ postData.company_name }}</span>
         </div>
-        <div class="lower-box">
-            <span>Leader直聘</span>
-        </div>
+<!--        <div class="lower-box">-->
+<!--        </div>-->
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
+          //company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
+          company_logo: require('../assets/photo.png')
+        }
+    },
+    props: {
+      postData: {
 
+      }
+    },
+    methods: {
+        gotoCompany(){
+          localStorage.setItem('company_id', this.postData.company_id)
+          this.$router.push("/company");
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+.el-avatar{
+  float: left;
+  margin: 0 0 0 20px;
+}
+
 .post-unit {
     width: 400px;
     height: 150px;
@@ -30,7 +46,7 @@ export default {
     transition: 0.5s;
 }
 .post-unit:hover{
-    box-shadow: 10px 10px 20px 0px rgba(98, 92, 92, 0.3);
+    box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
 .upper-box {
     height: 100px;
@@ -55,10 +71,10 @@ export default {
 .post{
     display: inline-block;
     font-size: 22px;
-    font-weight: 400;
     color: black;
     margin-top: -20px;
     margin-left: 20px;
+    font-weight: bold;
 }
 .salary{
     display: inline-block;
