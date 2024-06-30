@@ -102,6 +102,7 @@
               </el-menu>
             </div>
             <div v-show="preActive==='1'" id="share">
+              <TweetList v-for="(id,index) in tweetList" :key="index" :id="id"></TweetList>
               <div id="shareEditBtn">
                 <i class="el-icon-edit"></i>
               </div>
@@ -119,9 +120,12 @@
 
 <script>
 import {GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser} from "@/api/api";
+import TweetList from "@/components/TweetList.vue";
+import {getTweetList} from "@/api/api";
 export default {
   name: "User",
   components: {
+    TweetList
   },
   watch: {
     $route:{
@@ -177,7 +181,7 @@ export default {
       deep: true
     }
   },
-  created() {
+  async created() {
     this.token = localStorage.getItem("token");
     this.user.name = this.$route.params.name;
     this.defaultUser.name = this.user.name;
@@ -196,7 +200,7 @@ export default {
         });
       }
     }
-    GetUserInfo(this.user.name).then(res => {
+    await GetUserInfo(this.user.name).then(res => {
       if (res.data.status == "success") {
         this.user.real_name = res.data.data.real_name;
         this.user.name = res.data.data.username;
@@ -228,6 +232,18 @@ export default {
           }
         }
     );
+    let params = {
+      username: this.user.name
+    }
+    getTweetList(params).then(res => {
+      if(res.data.status === "success"){
+        this.tweetList = res.data.data
+      }
+    },
+    error => {
+      console.log(error)
+    }
+    )
     this.preActive = 1;
   },
   data() {
@@ -236,6 +252,7 @@ export default {
       photo_url: require("../assets/photo.png"),
       isSelf: false,
       isFavor: false,
+      tweetList: [],
       user: {
         real_name: "张三",
         education: "本科",

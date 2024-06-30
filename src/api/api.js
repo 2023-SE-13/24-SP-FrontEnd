@@ -421,12 +421,15 @@ export function likeTweet(data, token) {
 }
 
 // 获取动态详细信息
-export function getTweetDetail(params) {
+export function getTweetDetail(params, token) {
     return service({
         method: 'get',
         url: '/tweet/get_tweet',
         params: {
             'tweet_id': params.tweet_id
+        },
+        headers: {
+            'Authorization': `Token ${token}`
         }
     })
 }
@@ -484,6 +487,20 @@ export function deleteTweet(data, token) {
         method: 'post',
         url: '/tweet/delete_tweet',
         data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+//获取个人动态列表
+export function getTweetList(params,token) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_user_tweet',
+        params: {
+            'username': params.username
+        },
         headers: {
             'Authorization': `Token ${token}`
         }
