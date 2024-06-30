@@ -10,6 +10,7 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
+import CompanyEditorTemp from '@/views/CompanyEditorTemp.vue';
 import Tweet from '@/views/Tweet.vue'
 
 
@@ -43,6 +44,11 @@ const routes = [
         name: 'CompanyEditer',
         component: EnterpriseEditor
       },
+      {
+        path: '/company-temp',
+        component: CompanyEditorTemp
+      }
+      ,
       {
         path: '/company-search',
         name: 'CompanySearch',
