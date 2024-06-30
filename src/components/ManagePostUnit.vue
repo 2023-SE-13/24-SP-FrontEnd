@@ -10,20 +10,13 @@
 
         <div class="middle">
             <div class="middle-text">  
-                <span class="req-text">{{postData.location}}</span>
-                <span class="divider"></span>
-                <span class="req-text">{{postData.education_requirement}}</span>
-                <span class="divider"></span>
-                <span class="req-text">{{postData.salary_min}}-{{salary_max}}</span>
+                <span class="req-text">职位所在地：{{postData.location}}</span>
+                <span class="req-text">学历要求：{{postData.education_requirement}}</span>
+                <span class="req-text">薪资：{{postData.salary_min}}-{{postData.salary_max}}</span>
+                <span class="req-text" style="text-align: left">职位描述：{{postData.position_description}}</span>
+                <span class="req-text">申请数:{{ postData.application_count }}</span>
+                <span class="req-text">发布于{{ postData.posted_at}}</span>
             </div>
-        </div>
-        <div class="tags">
-            dasdasd
-        </div>
-        <div class="lower">
-            <span>{{postData.position_description}}</span>
-            <span>申请数:{{ postData.application_count }}</span>
-            <span>发布于 {{ postData.posted_at }}</span>
         </div>
     </div>
 </template>
@@ -58,12 +51,26 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.man-unit {
+  width: 90%;
+  min-height: 200px;
+  background-color:white;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif!important;
+}
+
 .middle-text{
     margin-left: 10px;
-}
-.tags {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .divider {
@@ -77,24 +84,11 @@ export default {
     vertical-align: middle;
 }
 
-.man-unit {
-
-    width: 90%;
-    height: 150px;
-    background-color:white;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    margin-left: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-}
-
 .upper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     height: 50px;
     background-color: #f8f8f8;
     // padding: 0 0;
@@ -102,7 +96,7 @@ export default {
 }
 
 .upper span {
-    margin-left: 10%;
+    margin-left: 10px;
 }
 
 .buttons {
@@ -115,39 +109,29 @@ export default {
     background-color:#f8f8f8;
 }
 
-.middle,
-.lower {
-    display: flex;
-    // justify-content: space-around;\
-    
-}
-.tags{
-    height: 20px;
-}
 .lower{
-    height: 60px;
+  margin-left: 10px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  background: #f8f8f8;
 }
 .middle {
-    height: 20px;
+    min-height: 20px;
     justify-content: flex-start;
     gap:10px;
     font-size: 14px;
     background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .req-text{
     color: #666666;
     font-weight: 500;
-}
-
-.middle .req-text:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 12px;
-    width: 1px;
-    background-color: #aa9d9d;
+    text-align: left;
+    margin-bottom: 10px;
 }
 </style>
