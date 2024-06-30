@@ -300,9 +300,6 @@ export function getUser(username) {
     });
 }
 
-
-// -------------- Message -----------------
-
 // 获取联系人列表
 export function getConversation(token) {
     return service({
