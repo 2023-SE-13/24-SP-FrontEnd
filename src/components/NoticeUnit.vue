@@ -11,8 +11,10 @@
     <p style="top:74%;left: 32%">{{ letterData.company_name }}</p>
     <p style="top:78.5%;left: 32%">{{ letterData.date }}</p>
 
-    <button>接受</button>
-    
+    <div class="custom-btn">
+      <button style="top: 80%; right: 15%" @click="accept">接受</button>
+      <button style="top: 80%; right: 7%" @click="refuse">拒绝</button>
+    </div>
   </div>
 </template>
 
@@ -34,11 +36,28 @@ export default {
     }
   },
   methods:{
+    accept(){
 
+    },
+    refuse(){
+
+    }
   }
 }
 </script>
+
 <style lang="scss" scoped>
+.custom-btn button{
+  background-color: #0ccaca;
+  color: white;
+  padding: 10px 15px 10px 15px;
+  border: none;
+  font-weight: bold;
+  position: absolute;
+  font-size: 1.1em;
+  border-radius: 5px;
+}
+
 .notice {
   text-align: left;
   padding-left: 10%;
