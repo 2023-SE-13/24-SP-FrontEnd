@@ -107,11 +107,13 @@
               <span id="uploadIcon">
                 <el-upload
                     action="#"
+                    auto-upload
+                    :on-success="handleSuccess"
                     :on-preview="handlePreview"
                     :on-remove="handleRemove"
-                    :on-success="handleSuccess"
                     :on-error="handleError"
                     :show-file-list="false"
+                    :http-request="uploadResume"
                 >
                   <i class="el-icon-plus"></i>
                 </el-upload>
@@ -127,7 +129,17 @@
                 </div>
                 <div id="resumeInfo">
                   <p>{{ user.real_name }}_resume.pdf</p>
-                  <p>上传时间: 2021-10-10</p>
+                  <p style="font-size: 12px;color: #bbb">上传时间: 2021-10-10</p>
+                </div>
+                <div id="resumeMenu">
+                  <el-dropdown trigger="hover" placement="bottom">
+                    <i class="el-icon-more"></i>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>预览</el-dropdown-item>
+                      <el-dropdown-item>下载</el-dropdown-item>
+                      <el-dropdown-item divided>删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </div>
               </div>
             </div>
@@ -141,7 +153,7 @@
               </el-menu>
             </div>
             <div v-show="preActive==='1'" id="share">
-              <div id="shareEditBtn">
+              <div id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
               <span id="uploadIcon"><i class="el-icon-plus"></i></span>
@@ -164,7 +176,7 @@
 </template>
 
 <script>
-import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser } from "@/api/api";
+import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser , uploadResume} from "@/api/api";
 export default {
   name: "User",
   components: {
@@ -287,7 +299,7 @@ export default {
         }
       }
     );
-    this.preActive = 1;
+    this.preActive = '1';
   },
   data() {
     return {
@@ -441,6 +453,9 @@ export default {
     formattedDesiredPosition() {
       return this.flatDesiredPosition.map(position => position.join('-')).join(' | ');
     }
+      hasResume: true,
+      preActive: '1'
+    };
   },
   methods: {
     errorHandler() {
@@ -592,245 +607,297 @@ export default {
     handleRemove() {
       return true;
     },
-    uploadLocation() {
-      return true;
+    async uploadResume(file) {
+      console.log(file.file);
+      const formData = new FormData();
+      formData.append("resume", file.file);
+      await uploadResume(formData, this.token).then(res => {
+        if (res.data.status === 200) {
+
+          this.hasResume = true;
+        }
+      });
     },
     preSelect(index) {
       this.preActive = index;
+    },
+    goToWrite() {
+      this.$router.push("/User/" + this.user.name + "/ShareWrite");
     }
   }
 }
 </script>
 
 <style scoped>
-#nav {
-  height: 6vh;
-}
-
-#body {
-  height: 91.8vh;
-  padding: 0 80px;
-}
-
-#center {
-  width: 100%;
-  float: left;
-}
-
-#main {
-  width: 97%;
-  height: 95%;
-  position: relative;
-  top: 2.5%;
-  left: 1.5%;
-}
-
-#infor {
-  width: 70%;
-  height: 20%;
-  margin-right: 2%;
-  margin-bottom: 1%;
-  float: left;
-}
-
-#avatar {
-  width: 13%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  float: left;
-}
-
-#img {
-  position: relative;
-  bottom: 6%;
-}
-
-#personInfor {
-  width: 70%;
-  height: 100%;
-  float: left;
-  color: #333;
-}
-
-#userName,
-#userDesired {
-  width: 50%;
-  height: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 20px;
-  float: left;
-  position: relative;
-  top: 12%;
-}
-
-#userName .favor {
-  border-radius: 5px;
-  background-color: rgba(0, 190, 189, 0.5);
-  font-size: 12px;
-  color: white;
-  font-weight: bolder;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-#userName .favor:hover {
-  background-color: #00BEBD;
-}
-
-#userName #isFavor {
-  background-color: rgba(114, 118, 123, 0.7);
-  color: rgba(0, 0, 0, 0.8);
-}
-
-#userName #isFavor:hover {
-  color: rgba(0, 0, 0, 0.5);
-}
-
-#userEdu,
-#work {
-  position: relative;
-  top: 12%;
-  width: 50%;
-  float: left;
-  height: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 15px;
-}
-
-::v-deep #divider {
-  background-color: slategrey;
-  position: relative;
-  left: 5%;
-}
-
-#userDesired {
-  font-size: 15px;
-}
-
-#userEdu {
-  color: #666;
-}
-
-#link {
-  color: #00BAB7;
-  text-decoration: none;
-}
-
-#link:visited {
-  color: #F56C6C;
-}
-
-#link:hover {
-  color: #67c23a;
-}
-
-#edit {
-  width: 17%;
-  height: 100%;
-  float: left;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-#editBtn {
-  width: 65%;
-  background-color: #f8f8f8;
-  color: #414a60;
-  border-radius: 20px 0 0 20px;
-  border: 1px solid #d4d5d6;
-  border-right: transparent;
-  font-size: 12px;
-  position: relative;
-  left: 17.6%;
-  bottom: 17%;
-}
-
-#editBtn:hover {
-  color: #00BEBD;
-  border: 1px solid #DEFAFF;
-  border-right: transparent;
-  background-color: rgba(0, 190, 189, 0.2);
-}
-
-#resume {
-  width: 28%;
-  height: 50%;
-  float: right;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-#uploadResTitle {
-  width: 90%;
-  height: 15%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-#uploadIcon {
-  position: relative;
-  left: 73%;
-}
-
-#uploadIcon:hover {
-  background-color: rgba(0, 190, 189, 0.1);
-  color: #00BEBD;
-}
-
-#uploadRes {
-  width: 90%;
-  height: 60%;
-  /*background-color: red;*/
-  border-radius: 5px;
-}
-
-#zone {
-  width: 70%;
-  height: 78%;
-  margin-right: 2%;
-  float: left;
-}
-
-#left {
-  width: 80px;
-  margin-left: -100%;
-  position: relative;
-  left: -80px;
-  float: left;
-}
-
-#right {
-  width: 80px;
-  margin-right: -100%;
-  float: left;
-}
-
-#body .background {
-  height: 91.8vh;
-  float: left;
-  background: rgba(0, 190, 189, 0.1);
-}
-
-#body #main .content {
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
+  #body {
+    height: 93vh;
+    padding: 0 80px;
+  }
+  #center {
+    width: 100%;
+    float: left;
+  }
+  #main {
+    width: 97%;
+    height: 95%;
+    position: relative;
+    top: 2.5%;
+    left: 1.5%;
+  }
+  #infor {
+    width: 70%;
+    height: 20%;
+    margin-right: 2%;
+    margin-bottom: 1%;
+    float: left;
+  }
+  #avatar {
+    width: 13%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    float: left;
+  }
+  #img {
+    position: relative;
+    bottom: 6%;
+  }
+  #personInfor {
+    width: 70%;
+    height: 100%;
+    float: left;
+    color: #333;
+  }
+  #userName, #userDesired {
+    width: 50%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 20px;
+    float: left;
+    position: relative;
+    top: 12%;
+  }
+  #userName .favor {
+    border-radius: 5px;
+    background-color: rgba(0, 190, 189, 0.5);
+    font-size: 12px;
+    color: white;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #userName .favor:hover {
+    background-color: #00BEBD;
+  }
+  #userName #isFavor {
+    background-color: rgba(114, 118, 123, 0.7);
+    color: rgba(0, 0, 0, 0.8);
+  }
+  #userName #isFavor:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  #userEdu, #work{
+    position: relative;
+    top: 12%;
+    width: 50%;
+    float: left;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 15px;
+  }
+  ::v-deep #divider {
+    background-color: slategrey;
+    position: relative;
+    left: 5%;
+  }
+  #userDesired {
+    font-size: 15px;
+  }
+  #userEdu {
+    color: #666;
+  }
+  #link {
+    color: #00BAB7;
+    text-decoration: none;
+  }
+  #link:visited {
+    color: #F56C6C;
+  }
+  #link:hover {
+    color: #67c23a;
+  }
+  #edit {
+    width: 17%;
+    height: 100%;
+    float: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #editBtn {
+    width: 65%;
+    background-color: #f8f8f8;
+    color: #414a60;
+    border-radius: 20px 0 0 20px;
+    border: 1px solid #d4d5d6;
+    border-right: transparent;
+    font-size: 12px;
+    position: relative;
+    left: 17.6%;
+    bottom: 17%;
+  }
+  #editBtn:hover {
+    color: #00BEBD;
+    border: 1px solid #DEFAFF;
+    border-right: transparent;
+    background-color: rgba(0, 190, 189, 0.2);
+  }
+  #resume {
+    width: 28%;
+    height: 30%;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #uploadResTitle {
+    width: 90%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #uploadIcon {
+    position: relative;
+    left: 73%;
+  }
+  #uploadIcon:hover {
+    background-color: rgba(0, 190, 189, 0.1);
+    color: #00BEBD;
+  }
+  #resumeImg {
+    width: 95%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #nullResume {
+    position: relative;
+    bottom: 5%;
+  }
+  #userResume {
+    width: 100%;
+    font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+    position: relative;
+    bottom: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #userResume:hover {
+    background-color: rgba(247, 247, 247, 0.9);
+  }
+  #resumeInfo {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    left: 3%;
+    line-height: 180%;
+  }
+  #resumeMenu {
+    position: relative;
+    left: 29.5%;
+  }
+  #resumeMenu i:hover {
+    color: #00BEBD;;
+  }
+  #zone {
+    width: 70%;
+    height: 78%;
+    margin-right: 2%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  #preMenu {
+    width: 100%;
+    height: 8%;
+  }
+  #pre_menu {
+    height: 100%;
+  }
+  #pre_menu .preMenuItem {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #share {
+    width: 100%;
+    height: 92%;
+    position: relative;
+  }
+  #shareEditBtn {
+    width: 7%;
+    height: 14.35%;
+    border-radius: 50%;
+    float: right;
+    position: absolute;
+    top: 76%;
+    right: 6%;
+    background-color: rgba(0, 186, 183, 0.5);
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 27px;
+  }
+  #shareEditBtn:hover {
+    background-color: #00BEBD;
+  }
+  #left {
+    width: 80px;
+    margin-left: -100%;
+    position: relative;
+    left: -80px;
+    float: left;
+  }
+  #right {
+    width: 80px;
+    margin-right: -100%;
+    float: left;
+  }
+  #body .background {
+    height: 93vh;
+    float: left;
+    background: rgba(211, 233, 232, 0.9);
+  }
+  #body #main .content {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
 </style>
