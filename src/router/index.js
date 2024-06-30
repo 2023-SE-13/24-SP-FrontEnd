@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Company from '../views/CompanyView.vue'
 import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
+import ShareWrite from "@/views/ShareWrite.vue";
 import EnterpriseEditor from '../views/CompanyEditor.vue';
 import Register from "@/views/Register.vue";
 import Password from "@/views/Password.vue";
@@ -34,11 +35,6 @@ const routes = [
         path: '/company',
         name:'Company',
         component: Company
-      },
-      {
-        path: '/user/:name',
-        name: 'User',
-        component: User
       },
       {
         path: '/company-register',
@@ -77,7 +73,17 @@ const routes = [
         path:'/postview/:id',
         name:'PostView',
         component: PostView
-      }
+      },
+      {
+        path: '/user/:name',
+        name: 'User',
+        component: User
+      },
+      {
+        path: '/user/:name/shareWrite',
+        name: 'ShareWrite',
+        component: ShareWrite
+      },
     ]
   },
   {
@@ -99,7 +105,16 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
+<<<<<<< HEAD
   }
+=======
+  },
+  {
+    path:'/postview',
+    name:'PostView',
+    component: PostView
+  },
+>>>>>>> dev2
 ]
 
 const router = new VueRouter({
