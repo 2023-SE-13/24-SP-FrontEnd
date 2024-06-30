@@ -34,6 +34,11 @@ const routes = [
         component: Company
       },
       {
+        path: '/user/:name',
+        name: 'User',
+        component: User
+      },
+      {
         path: '/company-register',
         name: 'CompanyRegister',
         component: EnterpriseRegister
@@ -67,11 +72,6 @@ const routes = [
     path: '/company',
     name:'Company',
     component: Company
-  },
-  {
-    path: '/user/:name',
-    name: 'User',
-    component: User
   },
   {
     path: '/register',
