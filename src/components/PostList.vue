@@ -4,7 +4,7 @@
             <el-button @click="dialogVisible = true" class="add-post"><i class="el-icon-plus"></i>添加职位</el-button>
             <div class="post-container scrollable">
                 <template v-if="postList.length > 0">
-                    <ManagePostUnit @get-apply="handleGetApply" @delete-clicked="handleDelClicked"
+                    <ManagePostUnit @get-apply="handleGetApply" @edit-clicked="handleEditClicked" @delete-clicked="handleDelClicked"
                         v-for="(post, index) in postList" :key="index" :post-data="post"></ManagePostUnit>
                 </template>
                 <template v-else>
@@ -69,7 +69,53 @@
                 <el-button type="primary" @click="createPost()">确定创建</el-button>
             </span>
         </el-dialog>
+        <el-dialog title="职位信息" :visible.sync="dialogVisible2" width="50%" :before-close="handleClose2">
+            <el-form ref="form" :model="postForm" label-width="80px" size="mini">
+                <el-form-item label="职位名称">
+                    <el-input v-model="postForm.position_name"></el-input>
+                </el-form-item>
+                <el-form-item label="职位所在地">
+                    <el-input v-model="postForm.location"></el-input>
+                    <!-- <el-select v-model="sizeForm.region" placeholder="请选择活动区域">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select> -->
+                </el-form-item>
+                <el-form-item label="学历要求">
+                    <el-input v-model="postForm.education_requirement"></el-input>
 
+                    <!-- <el-col :span="11">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1"
+                            style="width: 100%;"></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2">-</el-col>
+                    <el-col :span="11">
+                        <el-time-picker placeholder="选择时间" v-model="sizeForm.date2"
+                            style="width: 100%;"></el-time-picker>
+                    </el-col> -->
+                </el-form-item>
+                <el-form-item label="最低薪资">
+                    <el-input v-model="postForm.salary_min"></el-input>
+
+                </el-form-item>
+                <el-form-item label="最低薪资">
+                    <el-input v-model="postForm.salary_max"></el-input>
+
+                </el-form-item>
+                <el-form-item label="职位描述">
+                    <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="postForm.position_description">
+                    </el-input>
+                </el-form-item>
+                <!-- <el-form-item size="large">
+                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                    <el-button>取消</el-button>
+                </el-form-item> -->
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible2 = false">取 消</el-button>
+                <el-button type="primary" @click="editPost()">确定修改</el-button>
+            </span>
+        </el-dialog>
     </div>
 
 </template>
@@ -83,6 +129,7 @@ export default {
         return {
             postList: [],
             dialogVisible: false,
+            dialogVisible2: false,
             sizeForm: {
                 name: '',
                 region: '',
@@ -136,7 +183,23 @@ export default {
             })
 
         },
+        handleEditClicked(value){
+            this.postForm = value
+            console.log(this.postForm)
+            this.dialogVisible2 = true
+        },
+        
+        editPost(){
+            this.dialogVisible2 = false
+        },
         handleClose(done) {
+            this.$confirm('确认关闭？')
+                .then(_ => {
+                    done();
+                })
+                .catch(_ => { });
+        },
+        handleClose2(done) {
             this.$confirm('确认关闭？')
                 .then(_ => {
                     done();

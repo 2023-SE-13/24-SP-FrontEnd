@@ -1,9 +1,9 @@
 <template>
     <div class="apply-unit">
-        <span>用户名</span>
-        <span>真实姓名</span>
-        <span>学历</span>
-        <span>申请时间</span>
+        <span>{{ applyData.username }}</span>
+        <span>{{applyData.real_name}}</span>
+        <span>{{applyData.education}}</span>
+        <span>{{applyData.applied_at}}</span>
         <el-button>查看简历</el-button>
         <el-button>拒绝</el-button>
         <el-button>接受</el-button>
@@ -20,6 +20,9 @@ export default{
         applyData:{
             
         }
+    },
+    created(){
+        console.log(this.applyData)
     }
 }
 </script>

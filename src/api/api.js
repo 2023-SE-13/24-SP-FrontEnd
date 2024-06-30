@@ -506,3 +506,16 @@ export function getTweetList(params,token) {
         }
     })
 }
+
+// 修改职位
+export function editPost(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'put',
+        url:'/position/update_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data
+    })
+}
