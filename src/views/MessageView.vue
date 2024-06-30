@@ -7,7 +7,7 @@
       <span :style="{ color: !isNotice ? '#00cfcf' : '#000000' }" @click="isNotice = false">私信</span>
       </div>
 
-      <div class="group-list">
+      <div class="group-list" v-show="isNotice == false">
         <ul>
           <li v-for="item in groupList" :key="item.group_id">
             <div class="group-item" @click="selectGroup(item)">
