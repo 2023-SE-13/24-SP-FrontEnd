@@ -84,7 +84,7 @@ export default {
   mounted() {
     let defaultData = { "keywords": "w" }
     SearchCompany(defaultData).then(res => {
-      // console.log(res.data.data)
+      console.log(res.data.data)
       this.CompanyList = res.data.data
       console.log(this.CompanyList)
     })
@@ -162,7 +162,7 @@ export default {
 }
 
 .my-company:hover {
-  box-shadow: 10px 10px 20px 0px rgba(98, 92, 92, 0.3);
+  box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
 
 .my-company .el-button {
