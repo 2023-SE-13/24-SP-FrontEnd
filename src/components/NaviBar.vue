@@ -143,7 +143,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .navi {
     width: 100%;
     /* background-color: #00bebd; */

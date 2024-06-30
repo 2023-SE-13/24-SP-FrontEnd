@@ -6,7 +6,6 @@
     </div>
     <div class="lower-box">
       <span>学历要求: {{ jobData.education_requirement }}</span>
-<!--      <span>学历要求: 本科</span>-->
 
     </div>
   </div>

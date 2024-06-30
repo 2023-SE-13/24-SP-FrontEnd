@@ -47,12 +47,12 @@ export function ForgetPassword(data) {
 }
 
 // 搜索用户
-export function SearchUser(params){
+export function SearchUser(params) {
     return service({
-        mathod:'get',
-        url:'/user/search_users',
-        params:{
-            'keyword':params
+        mathod: 'get',
+        url: '/user/search_users',
+        params: {
+            'keyword': params
         }
     })
 }
@@ -155,7 +155,7 @@ export function getCompany(company_id) {
         method: 'get',
         url: '/company/get_company',
         params: {
-            "company_id":company_id
+            "company_id": company_id
         }
     })
 }
@@ -176,7 +176,7 @@ export function registCompany(token, company_name, company_description) {
 }
 
 // 添加企业员工
-export function addEmployee(token, username, company_id){
+export function addEmployee(token, username, company_id) {
     return service({
         method: 'post',
         url: '/company/send_join_verification',
@@ -235,6 +235,7 @@ export function getCompanyEmployee(company_id) {
     });
 }
 
+// 修改用户信息
 export function UpdateUserInfo(data, token) {
     return service({
         method: 'put',
@@ -247,15 +248,16 @@ export function UpdateUserInfo(data, token) {
 }
 
 // 搜索企业
-export function SearchCompany(data){
+export function SearchCompany(data) {
     data = JSON.stringify(data)
     return service({
-        method:'post',
-        url:'/company/search_company',
+        method: 'post',
+        url: '/company/search_company',
         data
     })
 }
 
+// 关注用户
 export function SubscribeUser(data, token) {
     return service({
         method: 'post',
@@ -267,6 +269,7 @@ export function SubscribeUser(data, token) {
     })
 }
 
+// 取消关注用户
 export function UnSubscribeUser(data, token) {
     return service({
         method: 'delete',
@@ -278,6 +281,7 @@ export function UnSubscribeUser(data, token) {
     })
 }
 
+// 查询是否关注用户
 export function DoSubscribeUser(data, token) {
     return service({
         method: 'post',
@@ -298,6 +302,30 @@ export function getUser(username) {
             'username': username
         }
     });
+}
+
+// 上传简历
+export function uploadResume(data, token) {
+    return service({
+        method: 'put',
+        url: '/user/upload_resume',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发布动态
+export function publishTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/create_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
 }
 
 // 获取联系人列表
@@ -324,6 +352,7 @@ export function getMessage(token, conversation_id) {
         }
     });
 }
+
 
 // 获取公司所有岗位
 export function getPositionList(company_id) {
@@ -400,4 +429,179 @@ export function saveMessage(sender, receiver, conversation_id, content) {
     })
 }
 
+// 创建职位
+export function createPost(data, token) {
+    console.log(token)
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method: 'post',
+        url: '/position/create_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data
+    })
+}
 
+// 删除职位
+export function deletePost(data, token) {
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method: 'delete',
+        url: '/position/delete_position',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 获取职位全部申请信息
+
+export function getPostApply(position_id,token){
+    console.log(position_id)
+    return service({
+        method:'get',
+        url:'/position/get_pos_apy',
+        params:{
+            "position_id":position_id
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+
+    })
+}
+
+
+//判断是否是Admin
+export function IsAdmin(username){
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': username
+        }
+    });
+}
+
+// 获取相似岗位
+export function getSimilarPost(position_id) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_simposition',
+        params:{
+            'position_id':position_id
+        }
+    });
+}
+
+// 获取企业动态
+export function getCompanyTweet(company_id) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_company_tweet',
+        params:{
+            'company_id':company_id
+        }
+    });
+}
+
+
+// 动态点赞/取消点赞
+export function likeTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/switch_tweetlike',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 获取动态详细信息
+export function getTweetDetail(params) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_tweet',
+        params: {
+            'tweet_id': params.tweet_id
+        }
+    })
+}
+
+// 获取评论信息
+export function getComments(params) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_comment',
+        params: {
+            'comment_id': params.comment_id
+        }
+    })
+}
+
+// 发表一级评论
+export function commentTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发表二级评论
+export function commentComment(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_comment',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发表三级评论
+export function commentComment2(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+//删除动态
+export function deleteTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/delete_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 修改职位
+export function editPost(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'put',
+        url:'/position/update_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data
+    })
+}

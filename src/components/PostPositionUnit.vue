@@ -4,7 +4,7 @@
       <span class="post">{{ postData.position_name }}</span>
     </div>
     <div class="lower-box">
-      <span>公司名字</span>
+      <span>{{postData.company_name}}</span>
     </div>
   </div>
 </template>
@@ -23,8 +23,8 @@ export default {
     },
     methods: {
       gotoPotion() {
-        localStorage.setItem(this.postData.position_id)
-        this.$router.push("/postview");
+        localStorage.setItem('position_id',this.postData.position_id)
+        this.$router.push('/PostView/' + this.postData.position_id);
       }
     },
 }
