@@ -3,21 +3,21 @@
 
         <div class="info-bar">
             <div class="info-box">
-                <div> <el-avatar :size="75" :src="photoSrc" shape="square"></el-avatar></div>
+                <div> <el-avatar :size="75"  shape="square"></el-avatar></div>
                 <div></div>
             </div>
         </div>
         <div class="nav-bar">
             <div class="nav-inner">
                 <div class="nav-item" :class="{ 'active': currentView === 'PostList' }"
-                    @click="currentView = 'CompanyIntro'">
+                    @click="currentView = 'PostList'">
                     职位管理
                 </div>
-                <div class="nav-item" :class="{ 'active': currentView === 'CompanyJobs' }"
-                    @click="currentView = 'CompanyJobs'">
+                <div class="nav-item" :class="{ 'active': currentView === 'StaffList' }"
+                    @click="currentView = 'StaffList'">
                     员工管理
                 </div>
-                <div class="nav-item" :class="{ 'active': currentView === 'CompanyTaste' }"
+                <div class="nav-item" :class="{ 'active': currentView === 'PostList' }"
                     @click="currentView = 'CompanyTaste'">
                     企业资料
                 </div>
@@ -26,14 +26,15 @@
         <div class="content-box">
             <component :is="currentView"></component>
         </div>
-        <div class="employee-list">
+        <!-- <div class="employee-list">
             444
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
 import PostList from '@/components/PostList.vue'
+import StaffList from '@/components/StaffList.vue'
 export default {
     data() {
         return {
@@ -41,7 +42,10 @@ export default {
         }
     },
     components:{
-        PostList
+        PostList,
+        StaffList
+    },
+    created(){
     }
 }
 </script>
