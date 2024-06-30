@@ -74,6 +74,7 @@ export default {
     };
   },
   created() {
+    console.log(localStorage.getItem("company_id"))
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.haveJoinCompany = res.data.status === "y";
     })

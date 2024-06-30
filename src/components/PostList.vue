@@ -102,7 +102,8 @@ export default {
                 education_requirement: "Bachelor's Degree in Marketing, Business Administration, or related field",
                 salary_min: "8000",
                 salary_max: "90000",
-                skill_required: []
+                skill_required: [],
+                position_tag:{}
             }
         }
 
