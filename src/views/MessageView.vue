@@ -22,7 +22,7 @@
     <div class="message-box">
       <div class="group-info-header" ></div>
       <!-- 消息窗口 -->
-      <div class="message-list">
+      <div class="message-list" v-show="isNotice == false">
         <ul>
           <li v-for="(item, index) in messageList"
           class="message-item"
