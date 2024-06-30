@@ -212,7 +212,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .message-wrapper {
   /* padding-top: 50px; */
   position: relative;
