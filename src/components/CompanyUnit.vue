@@ -26,7 +26,7 @@ export default {
         }
     },
     created() {
-        console.log(this.companyData)
+        //console.log(this.companyData)
     },
     methods: {
         gotoCompanyView() {
