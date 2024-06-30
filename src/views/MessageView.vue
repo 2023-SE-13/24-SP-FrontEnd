@@ -36,7 +36,7 @@
     <div class="message-box">
       <div class="group-info-header"></div>
       <!-- 消息窗口 -->
-      <div class="message-list" :style="{ height: isNotice ? '97.7%' : '70%' }">
+      <div class="message-list" :style="{ height: isNotice ? '97.7%' : '70%' }" ref="messageList">
         <!--私信-->
         <ul>
           <li v-for="(item, index) in messageList"
@@ -45,12 +45,12 @@
           :key="item.message_id"
           v-show="isNotice == false"
           >
-            <!-- <div class="user-item">
+            <div class="user-item">
               {{ item.sender_uname }}  <br>
-              <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar>
-            </div> -->
+              <!-- <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar> -->
+            </div>
             <!-- 消息块 -->
-            <div class="message-background-color">
+            <div class="message-background-color" :ref="'messageRef' + index">
                 {{ item.content }}
             </div>
           </li>
@@ -62,9 +62,9 @@
       </div>
       <!-- 输入框 -->
       <div class="text-box" v-show="isNotice == false">
-        <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
-        <div class="send-btn">
-          <div @click="sendMessage">发送</div>
+        <textarea name="text" id="" cols="30" v-model='message_text' placeholder="请输入消息..."></textarea>
+        <div class="send-btn" @click="sendMessageToGroup">
+          发送
         </div>
     </div>
     </div>
@@ -82,11 +82,11 @@ export default {
   data() {
     return {
       user_name: localStorage.getItem('username'),
-      groupList: [],
-      conversation_id: '',
-      conversation: {},
-      message_text:'',
-      messageList: [],
+      groupList: [], // 联系人列表
+      conversation_id: '', // 当前选中的对话id
+      conversation: {}, // 当前选中的对话
+      message_text: "", // 草稿内容
+      messageList: [], // 消息列表
       isNotice: true,
 
       stompClient: null,
@@ -94,7 +94,7 @@ export default {
   },
   components : { NoticeUnit },
   created() {
-    this.loadGroupList();
+    this.getGroupList();
   },
   methods: {
     // 装载群组列表
@@ -111,6 +111,7 @@ export default {
           console.log(`Received message from group ${groupId}: `, message);
           // 在这里你可以更新你的 UI
           component.messageList.push(message);
+          component.scrollToLatestMessage();
         }
       );
     },
@@ -120,7 +121,7 @@ export default {
       }
     },
     // 页面创建之初加载聊天列表
-    loadGroupList() {
+    getGroupList() {
       if(!localStorage.getItem('token')) {
         console.log('token为空，请先登录')
       }
@@ -196,7 +197,39 @@ export default {
           console.log('发送消息不可为空')
         }
       }
-    }
+    },
+    scrollToLatestMessage() {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          const messageListElement = this.$refs.messageList;
+          if (messageListElement) {
+            messageListElement.scrollTop = messageListElement.scrollHeight;
+          }
+        }, 100); // 延迟 100 毫秒，确保 DOM 渲染完成
+      });
+    },
+    sendMessageToGroup() {
+      if (!this.stompClient) {
+        console.error("stompClient is not initialized.");
+        return;
+      }
+      if (!this.conversation || this.message_text.trim() === "") return;
+      const groupId = this.conversation_id;
+      const receiver_uname = this.conversation.user1_uname !== this.user_name ? this.conversation.user1_uname : this.conversation.user2_uname
+      console.log('!!!!!!!!!!!!!!', this.message_text.trim(), this.user_name, receiver_uname, this.conversation_id)
+      this.stompClient.publish({
+        destination: `/send/${groupId}`,
+        body: JSON.stringify({
+          content: this.message_text.trim(),
+          sender_uname: this.user_name,
+          receiver_uname: receiver_uname,
+          conversation_id: this.conversation_id,
+        }),
+      });
+      console.log(this.stompClient);
+      this.message_text = "";
+      this.scrollToLatestMessage(); // 确保方法调用正确
+    },
   },
   mounted() {
     console.log("Mounted hook executed");
@@ -336,7 +369,8 @@ ul {
   margin: 10px 3vw 20px 3vw;
   display: inline-block;
   padding: 10px 10px;
-  background-color: rgb(214, 214, 214, 0.4);
+  /* background-color: rgb(214, 214, 214, 0.4); */
+  background-color: #d6f5fc;
   overflow-wrap: break-word;
   width: auto;
   text-align: left;
@@ -351,12 +385,15 @@ ul {
 
 .my-message .message-background-color {
   text-align: right;
-  background-color: rgb(197, 255, 237);
+  /* background-color: rgb(197, 255, 237); */
+  background-color: rgba(197, 255, 236, 0.336);
 }
 
 
 /*气泡*/
 .message-item {
+  margin-left: 15px;
+  text-align: left;
   transition: opacity 1s ease, transform 1s ease;
 }
 
