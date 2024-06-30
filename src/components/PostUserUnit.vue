@@ -1,11 +1,11 @@
 <template>
     <div class="post-unit"  @click="gotoUser">
       <div class="upper-box">
-        <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
+        <el-avatar shape="square" :size="55" :src="user_image"></el-avatar>
         <span class="post">{{ postData.username }}</span>
       </div>
         <div class="lower-box">
-            <span>公司名字</span>
+            <span>{{ postData.company_name }}</span>
         </div>
     </div>
 </template>
@@ -13,8 +13,8 @@
 export default {
     data() {
         return {
-            //company_logo: `url(http://10.251.253.188/avatar/{this.postData.username}_avatar.png)`,
-            company_logo: require('../assets/photo.png')
+            user_image: `url(http://10.251.253.188/avatar/{this.postData.username}_avatar.png)`,
+            //user_image: require('../assets/photo.png')
         }
     },
     props: {
@@ -24,8 +24,7 @@ export default {
     },
     methods:{
         gotoUser(){
-          // TODO
-          this.$router.push("/postview");
+          this.$router.push("/user/" + this.postData.username);
         }
     }
 }

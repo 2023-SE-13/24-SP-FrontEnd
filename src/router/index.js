@@ -72,6 +72,11 @@ const routes = [
         path: '/tweet/:id',
         name: 'Tweet',
         component: Tweet
+      },
+      {
+        path:'/postview/:id',
+        name:'PostView',
+        component: PostView
       }
     ]
   },
@@ -94,11 +99,6 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
-  },
-  {
-    path:'/postview',
-    name:'PostView',
-    component: PostView
   }
 ]
 
