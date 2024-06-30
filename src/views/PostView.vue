@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="header">
-            <div class="status">招聘中</div>
+            <div class="status">招聘中 ({{ position.posted_at }} - 至今)</div>
             <div class="name">
                 <h1 class="title">{{ position.position_name }}</h1>
-                <span class="salary">{{ position.salary_min }}￥ - {{ position.salary_max }}￥/天</span>
+                <span class="salary">{{ position.salary_min }}K - {{ position.salary_max }}K</span>
             </div>
             <div class="require">
                 <span class="el-icon-location"> {{ position.location }} </span> &nbsp;
@@ -38,23 +38,23 @@
                         <li>{{ position.position_description }}</li>
                     </ul>
                     <h3 class="des-item">
+                        技术需求
+                    </h3>
+                    <ul class="des-list">
+                        <li v-for="(skill, index) in position.skills" :key="index">{{ skill }}</li>
+                    </ul>
+                    <h3 class="des-item">
                         薪酬情况
                     </h3>
                     <ul class="des-list">
-                        <li>日最低薪酬：{{ position.salary_min }} <br> 日最高薪酬：{{ position.salary_max }}</li>
+                        <li>月最低薪酬：{{ position.salary_min }}K <br> 月最高薪酬：{{ position.salary_max }}K</li>
                     </ul>
                 </div>
             </div>
 
             <div class="relapos">
                 <div class="poss">
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
+                    <ShowPostUnit v-for="(post, index) in PostViewList" :key="index" :post-data="post"></ShowPostUnit>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { getPosition, getCompany, submitCV } from "@/api/api";
+import { getPosition, getCompany, submitCV,getSimilarPost ,IsAdmin} from "@/api/api";
 import ShowPostUnit from '@/components/ShowPostUnit.vue'
 export default {
     data() {
@@ -84,6 +84,8 @@ export default {
                 posted_at: "",
                 company_id: "",
                 position_id: "",
+                hr_id: "",
+                skills: [],
             },
             company: {
                 company_id: "",
@@ -91,8 +93,10 @@ export default {
                 company_name: "",
             },
             // token: localStorage.getItem('token'),
-            token: "b64cfb772de4033a18bbef3e00eb64028adba619",
+            token: localStorage.getItem("token"),
             is_admin: false,
+            PostViewList: [],
+            user_role: "",
         };
     },
     components: {
@@ -101,13 +105,19 @@ export default {
     methods: {
         //去私聊
         gotochat() {        
-            this.$router.push("/")
+            localStorage.setItem("hrname",this.position.hr_id)
+            this.$router.push("/message")
         },
         //投递简历
         submitCV() {
             submitCV(this.token, this.position.position_id).then(res => {
               console.log(res)
                 console.log("success submit!")
+                this.$notify({
+                    title: '成功',
+                    message: '提交简历成功',
+                    type: 'success'
+                });
             }).catch(error => {
                 console.log("SubmitCV失败", error);
                 this.$notify({
@@ -119,7 +129,7 @@ export default {
         }
     },
     created() {
-        getPosition("b67394c6e85f4dc2a443b05f07fdc9f7").then(res => {
+        getPosition(localStorage.getItem("position_id")).then(res => {
             this.position.position_name = res.data.position_name
             this.position.position_description = res.data.position_description
             this.position.location = res.data.location
@@ -133,10 +143,38 @@ export default {
                 }
             })
             //判断是不是admin，修改is_admin的值
+            if(localStorage.getItem("username")===null){
+                this.is_admin=true
+            }else{
+                IsAdmin(localStorage.getItem("username")).then(res =>{
+                    console.log(res.data)
+                    if(res.data.status === "success"){
+                        this.user_role = res.data.data.role
+                        if(this.user_role === "Admin"){
+                            this.is_admin = true
+                        }
+                    }
+                })
+            }
             this.position.position_id = res.data.position_id
-            this.position.posted_at = res.data.posted_at
-            this.position.salary_min = res.data.salary_min
-            this.position.salary_max = res.data.salary_max
+            this.position.posted_at = res.data.posted_at.slice(0,10)
+            this.position.salary_min = res.data.salary_min/1000
+            this.position.salary_max = res.data.salary_max/1000
+            this.position.position_tag = res.data.position_tag
+            this.position.hr_id = res.data.hr_id
+            if(res.data.skill_required.length > 0){
+                this.position.skills = res.data.skill_required
+            }else{
+                this.position.skills = ["无"]
+            }
+            
+            getSimilarPost(this.position.position_id).then(res =>{
+                if(res.data.status === "success"){
+                    this.PostViewList = res.data.data
+                }
+                console.log(this.PostViewList)
+                console.log(res.data)
+            })
         })
     },
 }
@@ -260,7 +298,7 @@ export default {
     padding-top: 5px;
     padding-right: 8px;
     padding-left: 8px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .des-list {
@@ -268,7 +306,7 @@ export default {
     background-color: rgb(246, 246, 246);
     /* 移除默认的列表样式，如列表符号 */
     list-style-type: none;
-    padding-left: 0px;
+    padding-left: 0;
     margin-top: 10px;
     width: 96%;
     /* 根据需要调整这个值 */

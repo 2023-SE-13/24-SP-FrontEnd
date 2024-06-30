@@ -339,4 +339,9 @@ export default {
   font-weight: bold;
   color: #fff;
 }
+
+.box {
+  margin-left: 5%;
+  margin-top: 2%;
+}
 </style>

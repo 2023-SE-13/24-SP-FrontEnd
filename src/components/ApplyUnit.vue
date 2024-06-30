@@ -4,7 +4,7 @@
         <span>{{applyData.real_name}}</span>
         <span>{{applyData.education}}</span>
         <span>{{applyData.applied_at}}</span>
-        <el-button>查看简历</el-button>
+        <el-button @click="showInfo">查看信息</el-button>
         <el-button>拒绝</el-button>
         <el-button>接受</el-button>
     </div>
@@ -23,6 +23,11 @@ export default{
     },
     created(){
         console.log(this.applyData)
+    },
+    methods:{
+        showInfo(){
+            this.$emit("showInfo",this.applyData.username)
+        }
     }
 }
 </script>
