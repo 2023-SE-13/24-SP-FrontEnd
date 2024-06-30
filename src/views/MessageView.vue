@@ -50,7 +50,7 @@
               <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar>
             </div> -->
             <!-- 消息块 -->
-            <div :class="['message-background-color', myMessage(item)]" :ref="'messageRef' + index">
+            <div class="message-background-color">
                 {{ item.content }}
             </div>
           </li>
@@ -63,15 +63,19 @@
       <!-- 输入框 -->
       <div class="text-box" v-show="isNotice == false">
         <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
-      <div class="send-btn"></div>
+        <div class="send-btn">
+          <div @click="sendMessage">发送</div>
+        </div>
     </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getConversation, getMessage} from '@/api/api';
+import { getConversation, getMessage, saveMessage} from '@/api/api';
 import NoticeUnit from "@/components/NoticeUnit.vue";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
 
 export default {
@@ -80,9 +84,12 @@ export default {
       user_name: localStorage.getItem('username'),
       groupList: [],
       conversation_id: '',
+      conversation: {},
       message_text:'',
       messageList: [],
-      isNotice: true
+      isNotice: true,
+
+      stompClient: null,
     };
   },
   components : { NoticeUnit },
@@ -90,17 +97,53 @@ export default {
     this.loadGroupList();
   },
   methods: {
+    // 装载群组列表
+    joinGroup(groupId) {
+      if (!this.stompClient) {
+        console.error("stompClient is not initialized.");
+        return;
+      }
+      const component = this;
+      this.stompClient.subscribe(
+        `/topic/messages/${groupId}`,
+        function (messageOutput) {
+          let message = JSON.parse(messageOutput.body);
+          console.log(`Received message from group ${groupId}: `, message);
+          // 在这里你可以更新你的 UI
+          component.messageList.push(message);
+        }
+      );
+    },
+    loadGroupList() {
+      for (let i = 0; i < this.groupList.length; i++) {
+        this.joinGroup(this.groupList[i].conversation_id);
+      }
+    },
     // 页面创建之初加载聊天列表
     loadGroupList() {
       if(!localStorage.getItem('token')) {
         console.log('token为空，请先登录')
       }
       else {
-        getConversation(localStorage.getItem('token')).then(res => {
-          console.log('conversation list: ')
-          console.log(res.data);
-          this.groupList = res.data
-        })
+        try {
+          getConversation(localStorage.getItem('token')).then(res => {
+            this.groupList = res.data
+            this.$nextTick(() => {
+              const groupItems = document.querySelectorAll(".group-item");
+              for (let i = 0; i < groupItems.length; i++) {
+                groupItems[i].style.opacity = "0";
+                groupItems[i].style.transform = "translateY(70vh)";
+                setTimeout(() => {
+                  groupItems[i].style.opacity = "1";
+                  groupItems[i].style.transform = "translateY(0)";
+                }, i * 150);
+              }
+            });
+          })
+        } catch (error) {
+          console.error("Error fetching groupList:", error);
+        }
+        
       }
     },
     // 加载联系人名称
@@ -114,6 +157,7 @@ export default {
     // 选择聊天
     selectGroup(selectedGroup) {
       this.conversation_id = selectedGroup.conversation_id
+      this.conversation = selectedGroup
       this.loadConversation()
     },
     // 加载聊天内容
@@ -138,7 +182,32 @@ export default {
       } else {
         return 'your-message'
       }
+    },
+    sendMessage() {
+      if(this.conversation) {
+        if(this.message_text !== '') {
+          if(this.conversation.user1_uname === this.user_name) {
+            saveMessage(this.conversation.user1_uname, this.conversation.user2_uname, this.conversation.conversation_id, this.message_text)
+          } else {
+            saveMessage(this.conversation.user2_uname, this.conversation.user1_uname, this.conversation.conversation_id, this.message_text)
+          }
+          this.message_text = ''
+        } else {
+          console.log('发送消息不可为空')
+        }
+      }
     }
+  },
+  mounted() {
+    console.log("Mounted hook executed");
+    const socket = new SockJS("http://10.251.253.188:8082/websocket");
+    this.stompClient = new Client({ webSocketFactory: () => socket });
+    this.stompClient.onConnect = (frame) => {
+      console.log("Connected: " + frame);
+      // 在连接成功后执行相关操作
+      this.loadGroupList();
+    };
+    this.stompClient.activate();
   },
 }
 </script>
@@ -274,7 +343,14 @@ ul {
   border-radius: 10px;
 }
 
-.message-background-color.my-message {
+/*用户信息字体*/
+.my-message {
+  text-align: right;
+  margin-right: 1.5vw;
+}
+
+.my-message .message-background-color {
+  text-align: right;
   background-color: rgb(197, 255, 237);
 }
 
@@ -292,7 +368,7 @@ ul {
 
 /*输入框*/
 textarea {
-  width: 99%;
+  width: 90%;
   height: 100%;
   resize: none;
   border: none;
@@ -302,7 +378,7 @@ textarea {
   font-size: 15px;
   font-family: JingNanFont;
   font-size: 17px;
-
+  display: inline-block;
   background-color: azure;
 }
 
@@ -320,6 +396,24 @@ textarea {
   /* WebKit 浏览器（如 Chrome 和 Safari）隐藏滚动条 */
 }
 
+/* 发送按钮 */
+.send-btn {
+  display: inline-block;
+  width: 3%;
+  vertical-align: top;
+  text-align: auto;
+  height: 80%;
+  position: relative;
+  margin-top: 5px;
+  left: 0%;
+  margin-left: 5px;
+  background-color: #cdf6ff;
+  border-radius: 5px;
+  padding: 5px;
+}
 
+.send-btn:hover {
+  background-color: #c2f4ff;
+}
 
 </style>

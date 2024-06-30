@@ -385,3 +385,19 @@ export function submitCV(token, position_id) {
         data
     })
 }
+
+// 发送消息
+export function saveMessage(sender, receiver, conversation_id, content) {
+    return service({
+        method: 'post',
+        url: '/user/save_message',
+        data: {
+            'sender_uname': sender,
+            'receiver_uname': receiver,
+            'conversation_id': conversation_id,
+            'content': content
+        }
+    })
+}
+
+
