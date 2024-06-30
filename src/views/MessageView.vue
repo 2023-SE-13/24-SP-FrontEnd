@@ -2,7 +2,11 @@
   <div class="message-wrapper">
     <!-- 联系人列表 -->
     <div class="group-list-box">
-      <div class="group-list-header"></div>
+      <div class="group-list-header">
+      <span :style="{ color: isNotice ? '#00cfcf' : '#000000' }"  @click="isNotice = true" >通知</span> |
+      <span :style="{ color: !isNotice ? '#00cfcf' : '#000000' }" @click="isNotice = false">私信</span>
+      </div>
+
       <div class="group-list">
         <ul>
           <li v-for="item in groupList" :key="item.group_id">
@@ -42,7 +46,6 @@
     </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -57,6 +60,7 @@ export default {
       conversation_id: '',
       message_text:'',
       messageList: [],
+      isNotice: true
     };
   },
   created() {
@@ -75,7 +79,6 @@ export default {
           this.groupList = res.data
         })
       }
-      
     },
     // 加载联系人名称
     groupName(conversation) {
@@ -104,7 +107,7 @@ export default {
           }) 
         }
       }
-    }
+    },
   },
 }
 </script>
@@ -135,12 +138,19 @@ export default {
 /* 左上角返回框 */
 .group-list-header {
   position: relative;
-  height: 8.5vh;
+  height: 6.0vh;
   width: 100%;
   margin-bottom: 1.5vh;
   box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.05);
   background-color: azure;
   border-radius: 3px;
+  padding-top: 8%;
+}
+
+.group-list-header span {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 0 10px 0 10px
 }
 
 /* 联系人框 */
