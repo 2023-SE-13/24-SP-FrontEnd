@@ -55,6 +55,11 @@ const routes = [
       {
         path:'/user-list',
         component:UserListView
+      },
+      {
+        path:'/postview',
+        name:'PostView',
+        component: PostView
       }
     ]
   },
@@ -82,11 +87,6 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
-  },
-  {
-    path:'/postview',
-    name:'PostView',
-    component: PostView
   }
 ]
 

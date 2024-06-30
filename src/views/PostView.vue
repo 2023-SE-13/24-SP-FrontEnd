@@ -119,7 +119,7 @@ export default {
         }
     },
     created() {
-        getPosition("b67394c6e85f4dc2a443b05f07fdc9f7").then(res => {
+        getPosition(localStorage.getItem('position_id')).then(res => {
             this.position.position_name = res.data.position_name
             this.position.position_description = res.data.position_description
             this.position.location = res.data.location
