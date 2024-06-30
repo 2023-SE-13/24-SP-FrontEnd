@@ -63,8 +63,8 @@
       <!-- 输入框 -->
       <div class="text-box" v-show="isNotice == false">
         <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
-        <div class="send-btn">
-          <div @click="sendMessage">发送</div>
+        <div class="send-btn" @click="sendMessageToGroup">
+          <div>发送</div>
         </div>
     </div>
     </div>
@@ -82,11 +82,11 @@ export default {
   data() {
     return {
       user_name: localStorage.getItem('username'),
-      groupList: [],
-      conversation_id: '',
-      conversation: {},
-      message_text:'',
-      messageList: [],
+      groupList: [], // 联系人列表
+      conversation_id: '', // 当前选中的对话id
+      conversation: {}, // 当前选中的对话
+      message_text: "", // 草稿内容
+      messageList: [], // 消息列表
       isNotice: true,
 
       stompClient: null,
@@ -94,7 +94,7 @@ export default {
   },
   components : { NoticeUnit },
   created() {
-    this.loadGroupList();
+    this.getGroupList();
   },
   methods: {
     // 装载群组列表
@@ -120,7 +120,7 @@ export default {
       }
     },
     // 页面创建之初加载聊天列表
-    loadGroupList() {
+    getGroupList() {
       if(!localStorage.getItem('token')) {
         console.log('token为空，请先登录')
       }
@@ -196,7 +196,28 @@ export default {
           console.log('发送消息不可为空')
         }
       }
-    }
+    },
+    sendMessageToGroup() {
+      if (!this.stompClient) {
+        console.error("stompClient is not initialized.");
+        return;
+      }
+      if (!this.conversation || this.message_text.trim() === "") return;
+      const groupId = this.conversation_id;
+      const receiver_uname = this.conversation.user1_uname !== this.user_name ? this.conversation.user1_uname : this.conversation.user2_uname
+      console.log('!!!!!!!!!!!!!!', this.message_text.trim(), this.user_name, receiver_uname, this.conversation_id)
+      this.stompClient.publish({
+        destination: `/send/${groupId}`,
+        body: JSON.stringify({
+          content: this.message_text.trim(),
+          sender_uname: this.user_name,
+          receiver_uname: receiver_uname,
+          conversation_id: this.conversation_id,
+        }),
+      });
+      console.log(this.stompClient);
+      this.message_text = "";
+    },
   },
   mounted() {
     console.log("Mounted hook executed");
