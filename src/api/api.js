@@ -430,3 +430,14 @@ export function getSimilarPost(position_id) {
         }
     });
 }
+
+// 获取企业动态
+export function getCompanyTweet(company_id) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_company_tweet',
+        params:{
+            'company_id':company_id
+        }
+    });
+}
