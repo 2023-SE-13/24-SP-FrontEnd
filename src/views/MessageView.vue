@@ -56,7 +56,7 @@
         </ul>
 
       <!--通知-->
-
+      <NoticeUnit v-show="isNotice == true"></NoticeUnit>
 
       </div>
       <!-- 输入框 -->
@@ -70,6 +70,7 @@
 
 <script>
 import { getConversation, getMessage} from '@/api/api';
+import NoticeUnit from "@/components/NoticeUnit.vue";
 
 
 export default {
@@ -83,6 +84,7 @@ export default {
       isNotice: true
     };
   },
+  components : { NoticeUnit },
   created() {
     this.loadGroupList();
   },
