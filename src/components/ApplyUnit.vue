@@ -1,10 +1,10 @@
 <template>
     <div class="apply-unit">
-        <span>用户名</span>
-        <span>真实姓名</span>
-        <span>学历</span>
-        <span>申请时间</span>
-        <el-button>查看简历</el-button>
+        <span>{{ applyData.username }}</span>
+        <span>{{applyData.real_name}}</span>
+        <span>{{applyData.education}}</span>
+        <span>{{applyData.applied_at}}</span>
+        <el-button @click="showInfo">查看信息</el-button>
         <el-button>拒绝</el-button>
         <el-button>接受</el-button>
     </div>
@@ -19,6 +19,14 @@ export default{
     props:{
         applyData:{
             
+        }
+    },
+    created(){
+        console.log(this.applyData)
+    },
+    methods:{
+        showInfo(){
+            this.$emit("showInfo",this.applyData.username)
         }
     }
 }

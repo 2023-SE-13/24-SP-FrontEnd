@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     gotoCompanyEditor() {
+      
       localStorage.setItem('company_id', this.companyId)
       this.$router.push("/company-editor");
     },
@@ -72,7 +73,7 @@ export default {
     console.log('local storage: ', localStorage.getItem('username'))
     getUser(localStorage.getItem('username')).then(res => {
       console.log(res.data.data)
-      if (res.data.data.company_id && res.data.data.role === "Creator") {
+      if (res.data.data.company_id && res.data.data.role === "Admin") {
         this.companyId = res.data.data.company_id
         this.isInComp = true
       }
