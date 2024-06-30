@@ -17,8 +17,8 @@
                     @click="currentView = 'StaffList'">
                     员工管理
                 </div>
-                <div class="nav-item" :class="{ 'active': currentView === 'PostList' }"
-                    @click="currentView = 'CompanyTaste'">
+                <div class="nav-item" :class="{ 'active': currentView === 'CompanyInfo' }"
+                    @click="currentView = 'CompanyInfo'">
                     企业资料
                 </div>
             </div>
@@ -35,6 +35,7 @@
 <script>
 import PostList from '@/components/PostList.vue'
 import StaffList from '@/components/StaffList.vue'
+import CompanyInfo from '@/components/CompanyInfo.vue'
 export default {
     data() {
         return {
@@ -43,7 +44,8 @@ export default {
     },
     components:{
         PostList,
-        StaffList
+        StaffList,
+        CompanyInfo
     },
     created(){
     }
