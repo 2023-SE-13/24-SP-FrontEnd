@@ -27,22 +27,308 @@
             <PostUnit></PostUnit>
             <PostUnit></PostUnit>
         </div>
+
+        <el-dialog center title="请完善个人信息" :append-to-body="true" :visible.sync="dialogVisible" :show-close="false"
+            width="40%">
+            <el-form :model="user" :rules="rules" ref="user">
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="学历" prop="education">
+                            <el-input clearable v-model="user.education" class="dialog-container"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="学校">
+                            <el-input clearable v-model="user.school" class="dialog-container"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <!-- <el-form-item label="学历" prop="education">
+                    <el-input clearable v-model="user.education" class="dialog-container"></el-input>
+                </el-form-item> -->
+
+                <!--                  <el-form-item label="学校">-->
+                <!--                    <el-input clearable v-model="user.school"></el-input>-->
+                <!--                  </el-form-item>-->
+                <el-form-item label="期望职位" prop="desired_position">
+                    <!-- <el-input clearable v-model="user.desired_position" class="dialog-container"></el-input> -->
+                    <el-cascader class="dialog-container" v-model="flatDesiredPosition" :options="options" filterable
+                        :props="props" clearable style="width: 100%" />
+                </el-form-item>
+                <el-form-item label="博客或仓库主页链接">
+                    <el-input clearable v-model="user.blog_link" class="dialog-container"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="editSuccess(user)">提 交</el-button>
+            </span>
+        </el-dialog>
+
     </div>
 </template>
 <script>
 import PostUnit from '@/components/PostUnit.vue'
+import { GetUserInfo, UpdateUserInfo } from "@/api/api";
 export default {
     data() {
         return {
             select: '1',
             input: '',
-            NotAllowSearch: true
+            NotAllowSearch: true,
+            token: null,
+            isSelf: false,
+            isFavor: false,
+            user: {
+                real_name: "张三",
+                education: "本科",
+                desired_position: [
+                    { category: "人工智能", specialization: "机器学习" },
+                    { category: "后端开发", specialization: "Java" }
+                ],
+                blog_link: "https://github.com/",
+                name: "张三",
+                school: "清华大学",
+                position: "",
+                age: "",
+                workYear: "",
+                is_staff: false
+            },
+            flatDesiredPosition: [
+                ['后端开发', 'Java'],
+                ['前端/移动开发', 'Android']
+            ], // 用于显示在 el-cascader 中的平面化数据
+            dialogVisible: false,
+            rules: {
+                real_name: [
+                    { required: true, message: "请输入姓名", trigger: "change" }
+                ],
+                education: [
+                    { required: true, message: "请输入学历", trigger: "change" }
+                ],
+                desired_position: [
+                    { required: true, message: "请输入期望职位", trigger: "change" }
+                ]
+            },
+
+            options: [
+                {
+                    value: '后端开发',
+                    label: '后端开发',
+                    children: [
+                        { value: 'Java', label: 'Java' },
+                        { value: 'C/C++', label: 'C/C++' },
+                        { value: 'PHP', label: 'PHP' },
+                        { value: 'Python', label: 'Python' },
+                        { value: 'C#', label: 'C#' },
+                        { value: '.NET', label: '.NET' },
+                        { value: 'Golang', label: 'Golang' },
+                        { value: 'Node.js', label: 'Node.js' },
+                        { value: 'Hadoop', label: 'Hadoop' },
+                        { value: '语言视频/图形开发', label: '语言视频/图形开发' },
+                        { value: 'GIS工程师', label: 'GIS工程师' },
+                        { value: '区块链工程师', label: '区块链工程师' },
+                        { value: '全栈工程师', label: '全栈工程师' },
+                        { value: '其他后端开发', label: '其他后端开发' }
+                    ]
+                },
+                {
+                    value: '前端/移动开发',
+                    label: '前端/移动开发',
+                    children: [
+                        { value: '前端开发工程师', label: '前端开发工程师' },
+                        { value: 'Android', label: 'Android' },
+                        { value: 'iOS', label: 'iOS' },
+                        { value: 'U3D', label: 'U3D' },
+                        { value: 'UE4', label: 'UE4' },
+                        { value: 'Cocos', label: 'Cocos' },
+                        { value: '技术美术', label: '技术美术' },
+                        { value: 'JavaScript', label: 'JavaScript' }
+                    ]
+                },
+                {
+                    value: '测试',
+                    label: '测试',
+                    children: [
+                        { value: '测试工程师', label: '测试工程师' },
+                        { value: '软件测试', label: '软件测试' },
+                        { value: '自动化测试', label: '自动化测试' },
+                        { value: '功能测试', label: '功能测试' },
+                        { value: '测试开发', label: '测试开发' },
+                        { value: '硬件测试', label: '硬件测试' },
+                        { value: '游戏测试', label: '游戏测试' },
+                        { value: '渗透测试', label: '渗透测试' },
+                        { value: '测试经理', label: '测试经理' },
+                        { value: '性能测试', label: '性能测试' }
+                    ]
+                },
+                {
+                    value: '运维/技术支持',
+                    label: '运维/技术支持',
+                    children: [
+                        { value: '运维工程师', label: '运维工程师' },
+                        { value: 'IT技术支持', label: 'IT技术支持' },
+                        { value: '网络工程师', label: '网络工程师' },
+                        { value: '网络安全', label: '网络安全' },
+                        { value: '系统开发工程师', label: '系统开发工程师' },
+                        { value: '系统管理员', label: '系统管理员' },
+                        { value: 'DBA', label: 'DBA' },
+                        { value: '系统安全', label: '系统安全' },
+                        { value: '技术文档工程师', label: '技术文档工程师' }
+                    ]
+                },
+                {
+                    value: '人工智能',
+                    label: '人工智能',
+                    children: [
+                        { value: '图像算法', label: '图像算法' },
+                        { value: '自然语言处理算法', label: '自然语言处理算法' },
+                        { value: '大模型算法', label: '大模型算法' },
+                        { value: '数据挖掘', label: '数据挖掘' },
+                        { value: '推荐算法', label: '推荐算法' },
+                        { value: 'SLAM算法', label: 'SLAM算法' },
+                        { value: '搜索算法', label: '搜索算法' },
+                        { value: '语言算法', label: '语言算法' },
+                        { value: '风控算法', label: '风控算法' },
+                        { value: '算法研究员', label: '算法研究员' },
+                        { value: '算法工程师', label: '算法工程师' },
+                        { value: '机器学习', label: '机器学习' },
+                        { value: '深度学习', label: '深度学习' },
+                        { value: '自动驾驶算法工程师', label: '自动驾驶算法工程师' },
+                        { value: '数据标注/AI训练师', label: '数据标注/AI训练师' }
+                    ]
+                }
+            ],
+
+            props: { multiple: true }
         }
+
     },
     components: {
         PostUnit
     },
+    async created() {
+        this.token = localStorage.getItem("token");
+        if (localStorage.getItem("username") != null) {
+            await GetUserInfo(localStorage.getItem("username")).then(res => {
+                if (res.data.status == "success") {
+                    this.user.real_name = res.data.data.real_name;
+                    this.user.name = res.data.data.username;
+                    this.user.education = res.data.data.education;
+                    this.user.school = res.data.data.school;
+                    this.user.desired_position = res.data.data.desired_position;
+                    this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
+                    this.user.age = res.data.data.age;
+                    this.user.blog_link = res.data.data.blog_link;
+                    this.user.position = res.data.data.position;
+                    this.user.workYear = res.data.data.work_year;
+                    this.user.is_staff = res.data.data.is_staff;
+                    const json = JSON.stringify(this.user);
+                    // console.log(json);
+                    // this.defaultUser = JSON.parse(json);
+                }
+            },
+                error => {
+                    if (error.response.status === 400) {
+                        this.$notify({
+                            title: "错误",
+                            message: "未知错误",
+                            type: "error"
+                        });
+                    }
+                    if (error.response.status === 404) {
+                        this.$notify({
+                            title: "错误",
+                            message: "用户不存在",
+                            type: "error"
+                        });
+                    }
+                }
+            );
+            console.log(this.user);
+            console.log(this.user.desired_position);
+            if (this.user.education == "" || this.user.desired_position == "") {
+                this.dialogVisible = true;
+            }
+        }
+    },
     methods: {
+        editSuccess() {
+            // 将平面化数据转换回后端所需的嵌套对象格式
+            this.user.desired_position = this.flatDesiredPosition.map(item => ({
+                category: item[0],
+                specialization: item[1]
+            }));
+            this.$refs["user"].validate(valid => {
+                if (valid) {
+                    // console.log("aaaaaaaa");
+                    UpdateUserInfo(this.user, this.token).then(res => {
+                        if (res.data.status === "success") {
+                            const json = JSON.stringify(this.user);
+                            this.defaultUser = JSON.parse(json);
+                            this.$notify({
+                                title: "成功",
+                                message: "完善成功",
+                                type: "success"
+                            });
+                        }
+                    },
+                        error => {
+                            if (error.response.status === 401) {
+                                this.$notify({
+                                    title: "错误",
+                                    message: "完善失败",
+                                    type: "error"
+                                });
+                            }
+                        }
+                    );
+                    this.dialogVisible = false;
+                    setTimeout(() => {
+                        GetUserInfo(this.user.name).then(res => {
+                            if (res.data.status == "success") {
+                                this.user.real_name = res.data.data.real_name;
+                                this.user.name = res.data.data.username;
+                                this.user.education = res.data.data.education;
+                                this.user.school = res.data.data.school;
+                                this.user.desired_position = res.data.data.desired_position;
+                                this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
+                                this.user.age = res.data.data.age;
+                                this.user.blog_link = res.data.data.blog_link;
+                                this.user.position = res.data.data.position;
+                                this.user.workYear = res.data.data.work_year;
+                                this.user.is_staff = res.data.data.is_staff;
+                                const json = JSON.stringify(this.user);
+                                // console.log(json);
+                                // this.defaultUser = JSON.parse(json);
+                            }
+                        },
+                            error => {
+                                if (error.response.status === 400) {
+                                    this.$notify({
+                                        title: "错误",
+                                        message: "未知错误",
+                                        type: "error"
+                                    });
+                                }
+                                if (error.response.status === 404) {
+                                    this.$notify({
+                                        title: "错误",
+                                        message: "用户不存在",
+                                        type: "error"
+                                    });
+                                }
+                            }
+                        );
+                    }, 100);
+                } else {
+                    this.$notify({
+                        title: "错误",
+                        message: "请完善必填信息",
+                        type: "error"
+                    });
+                }
+            });
+        },
         allow() {
             if (this.select !== null && this.select !== '' && this.input !== null && this.input !== '') {
                 this.$refs.button.$el.style.cursor = 'pointer'
@@ -93,7 +379,8 @@ export default {
     /* background-color: chocolate; */
     overflow: hidden;
 }
-.post-container span{
+
+.post-container span {
     display: block;
     font-size: 35px;
     font-weight: 1000;
@@ -160,6 +447,10 @@ export default {
 /deep/.el-input__inner {
     height: 50px;
     /* width: 100px;` */
+}
+
+/deep/.dialog-container .el-input__inner {
+    border-color: #DCDFE6 !important
 }
 
 .input-with-select .el-input-group__prepend {
