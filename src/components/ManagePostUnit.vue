@@ -4,7 +4,7 @@
             <span>{{postData.position_name}}</span>
             <div class="buttons">
                 <el-button @click="deletepost"><i class="el-icon-delete"></i></el-button>
-                <el-button> <i class="el-icon-edit"></i></el-button>
+                <el-button @click="editPost"> <i class="el-icon-edit"></i></el-button>
             </div>
         </div>
 
@@ -49,6 +49,10 @@ export default {
         },
         getapply(){
             this.$emit("get-apply",this.postData.position_id)
+        },
+        editPost(){
+            event.stopPropagation();
+            this.$emit("edit-clicked",this.postData)
         }
     }
 }
