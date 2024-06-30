@@ -25,7 +25,7 @@ export default {
     methods:{
         gotoUser(){
           // TODO
-          this.$router.push("/postview");
+          this.$router.push("/user/" + this.postData.username);
         }
     }
 }
