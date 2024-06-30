@@ -105,16 +105,12 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
-<<<<<<< HEAD
-  }
-=======
   },
   {
     path:'/postview',
     name:'PostView',
     component: PostView
   },
->>>>>>> dev2
 ]
 
 const router = new VueRouter({

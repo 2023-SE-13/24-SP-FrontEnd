@@ -458,3 +458,98 @@ export function getSimilarPost(position_id) {
         }
     });
 }
+
+// 动态点赞/取消点赞
+export function likeTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/switch_tweetlike',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 获取动态详细信息
+export function getTweetDetail(params) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_tweet',
+        params: {
+            'tweet_id': params.tweet_id
+        }
+    })
+}
+
+// 获取评论信息
+export function getComments(params) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_comment',
+        params: {
+            'comment_id': params.comment_id
+        }
+    })
+}
+
+// 发表一级评论
+export function commentTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发表二级评论
+export function commentComment(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_comment',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发表三级评论
+export function commentComment2(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/comment_user',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+//删除动态
+export function deleteTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/delete_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 修改职位
+export function editPost(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'put',
+        url:'/position/update_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data
+    })
+}
