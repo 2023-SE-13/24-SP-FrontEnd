@@ -102,7 +102,7 @@
               </el-menu>
             </div>
             <div v-show="preActive==='1'" id="share">
-              <TweetList v-for="(id,index) in tweetList" :key="index" :id="id"></TweetList>
+              <TweetUnit v-for="(id,index) in tweetList" :key="index" :id="id"></TweetUnit>
               <div id="shareEditBtn">
                 <i class="el-icon-edit"></i>
               </div>
@@ -120,12 +120,12 @@
 
 <script>
 import {GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser} from "@/api/api";
-import TweetList from "@/components/TweetList.vue";
+import TweetUnit from "@/components/TweetUnit.vue";
 import {getTweetList} from "@/api/api";
 export default {
   name: "User",
   components: {
-    TweetList
+    TweetUnit
   },
   watch: {
     $route:{
