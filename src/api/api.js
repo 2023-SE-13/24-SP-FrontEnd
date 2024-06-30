@@ -328,6 +328,32 @@ export function publishTweet(data, token) {
     })
 }
 
+// 获取联系人列表
+export function getConversation(token) {
+    return service({
+        method: 'get',
+        url: '/user/get_conversations',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+// 获取聊天内容
+export function getMessage(token, conversation_id) {
+    return service({
+        method: 'get',
+        url: '/user/get_messages',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'conversation_id': conversation_id
+        }
+    });
+}
+
+
 // 获取公司所有岗位
 export function getPositionList(company_id) {
     return service({
@@ -386,6 +412,20 @@ export function submitCV(token, position_id) {
             'Content-Type': 'application/json'
         },
         data
+    })
+}
+
+// 发送消息
+export function saveMessage(sender, receiver, conversation_id, content) {
+    return service({
+        method: 'post',
+        url: '/user/save_message',
+        data: {
+            'sender_uname': sender,
+            'receiver_uname': receiver,
+            'conversation_id': conversation_id,
+            'content': content
+        }
     })
 }
 
