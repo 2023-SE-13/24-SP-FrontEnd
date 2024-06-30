@@ -436,13 +436,13 @@ textarea {
 /* 发送按钮 */
 .send-btn {
   display: inline-block;
-  width: 3%;
-  vertical-align: top;
+  width: 5%;
+  vertical-align: bottom;
   text-align: auto;
-  height: 80%;
+  height: 15%;
   position: relative;
   margin-top: 5px;
-  left: 0%;
+  margin-bottom: 15px;
   margin-left: 5px;
   background-color: #cdf6ff;
   border-radius: 5px;
