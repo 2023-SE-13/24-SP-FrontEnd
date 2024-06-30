@@ -23,7 +23,7 @@ export default {
     },
     methods: {
       gotoPotion() {
-        localStorage.setItem('position_id', 'b67394c6e85f4dc2a443b05f07fdc9f7')
+        localStorage.setItem('position_id',this.postData.position_id)
         this.$router.push('/PostView/' + this.postData.position_id);
       }
     },

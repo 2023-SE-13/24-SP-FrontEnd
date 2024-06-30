@@ -360,3 +360,25 @@ export function submitCV(token, position_id) {
         data
     })
 }
+
+//判断是否是Admin
+export function IsAdmin(username){
+    return service({
+        method: 'get',
+        url: '/user/get_user',
+        params: {
+            'username': username
+        }
+    });
+}
+
+// 获取相似岗位
+export function getSimilarPost(position_id) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_simposition',
+        params:{
+            'position_id':position_id
+        }
+    });
+}
