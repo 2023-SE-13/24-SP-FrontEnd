@@ -4,16 +4,14 @@
           <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
             <span class="post">{{ postData.company_name }}</span>
         </div>
-<!--        <div class="lower-box">-->
-<!--        </div>-->
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
-          //company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
-          company_logo: require('../assets/photo.png')
+          company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
+          //company_logo: require('../assets/photo.png')
         }
     },
     props: {

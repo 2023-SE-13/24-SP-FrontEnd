@@ -8,6 +8,9 @@
             <span id="name">{{this.username}}</span>
             <span id="date">{{this.date}}</span>
           </div>
+          <div class="delete" v-if="this.isSelf">
+            <span style="cursor:pointer;" @click="deleteTweet()"><i class="el-icon-delete"></i>删除</span>
+          </div>
         </div>
       </div>
       <div class="content-container">
@@ -19,17 +22,47 @@
             <el-image
               v-for="(item, index) in images"
               :key="index"
-              :src="item.url"
-              :preview-src-list="images.map(item => item.url)"
+              :src="item"
+              :preview-src-list="images"
               style="width: 145px; height: 145px;border-radius: 10px;margin: 1px"
-              fit="contain">
+              fit="none">
             </el-image>
           </div>
         </div>
       </div>
-      <div class="comment-container">
-
+      <div class="comment-editor">
+        <div class="like">
+          <div id="comment">
+            评论 {{this.comment_number}}
+          </div>
+          <div v-if="!is_like" id="dislike" @mouseenter=changeColor1($event) @mouseleave="changeColor2($event)" @click="like()"><svg t="1719648568364" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2187" width="30" height="25"><path id="dislike_icon" d="M916.9 411c-26.3-29.3-71.2-25.2-83.1-23.6l-163.1 0.4h-0.8c-14.2 0.5-32.9-1.2-41.3-11.5-9.5-11.7-4.8-32-4.7-32.8 0.3-0.8 5.6-21.6 20.3-91l0.4-1.6 0.1-1.7c4.8-58.1 2.7-69.6-6.1-104.6-0.6-2.9-1.6-6.1-2.3-9.5l-0.3-0.9-0.3-0.9c-15-46.1-62.4-72.3-115-63.7C476 77 431 111.5 430 171.9c-1.9 8.8-3.4 18.1-4.9 28-5.7 37.4-12.8 83.9-53.1 139.9-28.6 39.9-61.6 47.1-79.1 47.8l-164.7 0.3c-21.1 0-38.2 17.1-38.2 38.2v491.4c0 21.1 17.1 38.2 38.2 38.2h601.7c3.6 0.3 7.1 0.4 10.5 0.4 40.6 0 67.1-18.3 82.2-34.7 17.6-18.5 24.3-37.9 25.1-40.1l0.5-1.4 80.5-387.1c9.8-34.8 5.8-62.2-11.8-81.8z m-775.1 28.6l131.8-0.2v464.4H141.8V439.6z m737 40.4l-0.3 0.9-80.1 385.4c-1.2 2.7-5.2 11.4-13.1 19.7-13.1 13.7-30.7 19.8-52.3 18l-1-0.1H325.4V434.5c26.7-7.3 59.9-24.6 88.5-64.6 47.4-66.2 55.9-121.7 62.1-162.2 1.7-10.4 3-19.2 4.8-26.8l0.8-3.1v-3.1c-0.3-33.9 24.3-50.1 47.4-53.9 22.5-3.8 48.7 3.5 57.2 28 0.8 3.1 1.6 6 2.2 8.7 7.2 29.4 8.9 35.7 4.8 86.2-13.9 65-19.2 86.1-19.4 87.2-1.4 5.4-11 46.2 14 77.8 17.3 21.9 45.3 32.5 83.2 31.3l166.9-0.4 2.2-0.4c9.5-1.7 31.1-1.3 38.3 6.7 4.8 5.5 4.9 17.9 0.4 34.1z" fill="#515151" p-id="2188"></path></svg>
+            {{this.like_number}}
+          </div>
+          <div v-if="is_like" id="like" @click="like()"><svg t="1719648457756" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1801" width="30" height="25"><path d="M90.1 426v491.4c0 21.1 17.1 38.2 38.2 38.2h145.3v-568l-145.3 0.2c-21.1 0-38.2 17.1-38.2 38.2zM916.9 411c-26.3-29.3-71.2-25.2-83.1-23.6l-163.1 0.4h-0.8c-14.2 0.5-32.9-1.2-41.3-11.5-9.5-11.7-4.8-32-4.7-32.8 0.3-0.8 5.6-21.6 20.3-91l0.4-1.6 0.1-1.7c4.8-58.1 2.7-69.6-6.1-104.6-0.6-2.9-1.6-6.1-2.3-9.5l-0.3-0.9-0.3-0.9c-15-46.1-62.4-72.3-115-63.7C476 77 431 111.5 430 171.9c-1.9 8.8-3.4 18.1-4.9 28-5.7 37.4-12.8 83.9-53.1 139.9-14.9 20.8-31 32.7-45.5 39.4v576.4h403.4c3.6 0.3 7.1 0.4 10.5 0.4 40.6 0 67.1-18.3 82.2-34.7 17.6-18.5 24.3-37.9 25.1-40.1l0.5-1.4 80.5-387.1c9.8-34.7 5.8-62.1-11.8-81.7z" fill="#00C1C1" p-id="1802"></path></svg>
+            {{this.like_number}}
+          </div>
+        </div>
+        <el-input
+          type="textarea"
+          v-model="comment_editor"
+          :autosize="{ minRows: 3}"
+          resize="none"
+          placeholder="写下你的评论..."
+          @focus="changeEditor1()"
+          @blur="changeEditor2()"
+          style="width: 85%;margin-top: 10px">
+        </el-input>
+        <Transition>
+          <el-button id="button" @click="comment()" v-show="this.isEditor" type="primary">
+            发布
+          </el-button>
+        </Transition>
       </div>
+      <div class="comment">
+          <CommentUnit v-for="(comment_id, index) in comment_idList" :key="index" :comment_id="comment_id"></CommentUnit>
+      </div>
+      <p v-if="loading">加载中...</p>
+      <p v-if="noMore">没有更多了</p>
     </div>
   </div>
 </template>
@@ -37,40 +70,172 @@
 <script>
 import photo from "@/assets/photo.png";
 import op from "@/assets/op.jpg";
+import {likeTweet} from "@/api/api";
+import {getTweetDetail} from "@/api/api";
+import CommentUnit from "@/components/CommentUnit.vue";
+import {commentTweet} from "@/api/api";
+import {deleteTweet} from "@/api/api";
+
 export default {
+  components: {CommentUnit},
   data() {
     return {
-      username: "Tadaoni",
-      date: "2021-09-01",
+      token: "",
+      username: "",
+      tweet_id: '',
+      date: "",
+      is_like: false,
+      comment_editor: '',
+      isEditor: false,
       photo: photo,
       op: op,
-      text: "在遥远的星系中，有一个名为Zorgon的星球，那里的居民是一群爱好和平的生物，他们拥有高度发达的科技和魔法。Zorgon星的居民们每天都会进行各种奇妙的活动，比如在天空中飞行的花园里种植奇异的植物，或者在水下城市中与五彩斑斓的海洋生物共舞。他们的生活充满了和谐与欢乐，直到有一天，一个名为Gorgomoth的黑暗势力从宇宙的另一端降临，企图征服整个星系。"+
-          "Gorgomoth拥有强大的力量和邪恶的魔法，他的目标是将所有的星球都置于他的统治之下。Zorgon星的居民们意识到了这个威胁，他们决定团结起来，共同对抗这个强大的敌人。他们中的一些勇敢的战士，比如勇敢的Kimi勇士，踏上了寻找古老传说中的神器的旅程，这个神器据说拥有能够抵御Gorgomoth的力量。" +
-          "Kimi勇士和他的伙伴们穿越了无数的星系和维度，经历了无数的试炼和冒险。他们遇到了各种各样的生物，有的友好，有的敌对。他们学会了如何使用古老的魔法，如何与自然和谐共处，以及如何团结一心，共同面对困难。在他们的旅途中，他们也发现了Gorgomoth的弱点，并制定了一个计划来打败他。" +
-          "最终，在一场史诗般的战斗中，Kimi勇士和他的伙伴们使用了神器的力量，成功地击退了Gorgomoth，保护了Zorgon星球和整个星系的和平。他们的英勇事迹被传唱在每一个角落，成为了永恒的传说。",
-      images: [
-        {
-          url: op,
-          name: "photo"
-        },
-        {
-          url: photo,
-          name: "photo"
-        },
-        {
-          url: op,
-          name: "photo"
-        },
-        {
-          url: photo,
-          name: "photo"
-        },
-        {
-          url: op,
-          name: "photo"
-        }
-      ]
+      comment_number: 0,
+      comment_count: 0,
+      comment_idList: [],
+      like_number: 20,
+      loading: false,
+      noMore: false,
+      text: "",
+      images: [],
+      isSelf: false
     };
+  },
+  computed: {
+    noMore () {
+      return this.comment_count >= this.comment_number
+    },
+    disabled () {
+      return this.loading || this.noMore
+    }
+  },
+  async created() {
+    this.token = localStorage.getItem("token");
+    this.tweet_id = this.$route.params.id;
+    await this.getComment();
+    this.isSelf = this.username === localStorage.getItem("username");
+  },
+  methods: {
+    getComment(){
+      let formdata = {
+        tweet_id: this.tweet_id
+      };
+      getTweetDetail(formdata).then(res => {
+        if(res.data.status === "success") {
+          this.username = res.data.data.user;
+          this.date = res.data.data.created_at;
+          this.text = res.data.data.text_content;
+          this.images = res.data.data.photos;
+          for(let i = 0; i < this.images.length; i++) {
+            this.images[i] = "http://10.251.253.188/tweetphoto/" + this.images[i];
+          }
+          this.like_number = res.data.data.likes;
+          this.is_like = res.data.data.is_like;
+          //TODO：获取评论
+          if(res.data.data.comment_tree === null) {
+            this.comment_number = 0;
+          } else {
+            this.comment_number = res.data.data.comment_array.length;
+            this.comment_idList = res.data.data.comment_array;
+          }
+          console.log("获取动态成功");
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+    load () {
+      this.loading = true
+      if(!this.noMore) {
+        this.comment_count++
+        this.loading = false
+      }
+    },
+    async comment() {
+      if(this.comment_editor === null || this.comment_editor === "") {
+        this.$notify({
+          title: '提示',
+          message: '评论不能为空',
+          type: 'warning'
+        });
+        return;
+      }
+      let formdata = {
+        tweet_id: this.tweet_id,
+        text_content: this.comment_editor
+      };
+      await commentTweet(formdata, this.token).then(res => {
+        if(res.data.status === "success") {
+          this.getComment();
+          this.comment_editor = "";
+          this.isEditor = false;
+        }
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+    async deleteTweet(){
+      this.$confirm('确认删除这条动态吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let data = {
+          tweet_id: this.tweet_id
+        };
+        await deleteTweet(data, this.token).then(res => {
+          if(res.data.status === "success") {
+            this.$notify({
+              title: '提示',
+              message: '删除成功',
+              type: 'success'
+            });
+            this.$router.push("/user/" + this.username);
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    changeColor1(event) {
+      event.target.style.color = "#00C1C1";
+      document.getElementById("dislike_icon").setAttribute("fill", "#00C1C1");
+    },
+    changeColor2(event) {
+      event.target.style.color = "#515151";
+      document.getElementById("dislike_icon").setAttribute("fill", "#515151");
+    },
+    changeEditor1() {
+      this.isEditor = true;
+    },
+    changeEditor2() {
+      this.isEditor = false;
+    },
+    async like() {
+      let formdata = {
+        tweet_id: this.tweet_id
+      };
+      await likeTweet(formdata, this.token).then(res => {
+        if(res.data.status === "success") {
+          this.is_like = !this.is_like;
+          if(this.is_like) {
+            this.like_number += 1;
+          } else {
+            this.like_number -= 1;
+          }
+        }
+      }).catch(err => {
+        if(err.response.status === 401) {
+          this.$router.push("/login");
+        }else {
+          console.log(err);
+        }
+      });
+    }
   }
 }
 </script>
@@ -122,6 +287,15 @@ export default {
   align-items: flex-start;
   justify-content: center;
 }
+.delete{
+  width: 310px;
+  height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
 #name {
   font-size: 25px;
   font-weight: bold;
@@ -135,7 +309,7 @@ export default {
 }
 .content-container{
   width: 100%;
-  min-height: 200px;
+  min-height: 100px;
   background: white;
   display: flex;
   flex-direction: column-reverse;
@@ -144,7 +318,7 @@ export default {
 }
 .content{
   width: 85%;
-  min-height: 200px;
+  min-height: 50px;
   max-height: none;
   background: white;
   display: flex;
@@ -152,7 +326,7 @@ export default {
 }
 .text{
   width: 100%;
-  min-height: 140px;
+  min-height: 40px;
   background: white;
   display: flex;
   text-align: left;
@@ -167,5 +341,84 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 15px;
+}
+.comment-editor{
+  width: 100%;
+  min-height: 100px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.like{
+  width: 85%;
+  height: 40px;
+  background: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#comment{
+  height: 100%;
+  font-size: 20px;
+  margin-right: 20px;
+  color: #00C1C1;
+  border-bottom: #00c1c1 2px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+#dislike{
+  height: 100%;
+  font-size: 18px;
+  color: #515151;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+#like{
+  height: 100%;
+  font-size: 18px;
+  color: #00C1C1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+#button{
+  width: 85%;
+  height: 40px;
+  margin-top: 10px;
+  background: #00C1C1;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+
+
+.comment{
+  width: 100%;
+  min-height: 100px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 </style>

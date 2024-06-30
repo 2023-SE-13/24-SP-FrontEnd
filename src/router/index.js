@@ -11,6 +11,7 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
+import MessageView  from "@/views/MessageView.vue";
 import PostView from "@/views/PostView.vue";
 import CompanyEditorTemp from '@/views/CompanyEditorTemp.vue';
 import Tweet from '@/views/Tweet.vue'
@@ -70,6 +71,11 @@ const routes = [
         component: Tweet
       },
       {
+        path:'/postview/:id',
+        name:'PostView',
+        component: PostView
+      },
+      {
         path: '/user/:name',
         name: 'User',
         component: User
@@ -79,6 +85,10 @@ const routes = [
         name: 'ShareWrite',
         component: ShareWrite
       },
+      {
+        path:'/message',
+        component:MessageView
+      }
     ]
   },
   {
