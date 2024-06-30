@@ -47,7 +47,8 @@
               {{ item.sender_uname }}  <br>
               <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar>
             </div> -->
-            <div class="message-background-color" :ref="'messageRef' + index">
+            <!-- 消息块 -->
+            <div :class="['message-background-color', myMessage(item)]" :ref="'messageRef' + index">
                 {{ item.content }}
             </div>
           </li>
@@ -122,6 +123,14 @@ export default {
         }
       }
     },
+
+    myMessage(message) {
+      if(message.sender_uname === this.user_name) {
+        return 'my-message'
+      } else {
+        return 'your-message'
+      }
+    }
   },
 }
 </script>
@@ -257,6 +266,11 @@ ul {
   border-radius: 10px;
 }
 
+.message-background-color.my-message {
+  background-color: rgb(197, 255, 237);
+}
+
+
 /*气泡*/
 .message-item {
   transition: opacity 1s ease, transform 1s ease;
@@ -297,6 +311,7 @@ textarea {
   display: none;
   /* WebKit 浏览器（如 Chrome 和 Safari）隐藏滚动条 */
 }
+
 
 
 </style>
