@@ -7,7 +7,7 @@
       <span :style="{ color: !isNotice ? '#00cfcf' : '#000000' }" @click="isNotice = false">私信</span>
       </div>
 
-<!--通知列表-->
+    <!--通知列表-->
       <div class="group-list" v-show="isNotice == true">
         <ul>
           <li v-for="item in groupList" :key="item.group_id">
@@ -31,11 +31,13 @@
         </ul>
       </div>
     </div>
+
     <!-- 消息列表 -->
     <div class="message-box">
-      <div class="group-info-header" ></div>
+      <div class="group-info-header"></div>
       <!-- 消息窗口 -->
-      <div class="message-list" >
+      <div class="message-list" :style="{ height: isNotice ? '97.7%' : '70%' }">
+        <!--私信-->
         <ul>
           <li v-for="(item, index) in messageList"
           class="message-item"
@@ -53,9 +55,13 @@
             </div>
           </li>
         </ul>
+
+      <!--通知-->
+      <NoticeUnit v-show="isNotice == true"></NoticeUnit>
+
       </div>
       <!-- 输入框 -->
-      <div class="text-box">
+      <div class="text-box" v-show="isNotice == false">
         <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
       <div class="send-btn"></div>
     </div>
@@ -65,6 +71,7 @@
 
 <script>
 import { getConversation, getMessage} from '@/api/api';
+import NoticeUnit from "@/components/NoticeUnit.vue";
 
 
 export default {
@@ -78,6 +85,7 @@ export default {
       isNotice: true
     };
   },
+  components : { NoticeUnit },
   created() {
     this.loadGroupList();
   },
