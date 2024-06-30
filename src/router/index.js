@@ -57,7 +57,7 @@ const routes = [
         component:UserListView
       },
       {
-        path:'/postview',
+        path:'/postview/:id',
         name:'PostView',
         component: PostView
       }

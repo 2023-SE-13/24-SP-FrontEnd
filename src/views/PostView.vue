@@ -48,13 +48,7 @@
 
             <div class="relapos">
                 <div class="poss">
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
-                    <ShowPostUnit></ShowPostUnit>
+                    <ShowPostUnit v-for="(post, index) in PostViewList" :key="index" :post-data="post"></ShowPostUnit>
                 </div>
             </div>
         </div>
@@ -69,7 +63,7 @@
 </template>
 
 <script>
-import { getPosition, getCompany, submitCV } from "@/api/api";
+import { getPosition, getCompany, submitCV,getSimilarPost ,IsAdmin} from "@/api/api";
 import ShowPostUnit from '@/components/ShowPostUnit.vue'
 export default {
     data() {
@@ -91,8 +85,10 @@ export default {
                 company_name: "",
             },
             // token: localStorage.getItem('token'),
-            token: "b64cfb772de4033a18bbef3e00eb64028adba619",
+            token: localStorage.getItem("token"),
             is_admin: false,
+            PostViewList: [],
+            user_role: "",
         };
     },
     components: {
@@ -119,7 +115,7 @@ export default {
         }
     },
     created() {
-        getPosition(localStorage.getItem('position_id')).then(res => {
+        getPosition(localStorage.getItem("position_id")).then(res => {
             this.position.position_name = res.data.position_name
             this.position.position_description = res.data.position_description
             this.position.location = res.data.location
@@ -133,10 +129,31 @@ export default {
                 }
             })
             //判断是不是admin，修改is_admin的值
+            if(localStorage.getItem("username")===null){
+                this.is_admin=true
+            }else{
+                IsAdmin(localStorage.getItem("username")).then(res =>{
+                    console.log(res.data)
+                    if(res.data.status === "success"){
+                        this.user_role = res.data.data.role
+                        if(this.user_role === "Admin"){
+                            this.is_admin = true
+                        }
+                    }
+                })
+            }
             this.position.position_id = res.data.position_id
             this.position.posted_at = res.data.posted_at
             this.position.salary_min = res.data.salary_min
             this.position.salary_max = res.data.salary_max
+            this.position.position_tag = res.data.position_tag
+            getSimilarPost(this.position.position_id).then(res =>{
+                if(res.data.status === "success"){
+                    this.PostViewList = res.data.data
+                }
+                console.log(this.PostViewList)
+                console.log(res.data)
+            })
         })
     },
 }
@@ -316,5 +333,18 @@ export default {
  
 .poss::-webkit-scrollbar-thumb {  
     background: transparent; /* 滑块也透明 */  
+}  
+
+.poss .pos-item {
+    display: inline-block;
+    float: left;
+    height: 35px;
+    position: relative;
+    left: 10px;
+    padding-top: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
 }
+
+
 </style>

@@ -1,11 +1,11 @@
 <template>
-    <div class="post-unit">
+    <div class="post-unit" @click="showPostView">
         <div class="upper-box">
-            <span class="post">米哈游游戏策划</span>
-            <span class="salary">8-12K</span>
+            <span class="post">{{ PostData.position_name }}</span>
+            <span class="salary">{{ PostData.salary_min  }}-{{ PostData.salary_max }}</span>
         </div>
         <div class="lower-box">
-            <span class="company_name">Leader直聘</span>
+            <span class="company_name">{{ PostData.company_name }}</span>
         </div>
     </div>
 </template>
@@ -15,7 +15,17 @@ export default {
         return {
 
         }
-    }
+    },
+    props: {
+        PostData: {
+        }
+    },
+    methods: {
+        showPostView() {
+            console.log(this.PostData)
+            this.$router.push('/PostView/' + this.PostData.position_id);
+        }
+    },
 }
 </script>
 <style lang="scss" scoped>
@@ -30,7 +40,7 @@ export default {
     transition: 0.5s;
 }
 .post-unit:hover{
-    box-shadow: 10px 10px 20px 0px rgba(98, 92, 92, 0.3);
+    box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
 .upper-box {
     height: 80px;
@@ -51,7 +61,7 @@ export default {
 .lower-box span{
     display: inline-block;
     margin-left: 20px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 .post{
     display: inline-block;
@@ -65,7 +75,6 @@ export default {
     text-align: left;
 }
 .salary{
-    display: inline-block;
     // float: right;
     //font-size: 25px0px;
     font-weight: 400;
