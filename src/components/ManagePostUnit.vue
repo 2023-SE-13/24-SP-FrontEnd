@@ -17,9 +17,9 @@
                 <span class="req-text">{{postData.salary_min}}-{{salary_max}}</span>
             </div>
         </div>
-        <div class="tags">
+        <!-- <div class="tags">
             dasdasd
-        </div>
+        </div> -->
         <div class="lower">
             <span>{{postData.position_description}}</span>
             <span>申请数:{{ postData.application_count }}</span>
