@@ -260,7 +260,7 @@ export default {
     padding-top: 5px;
     padding-right: 8px;
     padding-left: 8px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .des-list {
@@ -268,7 +268,7 @@ export default {
     background-color: rgb(246, 246, 246);
     /* 移除默认的列表样式，如列表符号 */
     list-style-type: none;
-    padding-left: 0px;
+    padding-left: 0;
     margin-top: 10px;
     width: 96%;
     /* 根据需要调整这个值 */
@@ -316,18 +316,5 @@ export default {
  
 .poss::-webkit-scrollbar-thumb {  
     background: transparent; /* 滑块也透明 */  
-}  
-
-.poss .pos-item {
-    display: inline-block;
-    float: left;
-    height: 35px;
-    position: relative;
-    left: 10px;
-    padding-top: 5px;
-    padding-right: 8px;
-    padding-left: 8px;
 }
-
-
 </style>
