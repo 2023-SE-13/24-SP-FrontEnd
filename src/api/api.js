@@ -300,7 +300,7 @@ export function getUser(username) {
     });
 }
 
-
+// 获取公司所有岗位
 export function getPositionList(company_id) {
     return service({
         method: 'get',
@@ -308,8 +308,57 @@ export function getPositionList(company_id) {
         params: {
             'company_id': company_id
         }
-    })
+    });
+}
 
+// 获取岗位所有信息
+export function getPosition(position_id) {
+    return service({
+        method: 'get',
+        url: '/position/get_position',
+        params: {
+            'position_id': position_id
+        }
+    });
+}
+
+// 获取关注的企业和用户
+export function getRecommendSubscribe(token) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_subscribe',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+// 获取
+export function getRecommendPosition(token) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+//提交简历
+export function submitCV(token, position_id) {
+    let data = {
+        "position_id": position_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/position/apply_position',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
 }
 
 // 创建职位
