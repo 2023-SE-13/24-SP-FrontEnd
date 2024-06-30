@@ -74,7 +74,7 @@
 
 </template>
 <script>
-import PostUnit from './PostUnit.vue';
+
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
 import { getPositionList, createPost, deletePost, getPostApply } from '@/api/api'
@@ -156,7 +156,7 @@ export default {
         }
     },
     components: {
-        PostUnit,
+        // PostUnit,
         ManagePostUnit,
         ApplyUnit
     }
