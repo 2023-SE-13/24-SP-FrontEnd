@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="message-box">
+    <div class="company-box">
       <component :is="currentView"></component>
     </div>
   </div>
@@ -339,8 +339,8 @@ export default {
   color: #fff;
 }
 
-.message-box {
-  margin-left: 5%;
+.company-box {
+  margin-left: 4%;
   margin-top: 2%;
 }
 </style>

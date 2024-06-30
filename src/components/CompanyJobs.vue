@@ -100,9 +100,7 @@ export default {
   background-color: #ffffff;
   padding: 2px 15px 65px 15px;
   border-radius: 12px;
-  margin-top: 18px;
   width: 27%;
-  margin-left: 4%;
   min-height: 400px;
   height: auto;
 }
