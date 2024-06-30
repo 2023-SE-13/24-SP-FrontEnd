@@ -235,6 +235,7 @@ export function getCompanyEmployee(company_id) {
     });
 }
 
+// 修改用户信息
 export function UpdateUserInfo(data, token) {
     return service({
         method: 'put',
@@ -256,6 +257,7 @@ export function SearchCompany(data){
     })
 }
 
+// 关注用户
 export function SubscribeUser(data, token) {
     return service({
         method: 'post',
@@ -267,6 +269,7 @@ export function SubscribeUser(data, token) {
     })
 }
 
+// 取消关注用户
 export function UnSubscribeUser(data, token) {
     return service({
         method: 'delete',
@@ -278,6 +281,7 @@ export function UnSubscribeUser(data, token) {
     })
 }
 
+// 查询是否关注用户
 export function DoSubscribeUser(data, token) {
     return service({
         method: 'post',
@@ -298,4 +302,28 @@ export function getUser(username) {
             'username': username
         }
     });
+}
+
+// 上传简历
+export function uploadResume(data, token) {
+    return service({
+        method: 'put',
+        url: '/user/upload_resume',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 发布动态
+export function publishTweet(data, token) {
+    return service({
+        method: 'post',
+        url: '/tweet/create_tweet',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
 }

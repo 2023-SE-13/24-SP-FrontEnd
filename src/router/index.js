@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Company from '../views/CompanyView.vue'
 import EnterpriseRegister from '../views/CompanyRegister.vue';
 import User from "@/views/User.vue";
+import ShareWrite from "@/views/ShareWrite.vue";
 import EnterpriseEditor from '../views/CompanyEditor.vue';
 import Register from "@/views/Register.vue";
 import Password from "@/views/Password.vue";
@@ -36,6 +37,11 @@ const routes = [
         path: '/user/:name',
         name: 'User',
         component: User
+      },
+      {
+        path: '/user/:name/shareWrite',
+        name: 'ShareWrite',
+        component: ShareWrite
       },
       {
         path: '/company-register',

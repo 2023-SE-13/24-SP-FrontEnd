@@ -68,11 +68,13 @@
               <span id="uploadIcon">
                 <el-upload
                     action="#"
+                    auto-upload
+                    :on-success="handleSuccess"
                     :on-preview="handlePreview"
                     :on-remove="handleRemove"
-                    :on-success="handleSuccess"
                     :on-error="handleError"
                     :show-file-list="false"
+                    :http-request="uploadResume"
                 >
                   <i class="el-icon-plus"></i>
                 </el-upload>
@@ -88,7 +90,17 @@
                 </div>
                 <div id="resumeInfo">
                   <p>{{ user.real_name }}_resume.pdf</p>
-                  <p>上传时间: 2021-10-10</p>
+                  <p style="font-size: 12px;color: #bbb">上传时间: 2021-10-10</p>
+                </div>
+                <div id="resumeMenu">
+                  <el-dropdown trigger="hover" placement="bottom">
+                    <i class="el-icon-more"></i>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>预览</el-dropdown-item>
+                      <el-dropdown-item>下载</el-dropdown-item>
+                      <el-dropdown-item divided>删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
                 </div>
               </div>
             </div>
@@ -102,7 +114,7 @@
               </el-menu>
             </div>
             <div v-show="preActive==='1'" id="share">
-              <div id="shareEditBtn">
+              <div id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
             </div>
@@ -118,7 +130,7 @@
 </template>
 
 <script>
-import {GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser} from "@/api/api";
+import {GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser, uploadResume} from "@/api/api";
 export default {
   name: "User",
   components: {
@@ -228,7 +240,7 @@ export default {
           }
         }
     );
-    this.preActive = 1;
+    this.preActive = '1';
   },
   data() {
     return {
@@ -269,7 +281,7 @@ export default {
         ]
       },
       hasResume: true,
-      preActive: 1
+      preActive: '1'
     };
   },
   methods: {
@@ -411,11 +423,22 @@ export default {
     handleRemove() {
       return true;
     },
-    uploadLocation() {
-      return true;
+    async uploadResume(file) {
+      console.log(file.file);
+      const formData = new FormData();
+      formData.append("resume", file.file);
+      await uploadResume(formData, this.token).then(res => {
+        if (res.data.status === 200) {
+
+          this.hasResume = true;
+        }
+      });
     },
     preSelect(index) {
       this.preActive = index;
+    },
+    goToWrite() {
+      this.$router.push("/User/" + this.user.name + "/ShareWrite");
     }
   }
 }
@@ -588,31 +611,40 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: blue;
   }
   #nullResume {
     position: relative;
     bottom: 5%;
   }
   #userResume {
-    background-color: #b3e19d;
     width: 100%;
     font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
     position: relative;
-    bottom: 5%;
+    bottom: 10%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
   }
   #userResume:hover {
-    color: #00BEBD;
+    background-color: rgba(247, 247, 247, 0.9);
   }
   #resumeInfo {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    position: relative;
+    left: 3%;
+    line-height: 180%;
+  }
+  #resumeMenu {
+    position: relative;
+    left: 29.5%;
+  }
+  #resumeMenu i:hover {
+    color: #00BEBD;;
   }
   #zone {
     width: 70%;
