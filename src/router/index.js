@@ -10,12 +10,9 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
-<<<<<<< HEAD
 import PostView from "@/views/PostView.vue";
-=======
 import CompanyEditorTemp from '@/views/CompanyEditorTemp.vue';
 import Tweet from '@/views/Tweet.vue'
->>>>>>> dev3
 
 
 Vue.use(VueRouter)
@@ -98,14 +95,11 @@ const routes = [
     name:'Password',
     component: Password
   },
-<<<<<<< HEAD
   {
     path:'/postview',
     name:'PostView',
     component: PostView
   }
-=======
->>>>>>> dev3
 ]
 
 const router = new VueRouter({
