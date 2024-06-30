@@ -11,23 +11,28 @@
                         <el-option label="公司" value="2"></el-option>
                     </el-select>
                     <el-button slot="append" id="search-button" icon="el-icon-search" @click="Search" ref="button"
-                        :disabled="NotAllowSearch">搜索</el-button>
+                        :disabled="NotAllowSearch">搜索
+                    </el-button>
                 </el-input>
             </div>
         </div>
         <div class="post-container">
-            <span>热门</span>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
-            <PostUnit></PostUnit>
+            <div class="recommend_position">
+                <span>精选职位</span>
+                <PostPositionUnit v-for="(position, index) in RecommendPositionList" :key="index" :post-data="position">
+                </PostPositionUnit>
+            </div>
+            <div class="recommend_subscribe">
+                <span>推荐企业</span>
+                <PostCompanyUnit v-for="(company, index) in RecommendSubscribeList.companies" :key="index"
+                    :post-data="company"></PostCompanyUnit>
+            </div>
+            <div class="recommend_user">
+                <span>推荐用户</span>
+                <PostUserUnit v-for="(user, index) in RecommendSubscribeList.users" :key="index" :post-data="user">
+                </PostUserUnit>
+            </div>
         </div>
-
         <el-dialog center title="请完善个人信息" :append-to-body="true" :visible.sync="dialogVisible" :show-close="false"
             width="40%">
             <el-form :model="user" :rules="rules" ref="user">
@@ -63,19 +68,22 @@
                 <el-button type="primary" @click="editSuccess(user)">提 交</el-button>
             </span>
         </el-dialog>
-
     </div>
 </template>
 <script>
-import PostUnit from '@/components/PostUnit.vue'
-import { GetUserInfo, UpdateUserInfo } from "@/api/api";
+import { getRecommendSubscribe, getRecommendPosition, GetUserInfo, UpdateUserInfo } from "@/api/api";
+import PostPositionUnit from "@/components/PostPositionUnit.vue";
+import PostCompanyUnit from "@/components/PostCompanyUnit.vue";
+import PostUserUnit from "@/components/PostUserUnit.vue";
 export default {
     data() {
         return {
             select: '1',
             input: '',
             NotAllowSearch: true,
-            token: null,
+            token: 'ff5d0e29d3836387e23c570d2579dda65f922cb5',
+            RecommendSubscribeList: [],
+            RecommendPositionList: [],
             isSelf: false,
             isFavor: false,
             user: {
@@ -204,7 +212,7 @@ export default {
 
     },
     components: {
-        PostUnit
+        PostPositionUnit, PostCompanyUnit, PostUserUnit
     },
     async created() {
         this.token = localStorage.getItem("token");
@@ -244,12 +252,22 @@ export default {
                     }
                 }
             );
-            console.log(this.user);
+            console.log(this.user.education);
             console.log(this.user.desired_position);
             if (this.user.education == "" || this.user.desired_position == "") {
                 this.dialogVisible = true;
             }
         }
+        getRecommendSubscribe(this.token).then(res => {
+            if (res.data.status === "success") {
+                this.RecommendSubscribeList = res.data.data
+            }
+        })
+        getRecommendPosition(this.token).then(res => {
+            if (res.data.status === "success") {
+                this.RecommendPositionList = res.data.data
+            }
+        })
     },
     methods: {
         editSuccess() {
@@ -369,22 +387,45 @@ export default {
                     break
             }
         }
-    }
+    },
+
 }
 </script>
 <style scoped>
+.recommend_position {
+    flex: 1;
+    width: 100%;
+    margin-top: 3%
+}
+
+.recommend_subscribe {
+    flex: 1;
+    width: 100%;
+    margin-top: 3%
+}
+
+.recommend_user {
+    flex: 1;
+    width: 100%;
+    margin-top: 3%
+}
+
+.recommend_position .recommend_subscribe .recommend_user span {}
+
 .post-container {
     width: 85%;
     margin: 0 auto;
-    /* background-color: chocolate; */
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5%;
 }
 
 .post-container span {
-    display: block;
-    font-size: 35px;
-    font-weight: 1000;
-    color: black;
+  display: block;
+  font-size: 35px;
+  font-weight: 1000;
+  color: black;
 }
 
 .info-bar {
@@ -439,12 +480,12 @@ export default {
     margin-left: 20px;
 }
 
-/deep/.el-select {
+/deep/ .el-select {
     width: 130px;
     border-radius: 10px;
 }
 
-/deep/.el-input__inner {
+/deep/ .el-input__inner {
     height: 50px;
     /* width: 100px;` */
 }
@@ -480,35 +521,35 @@ export default {
 
 }
 
-/deep/.el-input-group__append {
+/deep/ .el-input-group__append {
     background-color: #00bebd;
     border-color: #00bebd;
 }
 
-/deep/.el-input__inner {
+/deep/ .el-input__inner {
     border-color: #fff;
 }
 
-/deep/.el-input-group__prepend {
+/deep/ .el-input-group__prepend {
     background-color: #fff;
     border-color: #fff;
     border-radius: 5px;
 }
 
-.select /deep/.el-input__inner::placeholder {
+.select /deep/ .el-input__inner::placeholder {
     color: rgba(47, 58, 145, .8) !important;
     font-weight: 500;
     text-align: center;
 }
 
-/deep/.el-select {
+/deep/ .el-select {
     /* border-right: 1px solid blue; */
     position: relative;
 
 }
 
 
-/deep/.el-select::after {
+/deep/ .el-select::after {
     content: '';
     position: absolute;
     top: 25%;
@@ -528,21 +569,21 @@ export default {
     border-radius: 10px;
     /* border-top-right-radius: 10px; */
     /* padding: 10px; */
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
-.pro-input /deep/.el-input__inner {
+.pro-input /deep/ .el-input__inner {
     height: 35px;
     border: #bfc3de solid 2px;
     border-radius: 5px;
     margin-left: 10px;
 }
 
-.pro-input /deep/.el-input__inner:hover {
+.pro-input /deep/ .el-input__inner:hover {
     border-color: rgba(47, 58, 145, .8) !important;
 }
 
-.pro-input /deep/.el-input-group__prepend {
+.pro-input /deep/ .el-input-group__prepend {
     border: #bfc3de solid 2px;
     width: 80px;
     border-radius: 5px;

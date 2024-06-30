@@ -1,14 +1,11 @@
 <template>
   <div>
-    <div id="nav">
-      <NaviBar></NaviBar>
-    </div>
     <div id="body">
       <div id="center" class="background">
         <div id="main">
           <div id="infor" class="content">
             <div id="avatar">
-              <el-avatar :size="70" @error="errorHandler" src="../assets/photo.png" id="img">头像</el-avatar>
+              <el-avatar :size="70" @error="errorHandler" :src="photo_url" id="img">头像</el-avatar>
             </div>
             <div id="personInfor">
               <div id="userName">
@@ -96,6 +93,7 @@
                     </el-col>
                   </el-row>
                 </el-form>
+
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="editCancel">取 消</el-button>
                   <el-button type="primary" @click="editSuccess(user)">确 定</el-button>
@@ -106,6 +104,46 @@
           <div v-if="isSelf" id="resume" class="content">
             <div id="uploadResTitle">
               <span>上传简历</span>
+              <span id="uploadIcon">
+                <el-upload
+                    action="#"
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :show-file-list="false"
+                >
+                  <i class="el-icon-plus"></i>
+                </el-upload>
+              </span>
+            </div>
+            <div id="resumeImg">
+              <div v-if="!hasResume" id="nullResume">
+                <el-empty description="暂无简历，快去上传吧" :image-size="80"></el-empty>
+              </div>
+              <div v-if="hasResume" id="userResume">
+                <div>
+                  <svg t="1719662425449" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3740" width="80" height="80"><path d="M179 64h468.5l223 225.5V935c0 13.807-11.193 25-25 25H179c-13.807 0-25-11.193-25-25V89c0-13.807 11.193-25 25-25z" fill="#FF4867" p-id="3741"></path><path d="M647.5 64v200.5c0 13.807 11.193 25 25 25h198L647.5 64z" fill="#FF97A9" p-id="3742"></path><path d="M691.919 812c-44.4 0-84.22-76.189-105.17-125.732-35.243-14.71-74.092-28.45-111.831-37.331-33.022 21.788-89.214 54.4-132.365 54.4-26.778 0-46.064-13.461-53.14-36.914-5.411-19.29-0.832-32.613 4.995-39.83 11.377-15.543 34.825-23.453 69.929-23.453 28.443 0 64.517 4.996 104.754 14.71 25.945-18.457 52.307-39.829 75.756-62.45-10.406-49.404-21.784-129.479 7.076-166.393 14.29-17.625 36.074-23.454 62.436-15.543 28.86 8.326 39.82 25.951 43.15 39.829 12.21 48.155-43.15 113.103-80.473 151.267 8.325 33.029 19.286 67.862 32.606 99.78 53.556 23.87 117.24 59.536 124.456 98.394 2.913 13.461-1.249 25.951-12.21 36.915-9.435 7.771-19.425 12.351-29.97 12.351zM652 728c9.768 21.74 19.081 32 23.99 32 0.76 0 1.823-0.333 3.341-1.664 1.822-1.996 1.822-3.327 1.518-4.547-1.012-5.713-9.262-15.085-28.849-25.789z m-281.922-88c-15.62 0-19.913 3.774-21.22 5.535-0.373 0.566-1.493 2.264-0.373 6.666 0.933 3.774 3.547 7.799 11.636 7.799 10.143 0 24.829-5.723 41.879-15.975-12.196-2.704-22.962-4.025-31.922-4.025zM523 620.582c9.333 2.6 19.01 5.951 28 9.418-3.264-8.551-5.898-17.449-8.13-26A629.121 629.121 0 0 1 523 620.582zM588.966 433c-3.32 0-5.649 1.229-7.745 3.511-6.173 7.783-6.872 27.386-2.097 52.489 18.111-19.427 27.953-37.275 25.507-46.813-0.35-1.404-1.398-5.676-9.842-8.134-2.33-0.702-4.076-1.053-5.823-1.053z" fill="#FFFFFF" p-id="3743"></path></svg>
+                </div>
+                <div id="resumeInfo">
+                  <p>{{ user.real_name }}_resume.pdf</p>
+                  <p>上传时间: 2021-10-10</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="zone" class="content">
+            <!--展示切换菜单-->
+            <div id="preMenu">
+              <el-menu default-active="1" mode="horizontal" @select="preSelect" id="pre_menu">
+                <el-menu-item index="1" class="preMenuItem">动态</el-menu-item>
+                <el-menu-item index="2" class="preMenuItem">关注</el-menu-item>
+              </el-menu>
+            </div>
+            <div v-show="preActive==='1'" id="share">
+              <div id="shareEditBtn">
+                <i class="el-icon-edit"></i>
+              </div>
               <span id="uploadIcon"><i class="el-icon-plus"></i></span>
             </div>
             <div id="uploadRes">
@@ -115,7 +153,6 @@
               </el-upload>
             </div>
           </div>
-          <div id="zone" class="content"></div>
         </div>
       </div>
       <div id="left" class="background">
@@ -127,12 +164,10 @@
 </template>
 
 <script>
-import NaviBar from "@/components/NaviBar.vue";
 import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser } from "@/api/api";
 export default {
   name: "User",
   components: {
-    NaviBar
   },
   watch: {
     $route: {
@@ -252,10 +287,12 @@ export default {
         }
       }
     );
+    this.preActive = 1;
   },
   data() {
     return {
       token: null,
+      photo_url: require("../assets/photo.png"),
       isSelf: false,
       isFavor: false,
       user: {
@@ -535,6 +572,20 @@ export default {
       this.user = JSON.parse(json);
       this.dialogVisible = false;
     },
+    handleSuccess() {
+      this.$notify({
+        title: "成功",
+        message: "上传成功",
+        type: "success"
+      });
+    },
+    handleError() {
+      this.$notify({
+        title: "错误",
+        message: "上传失败",
+        type: "error"
+      });
+    },
     handlePreview() {
       return true;
     },
@@ -543,6 +594,9 @@ export default {
     },
     uploadLocation() {
       return true;
+    },
+    preSelect(index) {
+      this.preActive = index;
     }
   }
 }

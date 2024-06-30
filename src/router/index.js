@@ -10,6 +10,9 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
+import PostView from "@/views/PostView.vue";
+import CompanyEditorTemp from '@/views/CompanyEditorTemp.vue';
+import Tweet from '@/views/Tweet.vue'
 
 
 Vue.use(VueRouter)
@@ -33,6 +36,11 @@ const routes = [
         component: Company
       },
       {
+        path: '/user/:name',
+        name: 'User',
+        component: User
+      },
+      {
         path: '/company-register',
         name: 'CompanyRegister',
         component: EnterpriseRegister
@@ -42,6 +50,11 @@ const routes = [
         name: 'CompanyEditer',
         component: EnterpriseEditor
       },
+      {
+        path: '/company-temp',
+        component: CompanyEditorTemp
+      }
+      ,
       {
         path: '/company-search',
         name: 'CompanySearch',
@@ -54,6 +67,11 @@ const routes = [
       {
         path:'/user-list',
         component:UserListView
+      },
+      {
+        path: '/tweet/:id',
+        name: 'Tweet',
+        component: Tweet
       }
     ]
   },
@@ -68,11 +86,6 @@ const routes = [
     component: Company
   },
   {
-    path: '/user/:name',
-    name: 'User',
-    component: User
-  },
-  {
     path: '/register',
     name: 'Register',
     component: Register
@@ -81,6 +94,11 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
+  },
+  {
+    path:'/postview',
+    name:'PostView',
+    component: PostView
   }
 ]
 

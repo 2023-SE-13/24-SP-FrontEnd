@@ -34,7 +34,17 @@
 </template>
 
 <script>
-import { leaveCompany, followCompany, unFollowCompany, getCompany, isFollowCompany, isStaff, joinCompany, haveJoinCompany } from '@/api/api';
+import {
+  leaveCompany,
+  followCompany,
+  unFollowCompany,
+  getCompany,
+  isFollowCompany,
+  isStaff,
+  joinCompany,
+  haveJoinCompany,
+  getCompanyEmployee
+} from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
 import CompanyTaste from "@/components/CompanyTaste.vue";
@@ -50,19 +60,20 @@ export default {
     return {
       isFollowed: false,
       isStaff: false,
+      isManager: false,
       haveJoinCompany: false,
       currentView: 'CompanyIntro',
       company: {
         companyName: '',
         companySubscription: 0
       },
-      company_logo:require('../assets/photo.png'),
+      role: '',
+      company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
       company_id: localStorage.getItem('company_id'),
       username: localStorage.getItem('username')
     };
   },
   created() {
-    console.log(this.username)
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.haveJoinCompany = res.data.status === "y";
     })
@@ -73,11 +84,17 @@ export default {
       this.isFollowed = res.data.status === "success";
     })
     getCompany(this.company_id).then(res => {
-      console.log(res.data.data)
       if (res.data.status === "success") {
         this.company.companyName = res.data.data.company_name
         this.company.companySubscription = res.data.data.company_subscription
-        //this.company_logo = res.data.data.company_image
+      }
+    })
+    getCompanyEmployee(this.company_id).then(res => {
+      if (res.data.status === "success") {
+        if (res.data.role === 'Creator') {
+          this.isManager = true
+          this.isStaff = false
+        }
       }
     })
   },
@@ -200,7 +217,8 @@ export default {
   padding: 20px;
   text-align: left;
   background-color: #def0f4;
-  height: 87.2%;
+  min-height: 87.2%;
+  height: auto;
   width: 97.3%;
   position: absolute;
 }
@@ -231,9 +249,10 @@ export default {
 }
 
 .btn {
-  position: absolute;
-  right: 5.5%;
-  top: 6.5%
+  display: flex;
+  float: right;
+  margin-right: 7.5%;
+  margin-top: -5.3%;
 }
 
 .custom-btn:hover {
@@ -318,14 +337,5 @@ export default {
 .nav-inner .nav-item.active a {
   font-weight: bold;
   color: #fff;
-}
-
-.box {
-  background-color: #ffffff;
-  padding: 2px 15px 15px 15px;
-  border-radius: 12px;
-  margin-top: 18px;
-  width: 90%;
-  margin-left: 4%;
 }
 </style>
