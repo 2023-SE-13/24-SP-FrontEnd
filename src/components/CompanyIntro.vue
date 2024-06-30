@@ -1,19 +1,11 @@
 <template>
-  <div class="message-box">
+  <div class="intro-box">
     <h2>公司简介</h2>
     <p>{{ company.description }}</p>
-
-    <h2>在招岗位</h2>
-    <div class="jobs-list">
-      <div>
-        <JobUnit v-for="(jobs,index) in JobsList" :key="index" :job-data="jobs"></JobUnit>
-      </div>
-      </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import JobUnit from "@/components/JobUnit.vue";
 import {getCompany, getPositionList} from "@/api/api";
 
 export default {
@@ -39,28 +31,17 @@ export default {
     })
   },
   components: {
-    JobUnit
   }
 };
 </script>
 
 <style scoped>
-.message-box {
+.intro-box {
   background-color: #ffffff;
   padding: 15px 40px 15px 45px;
   border-radius: 12px;
-  margin-top: 33px;
-  width: 86%;
-  margin-left: 4%;
-}
-
-.jobs-list {
-  background-color: #ffffff;
-  padding: 2px 15px 65px 15px;
-  border-radius: 12px;
-  margin-top: 18px;
-  width: 35%;
-  min-height: 150px;
+  width: 90%;
+  min-height: 400px;
   height: auto;
 }
 

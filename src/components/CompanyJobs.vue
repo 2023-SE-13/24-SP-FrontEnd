@@ -21,7 +21,6 @@
         <span class="tag"><i class="el-icon-location"></i>{{ JobData.location }}</span>
         <span class="tag"><i class="el-icon-s-custom"></i>{{ JobData.education_requirement }}</span>
 <!--        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>-->
-
       </div>
 
       <p style="margin-top: 2%; color: red">薪酬: {{ formatSalary(JobData.salary_min) }} - {{ formatSalary(JobData.salary_max) }}</p>
@@ -50,7 +49,7 @@ export default {
       JobsList: [
       ],
       JobData: {},
-      company_id: '',
+      company_id: localStorage.getItem('company_id'),
       positionId: ''
     };
   },
@@ -100,9 +99,7 @@ export default {
   background-color: #ffffff;
   padding: 2px 15px 65px 15px;
   border-radius: 12px;
-  margin-top: 18px;
   width: 27%;
-  margin-left: 4%;
   min-height: 400px;
   height: auto;
 }
@@ -111,9 +108,8 @@ export default {
   background-color: #ffffff;
   padding: 0 25px 15px 15px;
   border-radius: 12px;
-  margin-top: 18px;
   width: 62%;
-  margin-left: 4%;
+  margin-left: 3.5%;
   margin-right: 4%;
   position: sticky;
 }

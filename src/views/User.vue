@@ -128,15 +128,14 @@
                 </div>
                 <div id="resumeInfo">
                   <p>{{ user.real_name }}_resume.pdf</p>
-                  <p style="font-size: 12px;color: #bbb">上传时间: 2021-10-10</p>
+                  <p style="font-size: 12px;color: #bbb">上传时间: {{ resumeUploadTime }}</p>
                 </div>
                 <div id="resumeMenu">
-                  <el-dropdown trigger="hover" placement="bottom">
+                  <el-dropdown trigger="hover" placement="bottom" @command="handleCommand">
                     <i class="el-icon-more"></i>
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>预览</el-dropdown-item>
-                      <el-dropdown-item>下载</el-dropdown-item>
-                      <el-dropdown-item divided>删除</el-dropdown-item>
+                      <el-dropdown-item command="a">预览</el-dropdown-item>
+                      <el-dropdown-item divided command="b">删除</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </div>
@@ -155,13 +154,6 @@
               <div id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
-              <span id="uploadIcon"><i class="el-icon-plus"></i></span>
-            </div>
-            <div id="uploadRes">
-              <el-upload action="#" list-type="picture-card" :on-preview="handlePreview" :on-remove="handleRemove"
-                :http-request="uploadLocation" :file-list="[]">
-                <i class="el-icon-plus"></i>
-              </el-upload>
             </div>
           </div>
         </div>
@@ -175,7 +167,8 @@
 </template>
 
 <script>
-import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser, uploadResume } from "@/api/api";
+import {DoSubscribeUser, GetUserInfo, SubscribeUser, UnSubscribeUser, UpdateUserInfo, uploadResume} from "@/api/api";
+
 export default {
   name: "User",
   components: {
@@ -240,7 +233,6 @@ export default {
     }
   },
   created() {
-
     this.token = localStorage.getItem("token");
     this.user.name = this.$route.params.name;
     this.defaultUser.name = this.user.name;
@@ -352,7 +344,9 @@ export default {
         //   { required: true, message: "请输入期望职位", trigger: "change" }
         // ]
       },
-      hasResume: true,
+      hasResume: false,
+      resumeUrl: "",
+      resumeUploadTime: "",
       preActive: '1',
       options: [
         {
@@ -454,177 +448,194 @@ export default {
     formattedDesiredPosition() {
       return this.flatDesiredPosition.map(position => position.join('-')).join(' | ');
     }
-
-
-},
-methods: {
-  errorHandler() {
-    return true;
   },
-  changeFavor() {
-    if (this.token === null) {
-      this.$notify({
-        title: "错误",
-        message: "请先登录",
-        type: "error"
-      });
-      return;
-    }
-    if (this.isFavor) {
-      const data = {
-        username: this.user.name
+  methods: {
+    errorHandler() {
+      return true;
+    },
+    changeFavor() {
+      if (this.token === null) {
+        this.$notify({
+          title: "错误",
+          message: "请先登录",
+          type: "error"
+        });
+        return;
       }
-      UnSubscribeUser(data, this.token).then(res => {
-        if (res.data.status === "success") {
-          this.$notify({
-            title: "成功",
-            message: "取消关注成功",
-            type: "success"
-          });
-          this.isFavor = false;
+      if (this.isFavor) {
+        const data = {
+          username: this.user.name
         }
-      });
-    } else {
-      const data = {
-        username: this.user.name
-      }
-      SubscribeUser(data, this.token).then(res => {
-        if (res.data.status === "success") {
-          this.$notify({
-            title: "成功",
-            message: "关注成功",
-            type: "success"
-          });
-          this.isFavor = true;
-        }
-      });
-    }
-  },
-  editInfor() {
-    this.dialogVisible = true;
-  },
-  editSuccess() {
-    console.log(this.flatDesiredPosition);
-    // 将平面化数据转换回后端所需的嵌套对象格式
-    this.user.desired_position = this.flatDesiredPosition.map(item => ({
-      category: item[0],
-      specialization: item[1]
-    }));
-    console.log(this.user.desired_position);
-    this.$refs["user"].validate(valid => {
-      if (valid) {
-
-        UpdateUserInfo(this.user, this.token).then(res => {
+        UnSubscribeUser(data, this.token).then(res => {
           if (res.data.status === "success") {
-            const json = JSON.stringify(this.user);
-            this.defaultUser = JSON.parse(json);
             this.$notify({
               title: "成功",
-              message: "修改成功",
+              message: "取消关注成功",
               type: "success"
             });
+            this.isFavor = false;
           }
-        },
-          error => {
-            if (error.response.status === 401) {
-              this.$notify({
-                title: "错误",
-                message: "修改错误",
-                type: "error"
-              });
-            }
+        });
+      } else {
+        const data = {
+          username: this.user.name
+        }
+        SubscribeUser(data, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.$notify({
+              title: "成功",
+              message: "关注成功",
+              type: "success"
+            });
+            this.isFavor = true;
           }
-        );
-        this.dialogVisible = false;
-        setTimeout(() => {
-          GetUserInfo(this.user.name).then(res => {
-            if (res.data.status == "success") {
-              this.user.real_name = res.data.data.real_name;
-              this.user.name = res.data.data.username;
-              this.user.education = res.data.data.education;
-              this.user.school = res.data.data.school;
-              this.user.desired_position = res.data.data.desired_position;
-              this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
-              this.user.age = res.data.data.age;
-              this.user.blog_link = res.data.data.blog_link;
-              this.user.position = res.data.data.position;
-              this.user.workYear = res.data.data.work_year;
-              this.user.is_staff = res.data.data.is_staff;
+        });
+      }
+    },
+    editInfor() {
+      this.dialogVisible = true;
+    },
+    editSuccess() {
+      console.log(this.flatDesiredPosition);
+      // 将平面化数据转换回后端所需的嵌套对象格式
+      this.user.desired_position = this.flatDesiredPosition.map(item => ({
+        category: item[0],
+        specialization: item[1]
+      }));
+      console.log(this.user.desired_position);
+      this.$refs["user"].validate(valid => {
+        if (valid) {
+          UpdateUserInfo(this.user, this.token).then(res => {
+            if (res.data.status === "success") {
               const json = JSON.stringify(this.user);
-              // console.log(json);
               this.defaultUser = JSON.parse(json);
+              this.$notify({
+                title: "成功",
+                message: "修改成功",
+                type: "success"
+              });
             }
           },
             error => {
-              if (error.response.status === 400) {
+              if (error.response.status === 401) {
                 this.$notify({
                   title: "错误",
-                  message: "未知错误",
-                  type: "error"
-                });
-              }
-              if (error.response.status === 404) {
-                this.$notify({
-                  title: "错误",
-                  message: "用户不存在",
+                  message: "修改错误",
                   type: "error"
                 });
               }
             }
           );
-        }, 100);
-      } else {
-        this.$notify({
-          title: "错误",
-          message: "请检查输入",
-          type: "error"
-        });
+          this.dialogVisible = false;
+          setTimeout(() => {
+            GetUserInfo(this.user.name).then(res => {
+              if (res.data.status == "success") {
+                this.user.real_name = res.data.data.real_name;
+                this.user.name = res.data.data.username;
+                this.user.education = res.data.data.education;
+                this.user.school = res.data.data.school;
+                this.user.desired_position = res.data.data.desired_position;
+                this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
+                this.user.age = res.data.data.age;
+                this.user.blog_link = res.data.data.blog_link;
+                this.user.position = res.data.data.position;
+                this.user.workYear = res.data.data.work_year;
+                this.user.is_staff = res.data.data.is_staff;
+                const json = JSON.stringify(this.user);
+                // console.log(json);
+                this.defaultUser = JSON.parse(json);
+              }
+            },
+              error => {
+                if (error.response.status === 400) {
+                  this.$notify({
+                    title: "错误",
+                    message: "未知错误",
+                    type: "error"
+                  });
+                }
+                if (error.response.status === 404) {
+                  this.$notify({
+                    title: "错误",
+                    message: "用户不存在",
+                    type: "error"
+                  });
+                }
+              }
+            );
+          }, 100);
+        } else {
+          this.$notify({
+            title: "错误",
+            message: "请检查输入",
+            type: "error"
+          });
+        }
+      });
+    },
+    editCancel() {
+      const json = JSON.stringify(this.defaultUser);
+      this.user = JSON.parse(json);
+      this.dialogVisible = false;
+    },
+    handleSuccess() {
+      this.$notify({
+        title: "成功",
+        message: "上传成功",
+        type: "success"
+      });
+    },
+    handleError() {
+      this.$notify({
+        title: "错误",
+        message: "上传失败",
+        type: "error"
+      });
+    },
+    handlePreview() {
+      return true;
+    },
+    handleRemove() {
+      return true;
+    },
+    uploadResume(file) {
+      console.log(file.file);
+      const formData = new FormData();
+      formData.append("resume", file.file);
+      uploadResume(formData, this.token).then(res => {
+        if (res.data.status === "success") {
+          console.log("上传成功");
+          this.hasResume = true;
+          this.resumeUrl = "http://10.251.253.188/resume/" + this.user.name + "_resume.pdf";
+          this.resumeUploadTime = new Date();
+        }
+      },
+          error => {
+            if (error.response.status === 400) {
+              this.$notify({
+                title: "错误",
+                message: "上传错误",
+                type: "error"
+              });
+            }
+          }
+      );
+    },
+    preSelect(index) {
+      this.preActive = index;
+    },
+    goToWrite() {
+      this.$router.push("/User/" + this.user.name + "/ShareWrite");
+    },
+    handleCommand(command) {
+      if (command === 'a') {
+        window.open(this.resumeUrl);
       }
-    });
-  },
-  editCancel() {
-    const json = JSON.stringify(this.defaultUser);
-    this.user = JSON.parse(json);
-    this.dialogVisible = false;
-  },
-  handleSuccess() {
-    this.$notify({
-      title: "成功",
-      message: "上传成功",
-      type: "success"
-    });
-  },
-  handleError() {
-    this.$notify({
-      title: "错误",
-      message: "上传失败",
-      type: "error"
-    });
-  },
-  handlePreview() {
-    return true;
-  },
-  handleRemove() {
-    return true;
-  },
-    async uploadResume(file) {
-    console.log(file.file);
-    const formData = new FormData();
-    formData.append("resume", file.file);
-    await uploadResume(formData, this.token).then(res => {
-      if (res.data.status === 200) {
+      if (command === 'b') {
 
-        this.hasResume = true;
       }
-    });
-  },
-  preSelect(index) {
-    this.preActive = index;
-  },
-  goToWrite() {
-    this.$router.push("/User/" + this.user.name + "/ShareWrite");
+    }
   }
-}
 }
 </script>
 

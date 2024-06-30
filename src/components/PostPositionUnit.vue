@@ -4,7 +4,7 @@
       <span class="post">{{ postData.position_name }}</span>
     </div>
     <div class="lower-box">
-      <span>公司名字</span>
+      <span>{{postData.company_name}}</span>
     </div>
   </div>
 </template>

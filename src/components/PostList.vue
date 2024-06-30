@@ -142,7 +142,7 @@ export default {
             console.log(value)
             this.dialogVisible3 = true
             GetUserInfo(value).then(res=>{
-                console.log(res)
+                console.log(res.data.data)
             })
         },
         handleGetApply(value) {
