@@ -75,7 +75,8 @@ export default {
       })
     },
     gotoJobView(){
-      this.$router.push("/company"); // TODO 跳转到岗位详情页面
+      localStorage.setItem(this.postData.position_id)
+      this.$router.push("/postview");
     }
   },
   computed: {

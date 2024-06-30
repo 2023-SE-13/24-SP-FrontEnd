@@ -10,6 +10,7 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
+import PostView from "@/views/PostView.vue";
 
 
 Vue.use(VueRouter)
@@ -81,6 +82,11 @@ const routes = [
     path:'/password',
     name:'Password',
     component: Password
+  },
+  {
+    path:'/postview',
+    name:'PostView',
+    component: PostView
   }
 ]
 
