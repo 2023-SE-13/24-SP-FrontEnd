@@ -23,7 +23,11 @@ export default {
     methods: {
         showPostView() {
             console.log(this.PostData)
+            localStorage.setItem("position_id",this.PostData.position_id)
+            console.log("in ready")
             this.$router.push('/PostView/' + this.PostData.position_id);
+            this.$router.go(0)
+            console.log("in success")
         }
     },
 }
