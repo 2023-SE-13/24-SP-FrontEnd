@@ -15,7 +15,7 @@
         <div class="right-box scrollable">
 
             <template v-if="applyList.length > 0">
-                <ApplyUnit v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
+                <ApplyUnit @showInfo="handleShowInfo" v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
             </template>
             <template v-else>
                 <img src="@/assets/empty.png" alt="No posts" class="empty-image" />
@@ -29,23 +29,9 @@
                 </el-form-item>
                 <el-form-item label="职位所在地">
                     <el-input v-model="postForm.location"></el-input>
-                    <!-- <el-select v-model="sizeForm.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select> -->
                 </el-form-item>
                 <el-form-item label="学历要求">
                     <el-input v-model="postForm.education_requirement"></el-input>
-
-                    <!-- <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1"
-                            style="width: 100%;"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-time-picker placeholder="选择时间" v-model="sizeForm.date2"
-                            style="width: 100%;"></el-time-picker>
-                    </el-col> -->
                 </el-form-item>
                 <el-form-item label="最低薪资">
                     <el-input v-model="postForm.salary_min"></el-input>
@@ -59,10 +45,6 @@
                     <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="postForm.position_description">
                     </el-input>
                 </el-form-item>
-                <!-- <el-form-item size="large">
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                    <el-button>取消</el-button>
-                </el-form-item> -->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
@@ -76,23 +58,9 @@
                 </el-form-item>
                 <el-form-item label="职位所在地">
                     <el-input v-model="postForm.location"></el-input>
-                    <!-- <el-select v-model="sizeForm.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select> -->
                 </el-form-item>
                 <el-form-item label="学历要求">
                     <el-input v-model="postForm.education_requirement"></el-input>
-
-                    <!-- <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="sizeForm.date1"
-                            style="width: 100%;"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-time-picker placeholder="选择时间" v-model="sizeForm.date2"
-                            style="width: 100%;"></el-time-picker>
-                    </el-col> -->
                 </el-form-item>
                 <el-form-item label="最低薪资">
                     <el-input v-model="postForm.salary_min"></el-input>
@@ -106,14 +74,16 @@
                     <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="postForm.position_description">
                     </el-input>
                 </el-form-item>
-                <!-- <el-form-item size="large">
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                    <el-button>取消</el-button>
-                </el-form-item> -->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible2 = false">取 消</el-button>
                 <el-button type="primary" @click="editPost()">确定修改</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog title="应聘者信息" :visible.sync="dialogVisible3" width="50%" :before-close="handleClose">
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible3 = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible3 = false">确定修改</el-button>
             </span>
         </el-dialog>
     </div>
@@ -130,6 +100,7 @@ export default {
             postList: [],
             dialogVisible: false,
             dialogVisible2: false,
+            dialogVisible3: false,
             sizeForm: {
                 name: '',
                 region: '',
@@ -163,6 +134,10 @@ export default {
         })
     },
     methods: {
+        handleShowInfo(value){
+            console.log(value)
+            this.dialogVisible3 = true
+        },
         handleGetApply(value) {
             console.log("应聘信息")
             getPostApply(value, localStorage.getItem('token')).then(res => {
