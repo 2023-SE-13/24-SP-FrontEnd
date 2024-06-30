@@ -10,6 +10,7 @@ import Password from "@/views/Password.vue";
 import EnterpriseSearch from '../views/CompanySearch.vue';
 import CompanyListView from '@/views/CompanyListView.vue';
 import UserListView from '@/views/UserListView.vue'
+import MessageView  from "@/views/MessageView.vue";
 
 
 Vue.use(VueRouter)
@@ -54,6 +55,10 @@ const routes = [
       {
         path:'/user-list',
         component:UserListView
+      },
+      {
+        path:'/message',
+        component:MessageView
       }
     ]
   },

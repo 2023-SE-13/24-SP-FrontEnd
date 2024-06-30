@@ -299,3 +299,31 @@ export function getUser(username) {
         }
     });
 }
+
+
+// -------------- Message -----------------
+
+// 获取联系人列表
+export function getConversation(token) {
+    return service({
+        method: 'get',
+        url: '/user/get_conversations',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+// 获取聊天内容
+export function getMessage(token, conversation_id) {
+    return service({
+        method: 'get',
+        url: '/user/get_messages',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'conversation_id': conversation_id
+        }
+    });
+}
