@@ -105,16 +105,9 @@
             <div id="uploadResTitle">
               <span>上传简历</span>
               <span id="uploadIcon">
-                <el-upload
-                    action="#"
-                    auto-upload
-                    :on-success="handleSuccess"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :on-error="handleError"
-                    :show-file-list="false"
-                    :http-request="uploadResume"
-                >
+                <el-upload action="#" auto-upload :on-success="handleSuccess" :on-preview="handlePreview"
+                  :on-remove="handleRemove" :on-error="handleError" :show-file-list="false"
+                  :http-request="uploadResume">
                   <i class="el-icon-plus"></i>
                 </el-upload>
               </span>
@@ -125,7 +118,16 @@
               </div>
               <div v-if="hasResume" id="userResume">
                 <div>
-                  <svg t="1719662425449" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3740" width="80" height="80"><path d="M179 64h468.5l223 225.5V935c0 13.807-11.193 25-25 25H179c-13.807 0-25-11.193-25-25V89c0-13.807 11.193-25 25-25z" fill="#FF4867" p-id="3741"></path><path d="M647.5 64v200.5c0 13.807 11.193 25 25 25h198L647.5 64z" fill="#FF97A9" p-id="3742"></path><path d="M691.919 812c-44.4 0-84.22-76.189-105.17-125.732-35.243-14.71-74.092-28.45-111.831-37.331-33.022 21.788-89.214 54.4-132.365 54.4-26.778 0-46.064-13.461-53.14-36.914-5.411-19.29-0.832-32.613 4.995-39.83 11.377-15.543 34.825-23.453 69.929-23.453 28.443 0 64.517 4.996 104.754 14.71 25.945-18.457 52.307-39.829 75.756-62.45-10.406-49.404-21.784-129.479 7.076-166.393 14.29-17.625 36.074-23.454 62.436-15.543 28.86 8.326 39.82 25.951 43.15 39.829 12.21 48.155-43.15 113.103-80.473 151.267 8.325 33.029 19.286 67.862 32.606 99.78 53.556 23.87 117.24 59.536 124.456 98.394 2.913 13.461-1.249 25.951-12.21 36.915-9.435 7.771-19.425 12.351-29.97 12.351zM652 728c9.768 21.74 19.081 32 23.99 32 0.76 0 1.823-0.333 3.341-1.664 1.822-1.996 1.822-3.327 1.518-4.547-1.012-5.713-9.262-15.085-28.849-25.789z m-281.922-88c-15.62 0-19.913 3.774-21.22 5.535-0.373 0.566-1.493 2.264-0.373 6.666 0.933 3.774 3.547 7.799 11.636 7.799 10.143 0 24.829-5.723 41.879-15.975-12.196-2.704-22.962-4.025-31.922-4.025zM523 620.582c9.333 2.6 19.01 5.951 28 9.418-3.264-8.551-5.898-17.449-8.13-26A629.121 629.121 0 0 1 523 620.582zM588.966 433c-3.32 0-5.649 1.229-7.745 3.511-6.173 7.783-6.872 27.386-2.097 52.489 18.111-19.427 27.953-37.275 25.507-46.813-0.35-1.404-1.398-5.676-9.842-8.134-2.33-0.702-4.076-1.053-5.823-1.053z" fill="#FFFFFF" p-id="3743"></path></svg>
+                  <svg t="1719662425449" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="3740" width="80" height="80">
+                    <path
+                      d="M179 64h468.5l223 225.5V935c0 13.807-11.193 25-25 25H179c-13.807 0-25-11.193-25-25V89c0-13.807 11.193-25 25-25z"
+                      fill="#FF4867" p-id="3741"></path>
+                    <path d="M647.5 64v200.5c0 13.807 11.193 25 25 25h198L647.5 64z" fill="#FF97A9" p-id="3742"></path>
+                    <path
+                      d="M691.919 812c-44.4 0-84.22-76.189-105.17-125.732-35.243-14.71-74.092-28.45-111.831-37.331-33.022 21.788-89.214 54.4-132.365 54.4-26.778 0-46.064-13.461-53.14-36.914-5.411-19.29-0.832-32.613 4.995-39.83 11.377-15.543 34.825-23.453 69.929-23.453 28.443 0 64.517 4.996 104.754 14.71 25.945-18.457 52.307-39.829 75.756-62.45-10.406-49.404-21.784-129.479 7.076-166.393 14.29-17.625 36.074-23.454 62.436-15.543 28.86 8.326 39.82 25.951 43.15 39.829 12.21 48.155-43.15 113.103-80.473 151.267 8.325 33.029 19.286 67.862 32.606 99.78 53.556 23.87 117.24 59.536 124.456 98.394 2.913 13.461-1.249 25.951-12.21 36.915-9.435 7.771-19.425 12.351-29.97 12.351zM652 728c9.768 21.74 19.081 32 23.99 32 0.76 0 1.823-0.333 3.341-1.664 1.822-1.996 1.822-3.327 1.518-4.547-1.012-5.713-9.262-15.085-28.849-25.789z m-281.922-88c-15.62 0-19.913 3.774-21.22 5.535-0.373 0.566-1.493 2.264-0.373 6.666 0.933 3.774 3.547 7.799 11.636 7.799 10.143 0 24.829-5.723 41.879-15.975-12.196-2.704-22.962-4.025-31.922-4.025zM523 620.582c9.333 2.6 19.01 5.951 28 9.418-3.264-8.551-5.898-17.449-8.13-26A629.121 629.121 0 0 1 523 620.582zM588.966 433c-3.32 0-5.649 1.229-7.745 3.511-6.173 7.783-6.872 27.386-2.097 52.489 18.111-19.427 27.953-37.275 25.507-46.813-0.35-1.404-1.398-5.676-9.842-8.134-2.33-0.702-4.076-1.053-5.823-1.053z"
+                      fill="#FFFFFF" p-id="3743"></path>
+                  </svg>
                 </div>
                 <div id="resumeInfo">
                   <p>{{ user.real_name }}_resume.pdf</p>
@@ -152,7 +154,7 @@
                 <el-menu-item index="2" class="preMenuItem">关注</el-menu-item>
               </el-menu>
             </div>
-            <div v-show="preActive==='1'" id="share">
+            <div v-show="preActive === '1'" id="share">
               <div id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
@@ -176,7 +178,7 @@
 </template>
 
 <script>
-import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser , uploadResume} from "@/api/api";
+import { GetUserInfo, UpdateUserInfo, SubscribeUser, UnSubscribeUser, DoSubscribeUser, uploadResume } from "@/api/api";
 export default {
   name: "User",
   components: {
@@ -318,7 +320,7 @@ export default {
         name: "张三",
         school: "清华大学",
         position: "",
-        age:"",
+        age: "",
         workYear: "",
         is_staff: false
       },
@@ -336,7 +338,7 @@ export default {
         blog_link: "https://github.com/",
         name: "张三",
         school: "清华大学",
-        age:"",
+        age: "",
         position: "",
         workYear: "",
         is_staff: false
@@ -353,6 +355,8 @@ export default {
         //   { required: true, message: "请输入期望职位", trigger: "change" }
         // ]
       },
+      hasResume: true,
+      preActive: '1',
       options: [
         {
           value: '后端开发',
@@ -453,451 +457,496 @@ export default {
     formattedDesiredPosition() {
       return this.flatDesiredPosition.map(position => position.join('-')).join(' | ');
     }
-      hasResume: true,
-      preActive: '1'
-    };
-  },
-  methods: {
-    errorHandler() {
-      return true;
-    },
-    changeFavor() {
-      if (this.token === null) {
-        this.$notify({
-          title: "错误",
-          message: "请先登录",
-          type: "error"
-        });
-        return;
-      }
-      if (this.isFavor) {
-        const data = {
-          username: this.user.name
-        }
-        UnSubscribeUser(data, this.token).then(res => {
-          if (res.data.status === "success") {
-            this.$notify({
-              title: "成功",
-              message: "取消关注成功",
-              type: "success"
-            });
-            this.isFavor = false;
-          }
-        });
-      } else {
-        const data = {
-          username: this.user.name
-        }
-        SubscribeUser(data, this.token).then(res => {
-          if (res.data.status === "success") {
-            this.$notify({
-              title: "成功",
-              message: "关注成功",
-              type: "success"
-            });
-            this.isFavor = true;
-          }
-        });
-      }
-    },
-    editInfor() {
-      this.dialogVisible = true;
-    },
-    editSuccess() {
-      console.log(this.flatDesiredPosition);
-      // 将平面化数据转换回后端所需的嵌套对象格式
-      this.user.desired_position = this.flatDesiredPosition.map(item => ({
-        category: item[0],
-        specialization: item[1]
-      }));
-      console.log(this.user.desired_position);
-      this.$refs["user"].validate(valid => {
-        if (valid) {
+      
 
-          UpdateUserInfo(this.user, this.token).then(res => {
-            if (res.data.status === "success") {
-              const json = JSON.stringify(this.user);
-              this.defaultUser = JSON.parse(json);
+},
+methods: {
+  errorHandler() {
+    return true;
+  },
+  changeFavor() {
+    if (this.token === null) {
+      this.$notify({
+        title: "错误",
+        message: "请先登录",
+        type: "error"
+      });
+      return;
+    }
+    if (this.isFavor) {
+      const data = {
+        username: this.user.name
+      }
+      UnSubscribeUser(data, this.token).then(res => {
+        if (res.data.status === "success") {
+          this.$notify({
+            title: "成功",
+            message: "取消关注成功",
+            type: "success"
+          });
+          this.isFavor = false;
+        }
+      });
+    } else {
+      const data = {
+        username: this.user.name
+      }
+      SubscribeUser(data, this.token).then(res => {
+        if (res.data.status === "success") {
+          this.$notify({
+            title: "成功",
+            message: "关注成功",
+            type: "success"
+          });
+          this.isFavor = true;
+        }
+      });
+    }
+  },
+  editInfor() {
+    this.dialogVisible = true;
+  },
+  editSuccess() {
+    console.log(this.flatDesiredPosition);
+    // 将平面化数据转换回后端所需的嵌套对象格式
+    this.user.desired_position = this.flatDesiredPosition.map(item => ({
+      category: item[0],
+      specialization: item[1]
+    }));
+    console.log(this.user.desired_position);
+    this.$refs["user"].validate(valid => {
+      if (valid) {
+
+        UpdateUserInfo(this.user, this.token).then(res => {
+          if (res.data.status === "success") {
+            const json = JSON.stringify(this.user);
+            this.defaultUser = JSON.parse(json);
+            this.$notify({
+              title: "成功",
+              message: "修改成功",
+              type: "success"
+            });
+          }
+        },
+          error => {
+            if (error.response.status === 401) {
               this.$notify({
-                title: "成功",
-                message: "修改成功",
-                type: "success"
+                title: "错误",
+                message: "修改错误",
+                type: "error"
               });
+            }
+          }
+        );
+        this.dialogVisible = false;
+        setTimeout(() => {
+          GetUserInfo(this.user.name).then(res => {
+            if (res.data.status == "success") {
+              this.user.real_name = res.data.data.real_name;
+              this.user.name = res.data.data.username;
+              this.user.education = res.data.data.education;
+              this.user.school = res.data.data.school;
+              this.user.desired_position = res.data.data.desired_position;
+              this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
+              this.user.age = res.data.data.age;
+              this.user.blog_link = res.data.data.blog_link;
+              this.user.position = res.data.data.position;
+              this.user.workYear = res.data.data.work_year;
+              this.user.is_staff = res.data.data.is_staff;
+              const json = JSON.stringify(this.user);
+              // console.log(json);
+              this.defaultUser = JSON.parse(json);
             }
           },
             error => {
-              if (error.response.status === 401) {
+              if (error.response.status === 400) {
                 this.$notify({
                   title: "错误",
-                  message: "修改错误",
+                  message: "未知错误",
+                  type: "error"
+                });
+              }
+              if (error.response.status === 404) {
+                this.$notify({
+                  title: "错误",
+                  message: "用户不存在",
                   type: "error"
                 });
               }
             }
           );
-          this.dialogVisible = false;
-          setTimeout(() => {
-            GetUserInfo(this.user.name).then(res => {
-              if (res.data.status == "success") {
-                this.user.real_name = res.data.data.real_name;
-                this.user.name = res.data.data.username;
-                this.user.education = res.data.data.education;
-                this.user.school = res.data.data.school;
-                this.user.desired_position = res.data.data.desired_position;
-                this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
-                this.user.age = res.data.data.age;
-                this.user.blog_link = res.data.data.blog_link;
-                this.user.position = res.data.data.position;
-                this.user.workYear = res.data.data.work_year;
-                this.user.is_staff = res.data.data.is_staff;
-                const json = JSON.stringify(this.user);
-                // console.log(json);
-                this.defaultUser = JSON.parse(json);
-              }
-            },
-              error => {
-                if (error.response.status === 400) {
-                  this.$notify({
-                    title: "错误",
-                    message: "未知错误",
-                    type: "error"
-                  });
-                }
-                if (error.response.status === 404) {
-                  this.$notify({
-                    title: "错误",
-                    message: "用户不存在",
-                    type: "error"
-                  });
-                }
-              }
-            );
-          }, 100);
-        } else {
-          this.$notify({
-            title: "错误",
-            message: "请检查输入",
-            type: "error"
-          });
-        }
-      });
-    },
-    editCancel() {
-      const json = JSON.stringify(this.defaultUser);
-      this.user = JSON.parse(json);
-      this.dialogVisible = false;
-    },
-    handleSuccess() {
-      this.$notify({
-        title: "成功",
-        message: "上传成功",
-        type: "success"
-      });
-    },
-    handleError() {
-      this.$notify({
-        title: "错误",
-        message: "上传失败",
-        type: "error"
-      });
-    },
-    handlePreview() {
-      return true;
-    },
-    handleRemove() {
-      return true;
-    },
+        }, 100);
+      } else {
+        this.$notify({
+          title: "错误",
+          message: "请检查输入",
+          type: "error"
+        });
+      }
+    });
+  },
+  editCancel() {
+    const json = JSON.stringify(this.defaultUser);
+    this.user = JSON.parse(json);
+    this.dialogVisible = false;
+  },
+  handleSuccess() {
+    this.$notify({
+      title: "成功",
+      message: "上传成功",
+      type: "success"
+    });
+  },
+  handleError() {
+    this.$notify({
+      title: "错误",
+      message: "上传失败",
+      type: "error"
+    });
+  },
+  handlePreview() {
+    return true;
+  },
+  handleRemove() {
+    return true;
+  },
     async uploadResume(file) {
-      console.log(file.file);
-      const formData = new FormData();
-      formData.append("resume", file.file);
-      await uploadResume(formData, this.token).then(res => {
-        if (res.data.status === 200) {
+    console.log(file.file);
+    const formData = new FormData();
+    formData.append("resume", file.file);
+    await uploadResume(formData, this.token).then(res => {
+      if (res.data.status === 200) {
 
-          this.hasResume = true;
-        }
-      });
-    },
-    preSelect(index) {
-      this.preActive = index;
-    },
-    goToWrite() {
-      this.$router.push("/User/" + this.user.name + "/ShareWrite");
-    }
+        this.hasResume = true;
+      }
+    });
+  },
+  preSelect(index) {
+    this.preActive = index;
+  },
+  goToWrite() {
+    this.$router.push("/User/" + this.user.name + "/ShareWrite");
   }
+}
 }
 </script>
 
 <style scoped>
-  #body {
-    height: 93vh;
-    padding: 0 80px;
-  }
-  #center {
-    width: 100%;
-    float: left;
-  }
-  #main {
-    width: 97%;
-    height: 95%;
-    position: relative;
-    top: 2.5%;
-    left: 1.5%;
-  }
-  #infor {
-    width: 70%;
-    height: 20%;
-    margin-right: 2%;
-    margin-bottom: 1%;
-    float: left;
-  }
-  #avatar {
-    width: 13%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    float: left;
-  }
-  #img {
-    position: relative;
-    bottom: 6%;
-  }
-  #personInfor {
-    width: 70%;
-    height: 100%;
-    float: left;
-    color: #333;
-  }
-  #userName, #userDesired {
-    width: 50%;
-    height: 30%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 20px;
-    float: left;
-    position: relative;
-    top: 12%;
-  }
-  #userName .favor {
-    border-radius: 5px;
-    background-color: rgba(0, 190, 189, 0.5);
-    font-size: 12px;
-    color: white;
-    font-weight: bolder;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  #userName .favor:hover {
-    background-color: #00BEBD;
-  }
-  #userName #isFavor {
-    background-color: rgba(114, 118, 123, 0.7);
-    color: rgba(0, 0, 0, 0.8);
-  }
-  #userName #isFavor:hover {
-    color: rgba(0, 0, 0, 0.5);
-  }
-  #userEdu, #work{
-    position: relative;
-    top: 12%;
-    width: 50%;
-    float: left;
-    height: 30%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 15px;
-  }
-  ::v-deep #divider {
-    background-color: slategrey;
-    position: relative;
-    left: 5%;
-  }
-  #userDesired {
-    font-size: 15px;
-  }
-  #userEdu {
-    color: #666;
-  }
-  #link {
-    color: #00BAB7;
-    text-decoration: none;
-  }
-  #link:visited {
-    color: #F56C6C;
-  }
-  #link:hover {
-    color: #67c23a;
-  }
-  #edit {
-    width: 17%;
-    height: 100%;
-    float: left;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  #editBtn {
-    width: 65%;
-    background-color: #f8f8f8;
-    color: #414a60;
-    border-radius: 20px 0 0 20px;
-    border: 1px solid #d4d5d6;
-    border-right: transparent;
-    font-size: 12px;
-    position: relative;
-    left: 17.6%;
-    bottom: 17%;
-  }
-  #editBtn:hover {
-    color: #00BEBD;
-    border: 1px solid #DEFAFF;
-    border-right: transparent;
-    background-color: rgba(0, 190, 189, 0.2);
-  }
-  #resume {
-    width: 28%;
-    height: 30%;
-    float: right;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  #uploadResTitle {
-    width: 90%;
-    height: 20%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  #uploadIcon {
-    position: relative;
-    left: 73%;
-  }
-  #uploadIcon:hover {
-    background-color: rgba(0, 190, 189, 0.1);
-    color: #00BEBD;
-  }
-  #resumeImg {
-    width: 95%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  #nullResume {
-    position: relative;
-    bottom: 5%;
-  }
-  #userResume {
-    width: 100%;
-    font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
-    position: relative;
-    bottom: 10%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  #userResume:hover {
-    background-color: rgba(247, 247, 247, 0.9);
-  }
-  #resumeInfo {
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    left: 3%;
-    line-height: 180%;
-  }
-  #resumeMenu {
-    position: relative;
-    left: 29.5%;
-  }
-  #resumeMenu i:hover {
-    color: #00BEBD;;
-  }
-  #zone {
-    width: 70%;
-    height: 78%;
-    margin-right: 2%;
-    float: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  #preMenu {
-    width: 100%;
-    height: 8%;
-  }
-  #pre_menu {
-    height: 100%;
-  }
-  #pre_menu .preMenuItem {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  #share {
-    width: 100%;
-    height: 92%;
-    position: relative;
-  }
-  #shareEditBtn {
-    width: 7%;
-    height: 14.35%;
-    border-radius: 50%;
-    float: right;
-    position: absolute;
-    top: 76%;
-    right: 6%;
-    background-color: rgba(0, 186, 183, 0.5);
-    color: #fff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: 27px;
-  }
-  #shareEditBtn:hover {
-    background-color: #00BEBD;
-  }
-  #left {
-    width: 80px;
-    margin-left: -100%;
-    position: relative;
-    left: -80px;
-    float: left;
-  }
-  #right {
-    width: 80px;
-    margin-right: -100%;
-    float: left;
-  }
-  #body .background {
-    height: 93vh;
-    float: left;
-    background: rgba(211, 233, 232, 0.9);
-  }
-  #body #main .content {
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-  }
+#body {
+  height: 93vh;
+  padding: 0 80px;
+}
+
+#center {
+  width: 100%;
+  float: left;
+}
+
+#main {
+  width: 97%;
+  height: 95%;
+  position: relative;
+  top: 2.5%;
+  left: 1.5%;
+}
+
+#infor {
+  width: 70%;
+  height: 20%;
+  margin-right: 2%;
+  margin-bottom: 1%;
+  float: left;
+}
+
+#avatar {
+  width: 13%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  float: left;
+}
+
+#img {
+  position: relative;
+  bottom: 6%;
+}
+
+#personInfor {
+  width: 70%;
+  height: 100%;
+  float: left;
+  color: #333;
+}
+
+#userName,
+#userDesired {
+  width: 50%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 20px;
+  float: left;
+  position: relative;
+  top: 12%;
+}
+
+#userName .favor {
+  border-radius: 5px;
+  background-color: rgba(0, 190, 189, 0.5);
+  font-size: 12px;
+  color: white;
+  font-weight: bolder;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#userName .favor:hover {
+  background-color: #00BEBD;
+}
+
+#userName #isFavor {
+  background-color: rgba(114, 118, 123, 0.7);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+#userName #isFavor:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+#userEdu,
+#work {
+  position: relative;
+  top: 12%;
+  width: 50%;
+  float: left;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 15px;
+}
+
+::v-deep #divider {
+  background-color: slategrey;
+  position: relative;
+  left: 5%;
+}
+
+#userDesired {
+  font-size: 15px;
+}
+
+#userEdu {
+  color: #666;
+}
+
+#link {
+  color: #00BAB7;
+  text-decoration: none;
+}
+
+#link:visited {
+  color: #F56C6C;
+}
+
+#link:hover {
+  color: #67c23a;
+}
+
+#edit {
+  width: 17%;
+  height: 100%;
+  float: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#editBtn {
+  width: 65%;
+  background-color: #f8f8f8;
+  color: #414a60;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid #d4d5d6;
+  border-right: transparent;
+  font-size: 12px;
+  position: relative;
+  left: 17.6%;
+  bottom: 17%;
+}
+
+#editBtn:hover {
+  color: #00BEBD;
+  border: 1px solid #DEFAFF;
+  border-right: transparent;
+  background-color: rgba(0, 190, 189, 0.2);
+}
+
+#resume {
+  width: 28%;
+  height: 30%;
+  float: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#uploadResTitle {
+  width: 90%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#uploadIcon {
+  position: relative;
+  left: 73%;
+}
+
+#uploadIcon:hover {
+  background-color: rgba(0, 190, 189, 0.1);
+  color: #00BEBD;
+}
+
+#resumeImg {
+  width: 95%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#nullResume {
+  position: relative;
+  bottom: 5%;
+}
+
+#userResume {
+  width: 100%;
+  font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+  position: relative;
+  bottom: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#userResume:hover {
+  background-color: rgba(247, 247, 247, 0.9);
+}
+
+#resumeInfo {
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  left: 3%;
+  line-height: 180%;
+}
+
+#resumeMenu {
+  position: relative;
+  left: 29.5%;
+}
+
+#resumeMenu i:hover {
+  color: #00BEBD;
+  ;
+}
+
+#zone {
+  width: 70%;
+  height: 78%;
+  margin-right: 2%;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#preMenu {
+  width: 100%;
+  height: 8%;
+}
+
+#pre_menu {
+  height: 100%;
+}
+
+#pre_menu .preMenuItem {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#share {
+  width: 100%;
+  height: 92%;
+  position: relative;
+}
+
+#shareEditBtn {
+  width: 7%;
+  height: 14.35%;
+  border-radius: 50%;
+  float: right;
+  position: absolute;
+  top: 76%;
+  right: 6%;
+  background-color: rgba(0, 186, 183, 0.5);
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 27px;
+}
+
+#shareEditBtn:hover {
+  background-color: #00BEBD;
+}
+
+#left {
+  width: 80px;
+  margin-left: -100%;
+  position: relative;
+  left: -80px;
+  float: left;
+}
+
+#right {
+  width: 80px;
+  margin-right: -100%;
+  float: left;
+}
+
+#body .background {
+  height: 93vh;
+  float: left;
+  background: rgba(211, 233, 232, 0.9);
+}
+
+#body #main .content {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
 </style>
