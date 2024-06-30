@@ -12,8 +12,8 @@
     <p style="top:78%;left: 15%">{{ letterData.date }}</p>
 
     <div class="custom-btn">
-      <button style="top: 82%; right: 50%" @click="accept">接受</button>
-      <button style="top: 82%; right: 42%" @click="refuse">拒绝</button>
+      <button style="top: 82.5%; right: 50.5%" @click="accept">接受</button>
+      <button style="top: 82.5%; right: 42.5%" @click="refuse">拒绝</button>
     </div>
   </div>
 </template>
