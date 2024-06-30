@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="header">
-            <div class="status">招聘中</div>
+            <div class="status">招聘中 ({{ position.posted_at }} - 至今)</div>
             <div class="name">
                 <h1 class="title">{{ position.position_name }}</h1>
-                <span class="salary">{{ position.salary_min }}￥ - {{ position.salary_max }}￥/天</span>
+                <span class="salary">{{ position.salary_min }}K - {{ position.salary_max }}K</span>
             </div>
             <div class="require">
                 <span class="el-icon-location"> {{ position.location }} </span> &nbsp;
@@ -38,10 +38,16 @@
                         <li>{{ position.position_description }}</li>
                     </ul>
                     <h3 class="des-item">
+                        技术需求
+                    </h3>
+                    <ul class="des-list">
+                        <li v-for="(skill, index) in position.skills" :key="index">{{ skill }}</li>
+                    </ul>
+                    <h3 class="des-item">
                         薪酬情况
                     </h3>
                     <ul class="des-list">
-                        <li>日最低薪酬：{{ position.salary_min }} <br> 日最高薪酬：{{ position.salary_max }}</li>
+                        <li>月最低薪酬：{{ position.salary_min }}K <br> 月最高薪酬：{{ position.salary_max }}K</li>
                     </ul>
                 </div>
             </div>
@@ -78,6 +84,8 @@ export default {
                 posted_at: "",
                 company_id: "",
                 position_id: "",
+                hr_id: "",
+                skills: [],
             },
             company: {
                 company_id: "",
@@ -97,13 +105,19 @@ export default {
     methods: {
         //去私聊
         gotochat() {        
-            this.$router.push("/")
+            localStorage.setItem("hrname",this.position.hr_id)
+            this.$router.push("/message")
         },
         //投递简历
         submitCV() {
             submitCV(this.token, this.position.position_id).then(res => {
               console.log(res)
                 console.log("success submit!")
+                this.$notify({
+                    title: '成功',
+                    message: '提交简历成功',
+                    type: 'success'
+                });
             }).catch(error => {
                 console.log("SubmitCV失败", error);
                 this.$notify({
@@ -143,10 +157,17 @@ export default {
                 })
             }
             this.position.position_id = res.data.position_id
-            this.position.posted_at = res.data.posted_at
-            this.position.salary_min = res.data.salary_min
-            this.position.salary_max = res.data.salary_max
+            this.position.posted_at = res.data.posted_at.slice(0,10)
+            this.position.salary_min = res.data.salary_min/1000
+            this.position.salary_max = res.data.salary_max/1000
             this.position.position_tag = res.data.position_tag
+            this.position.hr_id = res.data.hr_id
+            if(res.data.skill_required.length > 0){
+                this.position.skills = res.data.skill_required
+            }else{
+                this.position.skills = ["无"]
+            }
+            
             getSimilarPost(this.position.position_id).then(res =>{
                 if(res.data.status === "success"){
                     this.PostViewList = res.data.data
