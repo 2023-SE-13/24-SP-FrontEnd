@@ -47,12 +47,12 @@ export function ForgetPassword(data) {
 }
 
 // 搜索用户
-export function SearchUser(params){
+export function SearchUser(params) {
     return service({
-        mathod:'get',
-        url:'/user/search_users',
-        params:{
-            'keyword':params
+        mathod: 'get',
+        url: '/user/search_users',
+        params: {
+            'keyword': params
         }
     })
 }
@@ -155,7 +155,7 @@ export function getCompany(company_id) {
         method: 'get',
         url: '/company/get_company',
         params: {
-            "company_id":company_id
+            "company_id": company_id
         }
     })
 }
@@ -176,7 +176,7 @@ export function registCompany(token, company_name, company_description) {
 }
 
 // 添加企业员工
-export function addEmployee(token, username, company_id){
+export function addEmployee(token, username, company_id) {
     return service({
         method: 'post',
         url: '/company/send_join_verification',
@@ -248,11 +248,11 @@ export function UpdateUserInfo(data, token) {
 }
 
 // 搜索企业
-export function SearchCompany(data){
+export function SearchCompany(data) {
     data = JSON.stringify(data)
     return service({
-        method:'post',
-        url:'/company/search_company',
+        method: 'post',
+        url: '/company/search_company',
         data
     })
 }
@@ -325,5 +325,113 @@ export function publishTweet(data, token) {
         headers: {
             'Authorization': `Token ${token}`
         }
+    })
+}
+
+// 获取公司所有岗位
+export function getPositionList(company_id) {
+    return service({
+        method: 'get',
+        url: '/position/get_position_list',
+        params: {
+            'company_id': company_id
+        }
+    });
+}
+
+// 获取岗位所有信息
+export function getPosition(position_id) {
+    return service({
+        method: 'get',
+        url: '/position/get_position',
+        params: {
+            'position_id': position_id
+        }
+    });
+}
+
+// 获取关注的企业和用户
+export function getRecommendSubscribe(token) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_subscribe',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+// 获取
+export function getRecommendPosition(token) {
+    return service({
+        method: 'get',
+        url: '/recommend/recommend_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    });
+}
+
+//提交简历
+export function submitCV(token, position_id) {
+    let data = {
+        "position_id": position_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/position/apply_position',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 创建职位
+export function createPost(data, token) {
+    console.log(token)
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method: 'post',
+        url: '/position/create_position',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data
+    })
+}
+
+// 删除职位
+export function deletePost(data, token) {
+    data = JSON.stringify(data)
+    console.log(data)
+    return service({
+        method: 'delete',
+        url: '/position/delete_position',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 获取职位全部申请信息
+
+export function getPostApply(position_id,token){
+    console.log(position_id)
+    return service({
+        method:'get',
+        url:'/position/get_pos_apy',
+        params:{
+            "position_id":position_id
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+
     })
 }

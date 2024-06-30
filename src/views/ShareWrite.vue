@@ -56,9 +56,12 @@
 </template>
 
 <script>
+import {publishTweet} from "@/api/api";
+
 export default {
   name: "ShareWrite",
   created() {
+    this.token = localStorage.getItem("token");
     this.shareContent = "";
     this.imgVisible = false;
     this.imgUrl = "";
@@ -67,6 +70,7 @@ export default {
   },
   data() {
     return {
+      token: "",
       shareContent: "",
       imgVisible: false,
       imgUrl: "",
@@ -86,15 +90,33 @@ export default {
         cancelButtonText: "取消",
         type: "info"
       }).then(() => {
-        this.$message({
-          type: "success",
-          message: "发布成功",
-        });
-        this.$router.back();
+        const formData = new FormData();
+        formData.append("photos", this.imgList);
+        formData.append("text_content", this.shareContent);
+        publishTweet(formData, this.token).then(res => {
+          if (res.data.status === "success") {
+            this.$notify({
+              title: "成功",
+              message: "发布动态成功！",
+              type: "success"
+            });
+            this.$router.back();
+          }
+        },
+            error => {
+              console.log("发布动态失败", error);
+              this.$notify({
+                title: "失败",
+                message: "发布动态失败！",
+                type: "error"
+              });
+            }
+        );
       }).catch(() => {
-        this.$message({
-          type: "info",
-          message: "已取消发布",
+        this.$notify({
+          title: "取消",
+          message: "取消发布动态",
+          type: "info"
         });
       });
     },
