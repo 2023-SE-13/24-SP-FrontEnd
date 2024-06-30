@@ -83,15 +83,23 @@ export default {
       this.$router.back();
     },
     submit() {
-      console.log(this.shareContent);
-      console.log(this.imgList);
       this.$confirm("是否发布此条动态？", "确认发布", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "info"
       }).then(() => {
         const formData = new FormData();
-        formData.append("photos", this.imgList);
+        for(let i = 0; i < this.imgList.length; i++) {
+          const file = this.imgList[i];
+          const reader = new FileReader();
+          reader.readAsDataURL(file.raw);
+          reader.onload = () => {
+            file.url = reader.result;
+          }
+          this.imgList[i] = file.raw;
+        }
+        console.log(this.imgList);
+        formData.append("photos", this.imgList[0]);
         formData.append("text_content", this.shareContent);
         publishTweet(formData, this.token).then(res => {
           if (res.data.status === "success") {
@@ -121,9 +129,25 @@ export default {
       });
     },
     handleChange(file, fileList) {
+      for(let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        const reader = new FileReader();
+        reader.readAsDataURL(file.raw);
+        reader.onload = () => {
+          file.url = reader.result;
+        }
+      }
       this.imgList = fileList;
     },
     handleChangeIcon(file, fileList) {
+      for(let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        const reader = new FileReader();
+        reader.readAsDataURL(file.raw);
+        reader.onload = () => {
+          file.url = reader.result;
+        }
+      }
       this.imgList = fileList;
       this.imgVisible = true;
     },
