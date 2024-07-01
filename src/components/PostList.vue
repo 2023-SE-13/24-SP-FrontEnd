@@ -139,6 +139,8 @@ export default {
     },
     methods: {
         handleAccept(value){
+            console.log(value)
+            let apply = {"application_id":value}
             
         },
         handleRefuse(value){

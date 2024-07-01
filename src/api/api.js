@@ -619,3 +619,17 @@ export function refuseApply(data,token){
     })
 
 }
+
+
+// 创建offer
+export function createOffer(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/position/create_offer',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
