@@ -221,8 +221,8 @@ export default {
                 "salary_max": "",
                 "skill_required": [],
                 "position_tag": {
-                    "category": "人工智能",
-                    "specialization": "机器学习"
+                    "category": "",
+                    "specialization": ""
                 }
             },
             salaryOptions: [
@@ -528,6 +528,7 @@ export default {
                     }
                 })
             this.dialogVisible2 = false
+            // this.clearPostForm();
         },
         handleClose(done) {
             this.$confirm('确认关闭？')
