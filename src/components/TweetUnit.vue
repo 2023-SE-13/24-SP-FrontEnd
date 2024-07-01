@@ -17,7 +17,6 @@
               v-for="(item, index) in images"
               :key="index"
               :src="item"
-              :preview-src-list="images"
               style="width: 105px; height: 105px;border-radius: 10px;margin: 1px"
               fit="contain">
           </el-image>
