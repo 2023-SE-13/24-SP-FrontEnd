@@ -47,7 +47,8 @@ export default {
                 { content: "首页", link_to: "/main" },
                 { content: "搜索", link_to: "/search" },
                 // { content: "公司", link_to: "/company-list" },
-                { content: "我的企业", link_to: "/company-temp" },
+                // { content: "我的企业", link_to: "/company-temp" },
+                { content: "企业", link_to: this.getEnterpriseLink() },
                 { content: "消息中心", link_to: "/message" }
 
             ],
@@ -59,14 +60,18 @@ export default {
             username: localStorage.getItem('username')
         }
     },
-  beforeMount() {
-    if (localStorage.getItem('token') !== null) {
-      this.isLogin = true
-    }
-    this.photoSrc = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
-  },
-  methods: {
-      changeActive(index) {
+    beforeMount() {
+        if (localStorage.getItem('token') !== null) {
+            this.isLogin = true
+        }
+        this.photoSrc = "http://10.251.253.188/avatar/" + this.username + "_avatar.png"
+    },
+    methods: {
+        getEnterpriseLink() {
+            //没写好
+            return true ? "/company-temp" : "/company-register";
+        },
+        changeActive(index) {
             this.activeIndex = index
             console.log(this.activeIndex)
         },
