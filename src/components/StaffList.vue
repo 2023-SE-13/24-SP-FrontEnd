@@ -3,7 +3,7 @@
             <div class="search">
               <span>管理员</span>
               <div>
-                <el-input placeholder="搜索员工" v-model="input" class="input-with-select">
+                <el-input placeholder="" v-model="input" class="input-with-select">
                     <el-button slot="append" style="background-color:#3BD4D4;color:white" id="search-button" icon="el-icon-search" @click="Search" ref="button">添加</el-button>
                 </el-input>
               </div>

@@ -133,4 +133,3 @@ export default {
     flex-wrap: wrap;
   }
 </style>
->>>>>>> dev2
