@@ -173,11 +173,11 @@
                 <el-avatar :size="70" :src="this.photoUrl" >头像</el-avatar>
                 <div id="postMan_content">
                   <div class="half_part">
-                      <span style="margin-left: 20px">姓名：{{this.postMan.real_name}}</span>
+                      <span style="margin-left: 20px;margin-bottom: 10px">姓名：{{this.postMan.real_name}}</span>
                       <span style="margin-left: 20px">学历：{{this.postMan.education}}</span>
                   </div>
                   <div class="half_part" style="width:70%">
-                      <span>期望职位：{{this.postMan.desired_position}}</span>
+                      <span style="margin-bottom: 10px">期望职位：{{this.postMan.desired_position}}</span>
                       <span>邮箱：{{this.postMan.email}}</span>
                   </div>
                 </div>
@@ -598,7 +598,16 @@ export default {
             this.dialogVisible = true
         },
         openResume(){
-            window.open(this.resumeUrl)
+           if(this.postMan.resume_uploaded){
+             window.open(this.resumeUrl)
+           }
+           else{
+             this.$notify({
+               title: "提示",
+               message: "该用户未上传简历",
+               type: "warning"
+             });
+           }
         },
         createPost() {
             this.postForm.position_tag = {
