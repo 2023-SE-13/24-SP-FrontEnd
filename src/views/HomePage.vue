@@ -9,7 +9,6 @@
                     <el-select class="select" v-model="select" slot="prepend" placeholder="请选择">
                         <el-option label="用户" value="1"></el-option>
                         <el-option label="公司" value="2"></el-option>
-                        <el-option label="岗位" value="3"></el-option>
                     </el-select>
                     <el-button slot="append" id="search-button" icon="el-icon-search" @click="Search" ref="button"
                         :disabled="NotAllowSearch">搜索
@@ -34,8 +33,8 @@
                 </PostUserUnit>
             </div>
         </div>
-        <el-dialog center :close-on-click-modal="false" title="请完善个人信息" :append-to-body="true"
-            :visible.sync="dialogVisible" :show-close="false" width="40%">
+        <el-dialog center :close-on-click-modal="false" title="请完善个人信息" :append-to-body="true" :visible.sync="dialogVisible" :show-close="false"
+            width="40%">
             <el-form :model="user" :rules="rules" ref="user">
                 <el-row :gutter="20">
                     <el-col :span="12">
@@ -370,7 +369,7 @@ export default {
                     searchField.keywords = this.input
                     localStorage.setItem("searchField", JSON.stringify(searchField))
                     this.$store.dispatch('updateButtonClicked', true)
-                    this.$router.push('/search')
+                    this.$router.push('/user-list')
 
                     break
                 case '2':
@@ -384,14 +383,7 @@ export default {
                     searchField.keywords = this.input
                     localStorage.setItem("searchField", JSON.stringify(searchField))
                     this.$store.dispatch('updateButtonClicked', true)
-                    this.$router.push('/search')
-                    break
-                case '3':
-                    searchField.type = 'position'
-                    searchField.keywords = this.input
-                    localStorage.setItem("searchField", JSON.stringify(searchField))
-                    this.$store.dispatch('updateButtonClicked', true)
-                    this.$router.push('/search')
+                    this.$router.push('/company-list')
                     break
             }
         }
@@ -430,10 +422,10 @@ export default {
 }
 
 .post-container span {
-    display: block;
-    font-size: 35px;
-    font-weight: 1000;
-    color: black;
+  display: block;
+  font-size: 35px;
+  font-weight: 1000;
+  color: black;
 }
 
 .info-bar {

@@ -390,12 +390,12 @@ export default {
         real_name: [
           { required: true, message: "请输入姓名", trigger: "change" }
         ],
-        education: [
-          { required: true, message: "请输入学历", trigger: "change" }
-        ],
-        desired_position: [
-          { required: true, message: "请输入期望职位", trigger: "change" }
-        ]
+        // education: [
+        //   { required: true, message: "请输入学历", trigger: "change" }
+        // ],
+        // desired_position: [
+        //   { required: true, message: "请输入期望职位", trigger: "change" }
+        // ]
       },
       hasResume: false,
       resumeUrl: "",
@@ -489,6 +489,7 @@ export default {
           ]
         }
       ],
+
       cascaderProps: {
         multiple: true,
         // checkStrictly: true,

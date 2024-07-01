@@ -119,6 +119,7 @@ export default {
 }
 .middle {
     min-height: 20px;
+    width: 100%;
     justify-content: flex-start;
     gap:10px;
     font-size: 14px;
