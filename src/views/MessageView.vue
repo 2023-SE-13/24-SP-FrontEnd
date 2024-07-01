@@ -103,6 +103,7 @@ export default {
   components : { NoticeUnit },
   created() {
     getUserMessage('ALL', localStorage.getItem('token')).then(res => {
+      console.log(res)
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
         this.NoticeData = this.NoticeList[0]
