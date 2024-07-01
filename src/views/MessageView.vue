@@ -164,11 +164,23 @@ export default {
         return conversation.user2_uname
       }
     },
+    scrollToLatestMessage() {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          const messageListElement = this.$refs.messageList;
+          if (messageListElement) {
+            messageListElement.scrollTop = messageListElement.scrollHeight;
+          }
+        }, 100); // 延迟 100 毫秒，确保 DOM 渲染完成
+      });
+    },
     // 选择聊天
     selectGroup(selectedGroup) {
       this.conversation_id = selectedGroup.conversation_id
       this.conversation = selectedGroup
-      this.loadConversation()
+      this.loadConversation().then(() => {
+      this.scrollToLatestMessage();
+    });
     },
     // 选择通知
     selectNotice(selectedGroup) {
@@ -176,20 +188,42 @@ export default {
       this.NoticeData = selectedGroup
     },
     // 加载聊天内容
+    // loadConversation() {
+    //   if(!localStorage.getItem('token')) {
+    //     console.error('localstorage中没有token，请检查')
+    //   } else {
+    //     if(!this.conversation_id) {
+    //       console.error('conversation_id为空，请检查')
+    //     } else {
+    //       getMessage(localStorage.getItem('token'), this.conversation_id).then(res => {
+    //         console.log('聊天内容：', res.data)
+    //         this.messageList = res.data
+    //       }) 
+    //     }
+    //   }
+    // },
     loadConversation() {
-      if(!localStorage.getItem('token')) {
-        console.error('localstorage中没有token，请检查')
+    return new Promise((resolve, reject) => {
+      if (!localStorage.getItem('token')) {
+        console.error('localstorage中没有token，请检查');
+        reject('No token');
       } else {
-        if(!this.conversation_id) {
-          console.error('conversation_id为空，请检查')
+        if (!this.conversation_id) {
+          console.error('conversation_id为空，请检查');
+          reject('No conversation_id');
         } else {
           getMessage(localStorage.getItem('token'), this.conversation_id).then(res => {
-            console.log('聊天内容：', res.data)
-            this.messageList = res.data
-          }) 
+            console.log('聊天内容：', res.data);
+            this.messageList = res.data;
+            resolve();
+          }).catch(error => {
+            console.error('Error loading conversation:', error);
+            reject(error);
+          });
         }
       }
-    },
+    });
+  },
 
     myMessage(message) {
       if(message.sender_uname === this.user_name) {
@@ -212,16 +246,6 @@ export default {
     //     }
     //   }
     // },
-    scrollToLatestMessage() {
-      this.$nextTick(() => {
-        setTimeout(() => {
-          const messageListElement = this.$refs.messageList;
-          if (messageListElement) {
-            messageListElement.scrollTop = messageListElement.scrollHeight;
-          }
-        }, 100); // 延迟 100 毫秒，确保 DOM 渲染完成
-      });
-    },
     sendMessageToGroup() {
       if (!this.stompClient) {
         console.error("stompClient is not initialized.");
