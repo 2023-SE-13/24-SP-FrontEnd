@@ -524,7 +524,6 @@ textarea {
   margin-left: 5px;
   padding-left: 5px;
   margin-right: 5px;
-  font-family: JingNanFont;
   font-size: 15px;
 }
 

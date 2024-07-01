@@ -12,16 +12,7 @@
         <div class="text">
           <span>{{this.text}}</span>
         </div>
-        <div class="images" v-show="images.length !== 0">
-          <el-image
-              v-for="(item, index) in images"
-              :key="index"
-              :src="item"
-              :preview-src-list="images"
-              style="width: 105px; height: 105px;border-radius: 10px;margin: 1px"
-              fit="contain">
-          </el-image>
-        </div>
+
         <el-divider></el-divider>
       </div>
     </div>
@@ -57,7 +48,6 @@ export default {
       for(let i = 0; i < this.images.length; i++) {
         this.images[i] = "http://10.251.253.188/tweetphoto/" + this.images[i];
       }
-      console.log(this.images)
     })
   },
   props: {
@@ -123,14 +113,6 @@ export default {
     flex-wrap: wrap;
     font-size: 20px;
     line-height: 30px;
-  }
-  .images{
-    width: 100%;
-    min-height: 100px;
-    background: white;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
   }
 </style>
 >>>>>>> dev2

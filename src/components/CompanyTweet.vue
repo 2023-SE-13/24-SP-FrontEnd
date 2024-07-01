@@ -6,7 +6,7 @@
       <div id="share">
         <div id="tweetBlock">
           <ul id="tweetList">
-            <li v-for="(tweet_id,index) in tweets" :key="index">
+            <li v-for="tweet_id in tweets" :key="tweet_id">
               <TweetUnit :id="tweet_id"></TweetUnit>
             </li>
           </ul>

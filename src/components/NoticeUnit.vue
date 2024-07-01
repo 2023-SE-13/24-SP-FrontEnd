@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="notice" v-show="NoticeData.notification_type === 'system'">
+  <div class="notice">
+    <div v-show="NoticeData.notification_type === 'system'">
       <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.realname }}：</p>
       <p style="top:25%;left: 15%">您好！</p>
       <p style="top:33.5%;left: 15%">我们非常高兴地通知您，经过公司严格的评估，您已被录用为我司{{
@@ -21,10 +21,16 @@
     </div>
 
     <div class="subscribe" v-show="NoticeData.notification_type === 'subscribe'">
-      <p style="margin-top: 20%;">{{ NoticeData.content }}</p>
-      <p>{{ NoticeData.created_at }}</p>
+      <p style="top: 25%;left: 12%">{{ NoticeData.content }}</p>
+      <p style="top: 34%;">{{ NoticeData.tweet_text }}</p>
+
+      <div v-show="NoticeData.tweet_photo != null">
+        <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo" ></el-avatar>
+      </div>
+
+      <p style="top: 69%;">{{ NoticeData.created_at }}</p>
       <div class="custom-btn">
-        <button style="top: 50.5%; right: 42.5%" @click="gotoTweet">前往查看</button>
+        <button style="top: 73.2%; right: 42.5%" @click="gotoTweet">前往查看</button>
       </div>
     </div>
   </div>
@@ -76,7 +82,7 @@ export default {
       })
     },
     gotoTweet() {
-      updateNotification(localStorage.getItem("token"), this.NoticeData.notification_id, 1).then(res => {
+      updateNotification(localStorage.getItem('token'), this.NoticeData.notification_id, 1).then(res => {
         if (res.data.status === "success") {
           const resolved = this.$router.resolve({name: 'Tweet', params: {id: this.NoticeData.tweet_id}});
           window.open(resolved.href, '_blank');
@@ -88,6 +94,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-avatar {
+  margin-top: 30%;
+}
+
 .custom-btn button {
   background-color: #0ccaca;
   color: white;
@@ -126,8 +136,7 @@ export default {
 }
 
 .subscribe p {
-  margin-left: 15%;
+  margin-left: 3%;
   margin-bottom: 1%;
-  font-size: 1.2em;
 }
 </style>
