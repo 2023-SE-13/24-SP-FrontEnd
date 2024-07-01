@@ -161,7 +161,7 @@ export default {
             this.position.salary_min = res.data.salary_min/1000
             this.position.salary_max = res.data.salary_max/1000
             this.position.position_tag = res.data.position_tag
-            this.position.hr_id = res.data.hr_id
+            this.position.hr_id = res.data.hr
             if(res.data.skill_required.length > 0){
                 this.position.skills = res.data.skill_required
             }else{

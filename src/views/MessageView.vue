@@ -46,7 +46,7 @@
           >
             <div class="user-item">
               {{ item.sender_uname }}  <br>
-              <!-- <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar> -->
+              <el-avatar><div class="imgUser-box"><img :src="'http://10.251.253.188/avatar/' + item.sender_uname + '_avatar.png'" alt="Avatar" class="imgUser_t"></div></el-avatar>
             </div>
             <!-- 消息块 -->
             <div class="message-background-color" :ref="'messageRef' + index">
@@ -101,7 +101,9 @@ export default {
       this.NoticeList = res.data.data
       this.NoticeData = this.NoticeList[0]
     })
-    this.startChat('why')
+    if(localStorage.getItem('hrname')) {
+      this.startChat(localStorage.getItem('hrname'))
+    }
     this.getGroupList();
   },
   methods: {
@@ -420,7 +422,7 @@ ul {
 }
 
 .message-background-color {
-  margin: 10px 3vw 20px 3vw;
+  margin: 5px 60px 25px 60px;
   display: inline-block;
   padding: 10px 10px;
   background-color: #d6f5fc;
@@ -504,6 +506,25 @@ textarea {
 
 .send-btn:hover {
   background-color: #c2f4ff;
+}
+
+.imgUser {
+  width: 100px;
+  height: 100px;
+}
+
+.imgUser_t {
+  width: 40px;
+  height: 40px;
+}
+
+/*用户名*/
+.user-item {
+  margin-left: 5px;
+  padding-left: 5px;
+  margin-right: 5px;
+  font-family: JingNanFont;
+  font-size: 15px;
 }
 
 </style>
