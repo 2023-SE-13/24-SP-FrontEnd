@@ -18,7 +18,7 @@
             <!-- <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit> -->
             <el-tabs type="border-card" class="table" v-model="activeName">
                 <el-tab-pane label="用户列表" name="user">
-                    <PostUserUnit v-for="(user,index) in UserList" :key="index" :post-data="user"></PostUserUnit>
+                    <PostUserUnit v-for="(user, index) in UserList" :key="index" :post-data="user"></PostUserUnit>
                 </el-tab-pane>
                 <el-tab-pane label="企业列表" name="company">
                     <CompanyUnit v-for="(Company, index) in CompanyList" :key="index" :company-data="Company">
@@ -36,7 +36,7 @@
 import PostUserUnit from '../components/PostUserUnit.vue'
 import PostPositionUnit from '../components/PostPositionUnit.vue'
 import CompanyUnit from '../components/CompanyUnit.vue'
-import { SearchCompany, SearchUser,SearchPosition} from '@/api/api'
+import { SearchCompany, SearchUser, SearchPosition } from '@/api/api'
 export default {
     data() {
         return {
@@ -183,13 +183,13 @@ export default {
 }
 
 .search-bar {
-  margin: 20px -400px;
-  float: left;
-  position: absolute;
-  left: 50%;
-  top: 15%;
-  border: solid 3px #00bebd;
-  border-radius: 10px;
+    margin: 20px -400px;
+    float: left;
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    border: solid 3px #00bebd;
+    border-radius: 10px;
 }
 
 /* .img-container .el-select .el-input {
@@ -322,5 +322,28 @@ export default {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 10px;
+}
+
+/deep/ .el-tabs__item {
+    font-size: 20px;
+    /* 设置你想要的字体大小 */
+}
+
+/deep/ .el-tabs__header {
+    border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    /* To ensure the rounded corners are visible */
+}
+
+/deep/ .el-tabs__item {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/deep/ .el-tabs__content {
+    border-radius: 0 0 15px 15px;
+    border-top: none;
+    /* To remove the top border between tabs and content */
 }
 </style>
