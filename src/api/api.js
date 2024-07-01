@@ -760,3 +760,18 @@ export function SearchPosition(data) {
         data
     })
 }
+
+// 转让管理员权限
+
+export function TransAdmin(data){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/company/transfer_admin',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
