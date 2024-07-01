@@ -93,6 +93,7 @@ export default {
                 this.$router.push("/user/" + localStorage.getItem('username'));
             }
             if (command === 'b') {
+                this.$router.push("/user/" + localStorage.getItem('username'));
                 // this.$router.push("/article/" + btoa(encodeURIComponent(JSON.stringify(this.id))));
             }
             if (command === 'd' && this.$route.path !== '/settings') {
