@@ -2,6 +2,7 @@
   <div class="post-unit" @click="gotoPotion">
     <div class="upper-box">
       <span class="post">{{ postData.position_name }}</span>
+      <span style="color: red; font-weight: bold; text-align: right; margin-right: 20px">{{ formatSalary(postData.salary_min) }} - {{ formatSalary(postData.salary_max) }}</span>
     </div>
     <div class="lower-box">
       <span>{{postData.company_name}}</span>
@@ -25,7 +26,10 @@ export default {
       gotoPotion() {
         localStorage.setItem('position_id',this.postData.position_id)
         this.$router.push('/PostView/' + this.postData.position_id);
-      }
+      },
+      formatSalary(salary) {
+        return Math.floor(salary)/1000 + 'k'; // 去掉小数点取整 + k
+      },
     },
 }
 </script>
@@ -47,6 +51,7 @@ export default {
   height: 100px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .lower-box {
   height: 50px;
