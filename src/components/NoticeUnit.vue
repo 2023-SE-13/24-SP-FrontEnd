@@ -1,6 +1,6 @@
 <template>
   <div class="notice">
-    <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.username }}：</p>
+    <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.realname }}：</p>
     <p style="top:25%;left: 15%">您好！</p>
     <p style="top:33.5%;left: 15%">我们非常高兴地通知您，经过公司严格的评估，您已被录用为我司{{
         NoticeData.position_name
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { updateOffer, updateNotification } from "@/api/api";
+import { updateOffer, updateNotification, addStaff } from "@/api/api";
 
 export default {
   data() {
@@ -34,12 +34,16 @@ export default {
     accept() {
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "accept").then(res => {
         if (res.data.status === "success") {
-          updateNotification(localStorage, this.NoticeData.notification_id, 1).then(res => {
+          updateNotification(localStorage.getItem('token'), this.NoticeData.notification_id, 1).then(res => {
             if (res.data.status === "success") {
-              this.$notify({
-                title: '成功',
-                message: '已接受该offer！',
-                type: 'success'
+              addStaff(localStorage.getItem('token'), this.NoticeData.company_id).then(res => {
+                if (res.data.status === "success") {
+                  this.$notify({
+                    title: '成功',
+                    message: '已接受该offer！',
+                    type: 'success'
+                  })
+                }
               })
             }
           })
