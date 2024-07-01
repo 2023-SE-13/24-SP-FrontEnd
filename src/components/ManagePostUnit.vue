@@ -1,13 +1,12 @@
 <template>
     <div class="man-unit" @click="getapply">
         <div class="upper">
-            <span>{{postData.position_name}}</span>
+            <span style="font-weight:600;">{{postData.position_name}}</span>
             <div class="buttons">
-                <el-button @click="deletepost"><i class="el-icon-delete"></i></el-button>
-                <el-button @click="editPost"> <i class="el-icon-edit"></i></el-button>
+                <el-button style="background-color: #00B4B3" @click="deletepost"><i class="el-icon-delete"></i></el-button>
+                <el-button style="background-color: #00B4B3" @click="editPost"> <i class="el-icon-edit"></i></el-button>
             </div>
         </div>
-
         <div class="middle">
             <div class="middle-text">  
                 <span class="req-text">职位所在地：{{postData.location}}</span>
@@ -58,7 +57,7 @@ export default {
   background-color:white;
   margin-bottom: 15px;
   border-radius: 10px;
-  margin-left: 5%;
+  margin-left: 3%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,7 +89,8 @@ export default {
     align-items: center;
     width: 100%;
     height: 50px;
-    background-color: #f8f8f8;
+    background-color: #00B4B3;
+    border-radius: 10px 10px 0 0;
     // padding: 0 0;
 
 }
@@ -122,10 +122,11 @@ export default {
     justify-content: flex-start;
     gap:10px;
     font-size: 14px;
-    background-color: #f8f8f8;
+    background-color: #D5E9E9;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    border-radius: 0 0 5px 5px;
 }
 
 .req-text{
