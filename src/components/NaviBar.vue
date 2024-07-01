@@ -36,21 +36,21 @@
     </div>
 </template>
 <script>
-import { SearchUser } from '@/api/api'
+import { SearchUser, GetUserInfo } from '@/api/api'
 
 export default {
     // name:'NaviBar',
     data() {
         return {
             activeIndex: null,
+            enterpriseLink: "/company-register",
             naviUnits: [
                 { content: "首页", link_to: "/main" },
                 { content: "搜索", link_to: "/search" },
                 // { content: "公司", link_to: "/company-list" },
                 // { content: "我的企业", link_to: "/company-temp" },
-                { content: "企业", link_to: this.getEnterpriseLink() },
+                { content: "企业", link_to: this.enterpriseLink },
                 { content: "消息中心", link_to: "/message" }
-
             ],
             isLogin: false,
             select: '',
@@ -67,13 +67,38 @@ export default {
         this.photoSrc = "http://10.251.253.188/avatar/" + this.username + "_avatar.png"
     },
     methods: {
-        getEnterpriseLink() {
-            //没写好
-            return true ? "/company-temp" : "/company-register";
+        getEnterpriseLink(username) {
+            GetUserInfo(username).then(res => {
+                if (res.data.status == "success") {
+                    console.log(res.data)
+                    this.enterpriseLink = res.data.data.is_staff ? "/company-temp" : "/company-register";
+                    this.updateNaviUnits();
+                }
+            });
+
+        },
+        updateNaviUnits() {
+            this.naviUnits = [
+                { content: "首页", link_to: "/main" },
+                { content: "搜索", link_to: "/search" },
+                { content: "企业", link_to: this.enterpriseLink },
+                { content: "消息中心", link_to: "/message" }
+            ];
         },
         changeActive(index) {
-            this.activeIndex = index
-            console.log(this.activeIndex)
+            const username = localStorage.getItem("username");
+            const link = this.naviUnits[index].link_to;
+            console.log(username + link)
+            if (!username && (link === this.enterpriseLink || link === "/message")) {
+                this.$message({
+                    message: '请注册登录后使用',
+                    type: 'warning'
+                });
+            } else {
+                this.activeIndex = index;
+                // this.$router.push(link);
+                console.log(this.activeIndex);
+            }
         },
         gotoLogin() {
             this.$router.push("/login")
@@ -137,6 +162,10 @@ export default {
         }
     },
     created() {
+        const username = localStorage.getItem("username");
+        if (username) {
+            this.getEnterpriseLink(username);
+        }
         const currentRouteIndex = this.naviUnits.findIndex(unit => unit.link_to == this.$route.path);
         this.activeIndex = currentRouteIndex !== -1 ? currentRouteIndex : null;
         this.$watch('$route', () => {
