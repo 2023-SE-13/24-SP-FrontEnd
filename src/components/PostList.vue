@@ -81,9 +81,13 @@
             </span>
         </el-dialog>
         <el-dialog title="应聘者信息" :visible.sync="dialogVisible3" width="50%" :before-close="handleClose">
+            <div>
+                <el-avatar :size="70" >头像</el-avatar>
+
+            </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible3 = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible3 = false">确定修改</el-button>
+                <el-button type="primary" @click="dialogVisible3 = false">确定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -93,7 +97,7 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
-import { getPositionList, createPost, deletePost, getPostApply } from '@/api/api'
+import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo } from '@/api/api'
 export default {
     data() {
         return {
@@ -137,6 +141,9 @@ export default {
         handleShowInfo(value){
             console.log(value)
             this.dialogVisible3 = true
+            GetUserInfo(value).then(res=>{
+                console.log(res.data.data)
+            })
         },
         handleGetApply(value) {
             console.log("应聘信息")

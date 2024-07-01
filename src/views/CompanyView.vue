@@ -21,13 +21,13 @@
         <div class="nav-item" :class="{ 'active': currentView === 'CompanyJobs' }" @click="currentView = 'CompanyJobs'">
           招聘职位
         </div>
-        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTaste' }" @click="currentView = 'CompanyTaste'">
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTweets' }" @click="currentView = 'CompanyTweets'">
           员工动态
         </div>
       </div>
     </div>
 
-    <div class="box">
+    <div class="company-box">
       <component :is="currentView"></component>
     </div>
   </div>
@@ -47,14 +47,14 @@ import {
 } from '@/api/api';
 import CompanyIntro from '@/components/CompanyIntro.vue';
 import CompanyJobs from "@/components/CompanyJobs.vue";
-import CompanyTaste from "@/components/CompanyTaste.vue";
+import CompanyTweets from "@/components/CompanyTweet.vue";
 
 export default {
   name: 'App',
   components: {
     CompanyIntro,
     CompanyJobs,
-    CompanyTaste
+    CompanyTweets
   },
   data() {
     return {
@@ -340,8 +340,8 @@ export default {
   color: #fff;
 }
 
-.box {
-  margin-left: 5%;
+.company-box {
+  margin-left: 4%;
   margin-top: 2%;
 }
 </style>
