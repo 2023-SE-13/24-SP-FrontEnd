@@ -56,9 +56,7 @@ export default {
   created() {
     getPositionList(this.company_id).then(res => {
       this.JobsList = res.data
-      console.log(this.JobsList[0].position_id)
       this.positionId = this.JobsList[0].position_id
-      console.log(this.positionId)
       getPosition(this.positionId).then(res => {
         this.JobData = res.data
       })

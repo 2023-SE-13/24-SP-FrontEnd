@@ -500,7 +500,7 @@ export function getSimilarPost(position_id) {
 }
 
 // 获取企业动态
-export function getCompanyTweet(company_id) {
+export function getCompanyTweetList(company_id) {
     return service({
         method: 'get',
         url: '/tweet/get_company_tweet',
@@ -603,5 +603,33 @@ export function editPost(data,token){
             'Authorization': `Token ${token}`
         },
         data
+    })
+}
+
+// 获取用户某一类型信息
+export function getUserMessage(require_type, token) {
+    return service({
+        method: 'get',
+        url: '/notification/get_user_notifications',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'require_type': require_type
+        }
+    })
+}
+
+// 获取通知具体信息
+export function getNotification(token, notification_id) {
+    return service({
+        method: 'get',
+        url: '/notification/get_notification',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'notification_id': notification_id
+        }
     })
 }
