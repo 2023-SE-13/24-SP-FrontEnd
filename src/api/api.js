@@ -725,3 +725,18 @@ export function updateNotification(token, notification_id, is_read) {
         data
     })
 }
+
+
+// 获取用户动态
+export function getUserTweet(username, token) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_user_tweet',
+        params: {
+            'username': username
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}

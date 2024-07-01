@@ -25,7 +25,7 @@
               :src="item"
               :preview-src-list="images"
               style="width: 145px; height: 145px;border-radius: 10px;margin: 1px"
-              fit="none">
+              fit="contain">
             </el-image>
           </div>
         </div>
