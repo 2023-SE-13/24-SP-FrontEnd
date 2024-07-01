@@ -71,7 +71,14 @@
 </template>
 
 <script>
-import {getConversation, getMessage, getNotification, saveMessage, getUserMessage ,createConversation, getConversationById} from '@/api/api';
+import {
+  getConversation,
+  getMessage,
+  getUserMessage,
+  createConversation,
+  getConversationById,
+  getTweetDetail
+} from '@/api/api';
 import NoticeUnit from "@/components/NoticeUnit.vue";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
@@ -91,7 +98,6 @@ export default {
       NoticeData:[],
       stompClient: null,
       notification_id: '',
-      notification: {},
     };
   },
   components : { NoticeUnit },
@@ -190,6 +196,20 @@ export default {
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
       this.NoticeData = selectedGroup
+      let data = {
+        tweet_id: this.NoticeData.tweet_id
+      };
+      getTweetDetail(data, localStorage.getItem('token')).then(res => {
+        console.log(res.data.data)
+        this.NoticeData.tweet_content = res.data.data.text_content.length > 20
+            ? res.data.data.text_content.substring(0, 60) + '...'
+            : res.data.data.text_content;
+        if(res.data.data.photos[0] != null) {
+          this.NoticeData.tweet_photo = "http://10.251.253.188/tweetphoto/" + res.data.data.photos[0]
+        } else {
+          this.NoticeData.tweet_photo = null
+        }
+      })
     },
     // 加载聊天内容
     // loadConversation() {

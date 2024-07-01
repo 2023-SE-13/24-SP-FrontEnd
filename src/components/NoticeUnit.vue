@@ -22,7 +22,7 @@
 
     <div class="subscribe" v-show="NoticeData.notification_type === 'subscribe'">
       <p style="top: 25%;left: 12%">{{ NoticeData.content }}</p>
-      <p style="top: 34%;">{{ NoticeData.tweet_text }}</p>
+      <p style="top: 34%;">{{ NoticeData.tweet_content }}</p>
 
       <div v-show="NoticeData.tweet_photo != null">
         <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo" ></el-avatar>
