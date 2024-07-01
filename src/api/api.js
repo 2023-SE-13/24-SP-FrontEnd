@@ -855,3 +855,14 @@ export function getSubscribeUser(username) {
         }
     })
 }
+
+// 查询关注企业列表
+export function getSubscribeEp(username) {
+    return service({
+        method: 'get',
+        url: '/subscribe/get_subscribe_company',
+        params: {
+            'username': username
+        }
+    })
+}

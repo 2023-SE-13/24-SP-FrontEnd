@@ -23,8 +23,9 @@ export default{
             imgUrl: "http://10.251.253.188/avatar/" + this.username + "_avatar.png"
         }
     },
-    async created() {
+    mounted() {
         this.imgUrl = "http://10.251.253.188/avatar/" + this.username + "_avatar.png";
+        console.log(this.username);
         console.log(this.imgUrl);
     },
     methods: {
@@ -97,7 +98,7 @@ export default{
     #name {
         width: 40%;
         height: 40%;
-        font-size: 25px;
+        font-size: 23px;
         font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
         color: #333
     }

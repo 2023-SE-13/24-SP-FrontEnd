@@ -143,7 +143,7 @@
           <div id="zone" class="content">
             <!--展示切换菜单-->
             <div id="preMenu">
-              <el-menu default-active="2" mode="horizontal" @select="preSelect" id="pre_menu">
+              <el-menu default-active="1" mode="horizontal" @select="preSelect" id="pre_menu">
                 <el-menu-item index="1" class="preMenuItem">动态</el-menu-item>
                 <el-menu-item index="2" class="preMenuItem">关注</el-menu-item>
               </el-menu>
@@ -162,15 +162,22 @@
             </div>
             <div v-show="preActive === '2'" id="favorList">
               <div id="favorCheckout">
-                <el-radio-group id="favorMode" v-model="favorMode">
+                <el-radio-group id="favorMode" v-model="favorMode" @input="favor_mode=!favor_mode">
                   <el-radio-button label="用户" class="favorBtn"></el-radio-button>
                   <el-radio-button label="企业" class="favorBtn"></el-radio-button>
                 </el-radio-group>
               </div>
-              <div id="favorBlock">
+              <div v-show="favor_mode" id="favorBlock">
                 <ul id="favor_list" type="none">
                   <li v-for="(subcribeUser, index) in subscribeUsers" :key="index">
                     <FavorUserUnit :username="subcribeUser.username" :company-name="subcribeUser.company_name"></FavorUserUnit>
+                  </li>
+                </ul>
+              </div>
+              <div v-show="!favor_mode" id="favorBlock">
+                <ul id="favor_list" type="none">
+                  <li v-for="(subscribeEp, index) in subscribeEps" :key="index">
+                    <FavorEPUnit :company_id="subscribeEp.company_id" :company_name="subscribeEp.company_name" :company_description="subscribeEp.company_description"></FavorEPUnit>
                   </li>
                 </ul>
               </div>
@@ -196,16 +203,19 @@ import {
   UpdateUserInfo,
   uploadResume,
   uploadAvatar,
-  getSubscribeUser
+  getSubscribeUser,
+  getSubscribeEp
 } from "@/api/api";
 import TweetUnit from "@/components/TweetUnit.vue";
 import FavorUserUnit from "@/components/FavorUserUnit.vue";
+import FavorEPUnit from "@/components/FavorEPUnit.vue";
 
 export default {
   name: "User",
   components: {
     TweetUnit,
-    FavorUserUnit
+    FavorUserUnit,
+    FavorEPUnit
   },
   watch: {
     photo_file: {
@@ -232,63 +242,12 @@ export default {
     },
     $route: {
       handler: function () {
-        this.user.name = this.$route.params.name;
-        this.defaultUser.name = this.user.name;
-        this.isSelf = true;
-        this.isFavor = false;
-        if (this.user.name !== localStorage.getItem("username")) {
-          this.isSelf = false;
-          const data = {
-            username: this.user.name
-          }
-          DoSubscribeUser(data, this.token).then(res => {
-            if (res.data.status === "success") {
-              this.isFavor = true;
-            }
-          });
-        }
-        GetUserInfo(this.user.name).then(res => {
-          if (res.data.status == "success") {
-            this.user.real_name = res.data.data.real_name;
-            this.user.name = res.data.data.username;
-            this.user.education = res.data.data.education;
-            this.user.school = res.data.data.school;
-            this.user.age = res.data.data.age;
-            this.user.desired_position = res.data.data.desired_position;
-
-            this.flatDesiredPosition = this.user.desired_position.map(item => [item.category, item.specialization]);
-
-            this.user.is_staff = res.data.data.is_staff;
-            this.user.blog_link = res.data.data.blog_link;
-            this.user.position = res.data.data.position;
-            this.user.workYear = res.data.data.work_year;
-            const json = JSON.stringify(this.user);
-            // console.log(json);
-            this.defaultUser = JSON.parse(json);
-          }
-        },
-          error => {
-            if (error.response.status === 400) {
-              this.$notify({
-                title: "错误",
-                message: "未知错误",
-                type: "error"
-              });
-            }
-            if (error.response.status === 404) {
-              this.$notify({
-                title: "错误",
-                message: "用户不存在",
-                type: "error"
-              });
-            }
-          }
-        );
+        this.$router.go(0);
       },
       deep: true
     }
   },
-  created() {
+  mounted() {
     this.token = localStorage.getItem("token");
     this.user.name = this.$route.params.name;
     let string = "http://10.251.253.188/avatar/"+this.user.name+"_avatar.png"
@@ -350,7 +309,9 @@ export default {
         }
       }
     );
-    this.preActive = '2';
+    this.preActive = '1';
+    this.favor_mode = true;
+    this.favorMode = '用户';
     getUserTweet(this.user.name, this.token).then(res => {
       if (res.data.status === "success") {
         this.tweets = res.data.data;
@@ -365,6 +326,11 @@ export default {
       if (res.data.status === "success") {
         this.subscribeUsers = res.data.data;
       }
+    });
+    getSubscribeEp(this.user.name).then(res => {
+      if (res.data.status === "success") {
+        this.subscribeEps = res.data.data;
+      }
     })
   },
   data() {
@@ -374,6 +340,7 @@ export default {
       photo_file: null,
       isSelf: false,
       isFavor: false,
+      favor_mode: true,
       user: {
         real_name: "张三",
         education: "本科",
@@ -423,13 +390,10 @@ export default {
       hasResume: false,
       resumeUrl: "",
       resumeUploadTime: "",
-      preActive: '2',
+      preActive: '1',
       subscribeUsers: [
-        {
-          username: "",
-          company_name: "",
-        }
       ],
+      subscribeEps: [],
       options: [
         {
           value: '后端开发',
