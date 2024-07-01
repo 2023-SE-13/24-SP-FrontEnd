@@ -169,8 +169,8 @@
               </div>
               <div id="favorBlock">
                 <ul id="favor_list" type="none">
-                  <li>
-                    <FavorUserUnit :username="user.name"></FavorUserUnit>
+                  <li v-for="(subcribeUser, index) in subscribeUsers" :key="index">
+                    <FavorUserUnit :username="subcribeUser.username" :company-name="subcribeUser.company_name"></FavorUserUnit>
                   </li>
                 </ul>
               </div>
@@ -195,7 +195,8 @@ import {
   UnSubscribeUser,
   UpdateUserInfo,
   uploadResume,
-    uploadAvatar
+  uploadAvatar,
+  getSubscribeUser
 } from "@/api/api";
 import TweetUnit from "@/components/TweetUnit.vue";
 import FavorUserUnit from "@/components/FavorUserUnit.vue";
@@ -360,6 +361,11 @@ export default {
           console.log(error);
         }
     );
+    getSubscribeUser(this.token).then(res => {
+      if (res.data.status === "success") {
+        this.subscribeUsers = res.data.data;
+      }
+    })
   },
   data() {
     return {
@@ -418,6 +424,12 @@ export default {
       resumeUrl: "",
       resumeUploadTime: "",
       preActive: '2',
+      subscribeUsers: [
+        {
+          username: "",
+          company_name: "",
+        }
+      ],
       options: [
         {
           value: '后端开发',
@@ -1059,7 +1071,6 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background-color: #F56C6C
 }
 
  #favorMode {
@@ -1085,6 +1096,16 @@ export default {
   max-height: 90%;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+#favor_list {
+  width: 100%;
+  height: 100%;
+}
+#favor_list li{
+  position: relative;
+  left: 2%;
+  width: 100%;
+  height: 100%;
 }
 ::v-deep .el-radio-button__inner {
   height: 60%;

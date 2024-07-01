@@ -1,5 +1,5 @@
 <template>
-    <div id="box">
+    <div id="box" @click="jump">
         <div id="main">
             <div id="img">
                 <el-avatar id="avatar" :src="this.imgUrl"></el-avatar>
@@ -8,7 +8,7 @@
                 <span id="name" class="text">{{ name }}</span>
                 <span id="ep" class="text">所属企业：{{ this.companyName }}</span>
             </div>
-            <div id="chat" @click="chat">
+            <div id="chat" @click.prevent="chat">
                 <span id="chatBtn" >私聊</span>
             </div>
         </div>
@@ -32,6 +32,10 @@ export default{
         chat() {
             localStorage.setItem("hrname", this.name);
             this.$router.push("/message/");
+        },
+        jump() {
+            const jumpUrl = this.$router.resolve("/user/" + this.username);
+            window.open(jumpUrl.href, '_blank');
         }
     },
     props: {
@@ -49,11 +53,14 @@ export default{
 
 <style scoped>
     #box {
-        width: 100%;
+        width: 95%;
         height: 70px;
         min-height: 70px;
         background-color: white;
-        border-bottom: 2px solid #ccc;
+        border-bottom: 0.5px solid #ccc;
+    }
+    #box:hover {
+        background-color: rgba(221, 221, 221, 0.3);
     }
     #main {
         width: 100%;
