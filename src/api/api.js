@@ -443,6 +443,33 @@ export function createPost(data, token) {
         data
     })
 }
+// 创建聊天
+export function createConversation(token, username) {
+    return service({
+        method: 'post',
+        url: '/user/create_conversation',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data: {
+            'username':username
+        }
+    })
+}
+
+export function getConversationById(token, conversation_id) {
+    return service({
+        method: 'get',
+        url: '/user/get_conversation',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'conversation_id': conversation_id
+        }
+    })
+}
+
 
 // 删除职位
 export function deletePost(data, token) {
