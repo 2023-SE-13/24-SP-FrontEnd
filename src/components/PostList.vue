@@ -169,9 +169,21 @@
         </el-dialog>
 
         <el-dialog title="应聘者信息" :visible.sync="dialogVisible3" width="50%" :before-close="handleClose">
-            <div>
-                <el-avatar :size="70" >头像</el-avatar>
-
+            <div id="postMan" style="width: 100%;height:100%;">
+                <el-avatar :size="70" :src="this.photoUrl" >头像</el-avatar>
+                <div id="postMan_content">
+                  <div class="half_part">
+                      <span style="margin-left: 20px;margin-bottom: 10px">姓名：{{this.postMan.real_name}}</span>
+                      <span style="margin-left: 20px">学历：{{this.postMan.education}}</span>
+                  </div>
+                  <div class="half_part" style="width:70%">
+                      <span style="margin-bottom: 10px">期望职位：{{this.postMan.desired_position}}</span>
+                      <span>邮箱：{{this.postMan.email}}</span>
+                  </div>
+                </div>
+                <div class="resume">
+                    <el-link type="primary" :underline="false" @click="openResume()">查看简历</el-link>
+                </div>
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible3 = false">取 消</el-button>
@@ -186,6 +198,7 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
+import {IsAdmin} from "@/api/api";
 import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo,refuseApply,createOffer } from '@/api/api'
 export default {
     data() {
@@ -194,6 +207,9 @@ export default {
             dialogVisible: false,
             dialogVisible2: false,
             dialogVisible3: false,
+            postMan: {},
+            photoUrl: '',
+            resumeUrl: '',
             sizeForm: {
                 name: '',
                 region: '',
@@ -423,7 +439,11 @@ export default {
             console.log(value)
             this.dialogVisible3 = true
             GetUserInfo(value).then(res=>{
-                console.log(res.data.data)
+                this.postMan = res.data.data
+                this.photoUrl = 'http://10.251.253.188/avatar/'+this.postMan.username+'_avatar.png'
+                this.postMan.desired_position = this.postMan.desired_position.map(item => [item.category, item.specialization])
+                this.postMan.desired_position = this.postMan.desired_position.map(position => position.join('-')).join(' | ')
+                this.resumeUrl = "http://10.251.253.188/resume/"+this.postMan.username+"_resume.pdf"
             })
         },
         handleGetApply(value) {
@@ -577,6 +597,18 @@ export default {
             this.clearPostForm();
             this.dialogVisible = true
         },
+        openResume(){
+           if(this.postMan.resume_uploaded){
+             window.open(this.resumeUrl)
+           }
+           else{
+             this.$notify({
+               title: "提示",
+               message: "该用户未上传简历",
+               type: "warning"
+             });
+           }
+        },
         createPost() {
             this.postForm.position_tag = {
                 category: this.flatDesiredPosition[0],
@@ -728,5 +760,29 @@ export default {
 .scrollable::-webkit-scrollbar-thumb:hover {
     background: #555;
     /* 滚动条滑块悬停背景 */
+}
+
+#postMan{
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+}
+
+#postMan_content{
+  width: calc(80% - 60px);
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+  align-items: center;
+}
+
+.half_part{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif!important;
+  font-size: 20px;
 }
 </style>

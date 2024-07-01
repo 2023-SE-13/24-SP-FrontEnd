@@ -12,7 +12,15 @@
         <div class="text">
           <span>{{this.text}}</span>
         </div>
-
+        <div class="images" v-show="images.length !== 0">
+          <el-image
+              v-for="(item, index) in images"
+              :key="index"
+              :src="item"
+              style="width: 105px; height: 105px;border-radius: 10px;margin: 1px"
+              fit="contain">
+          </el-image>
+        </div>
         <el-divider></el-divider>
       </div>
     </div>
@@ -34,14 +42,14 @@ export default {
     }
   },
   async created() {
-    this.username = this.$route.params.name
     this.token = localStorage.getItem('token')
     this.tweet_id = this.id
-    this.photo = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
     let params = {
       tweet_id: this.tweet_id
     }
     await getTweetDetail(params, this.token).then(res => {
+      this.username = res.data.data.user
+      this.photo = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
       this.date = res.data.data.created_at
       this.text = res.data.data.text_content
       this.images = res.data.data.photos
@@ -111,6 +119,7 @@ export default {
     display: flex;
     text-align: left;
     flex-wrap: wrap;
+    word-break: break-all;
     font-size: 20px;
     line-height: 30px;
   }
