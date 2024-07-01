@@ -3,39 +3,65 @@
         <div class="upper-box">
             <el-avatar shape="square" :size="55" :src="photoSrc"></el-avatar>
             <div class="text-container">
-                <span class="comp-name">{{staffData.user.real_name}}</span>
+                <span class="comp-name">{{ staffData.user.real_name }}</span>
                 <span v-if="staffData.role === 'Admin'" class="sub-num">管理员</span>
                 <span v-else class="sub-num">员工</span>
                 <!-- <span class="sub-num">工龄:10年</span> -->
             </div>
-            <div>
-                <el-button>开除</el-button>
-                <el-button>设置为管理员</el-button>
-            </div>
+
         </div>
         <div class="lower-box">
             <span class="description">职位<span class="divider"></span>1111</span>
+            <div class="buttons">
+                <el-tooltip content="开除员工" placement="bottom">
+                    <el-button @click="delStaff" id="del" circle v-if="staffData.role !== 'Admin'"><i
+                            class="el-icon-delete"></i></el-button>
+                </el-tooltip>
+                <el-tooltip content="转让管理员权限" placement="bottom">
+                    <el-button id="trans" circle v-if="staffData.role !== 'Admin'"><i
+                            class="el-icon-sort"></i></el-button>
+                </el-tooltip>
+            </div>
         </div>
     </div>
 </template>
 <script>
+import { deleteStaff } from '@/api/api';
 export default {
     data() {
         return {
 
         }
     },
-    props:{
-        staffData:{
+    props: {
+        staffData: {
 
         }
     },
-    created(){
+    created() {
         console.log(this.staffData)
+    },
+    methods: {
+        delStaff() {
+            let data = {
+                "username": this.staffData.user.username,
+                "company_id": this.staffData.user.company_id
+            }
+            deleteStaff(data,localStorage.getItem('token')).then(res=>{
+                console.log(res)
+            })
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
+.buttons {
+    .el-button {
+        border: none;
+        background-color: #f6fcfc;
+    }
+}
+
 .staff-unit {
     width: 290px;
     height: 145px;
@@ -48,9 +74,11 @@ export default {
     margin-bottom: 0;
     margin-left: 15px;
 }
+
 .staff-unit:hover {
     box-shadow: 10px 10px 20px 0px rgba(98, 92, 92, 0.3);
 }
+
 .sub-num {
     // background-color: aqua;
     font-size: 14px;
@@ -83,6 +111,7 @@ export default {
     flex-direction: column;
     align-items: flex-start;
 }
+
 .el-avatar {
     float: left;
     margin: 20px 20px;
@@ -104,23 +133,28 @@ export default {
     color: #666;
 
 }
-.lower-box span{
+
+.lower-box span {
     max-width: 280px;
     // min-width: 100px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.description{
+
+.description {
     margin-top: 10px;
     margin-left: 20px;
 }
-.divider{
+
+.divider {
     display: inline-block;
-    height: 20px; /* 可根据需要调整 */
+    height: 20px;
+    /* 可根据需要调整 */
     width: 1px;
     background-color: #c0c0c0;
-    margin: 0 20px; /* 可根据需要调整 */
+    margin: 0 20px;
+    /* 可根据需要调整 */
     vertical-align: middle;
 }
 </style>

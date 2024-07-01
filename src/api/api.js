@@ -650,3 +650,16 @@ export function createOffer(data,token){
         }
     })
 }
+
+// 管理员删除员工 
+export function deleteStaff(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'delete',
+        url:'/company/delete_staff',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
