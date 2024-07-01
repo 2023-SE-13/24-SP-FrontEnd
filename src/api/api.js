@@ -704,17 +704,7 @@ export function updateOffer(token, offer_id, state) {
             'Content-Type': 'application/json'
         },
         data
-    }).catch(error => {
-        if (error.response.status === 406) {
-            console.log('员工无法再加入其他企业！');
-            throw error;
-        }
-        this.$notify({
-            title: '失败',
-            message: '你已经属于其他企业！',
-            type: 'error'
-        })
-    });
+    })
 }
 
 // 更新通知已读状态
@@ -856,12 +846,12 @@ export function addStaff(token, company_id) {
 }
 
 // 查询关注用户列表
-export function getSubscribeUser(token) {
+export function getSubscribeUser(username) {
     return service({
         method: 'get',
         url: '/subscribe/get_subscribe_user',
-        headers: {
-            'Authorization': `Token ${token}`
+        params: {
+            'username': username
         }
     })
 }

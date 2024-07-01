@@ -361,7 +361,7 @@ export default {
           console.log(error);
         }
     );
-    getSubscribeUser(this.token).then(res => {
+    getSubscribeUser(this.user.name).then(res => {
       if (res.data.status === "success") {
         this.subscribeUsers = res.data.data;
       }
@@ -1105,7 +1105,7 @@ export default {
   position: relative;
   left: 2%;
   width: 100%;
-  height: 100%;
+  height: 20%;
 }
 ::v-deep .el-radio-button__inner {
   height: 60%;
