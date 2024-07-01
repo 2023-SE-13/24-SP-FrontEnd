@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { updateOffer } from "@/api/api";
 export default {
   data() {
     return {
@@ -31,7 +32,7 @@ export default {
   },
   methods:{
     accept(){
-
+      updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "accept")
     },
     refuse(){
 

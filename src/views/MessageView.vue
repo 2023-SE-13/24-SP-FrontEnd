@@ -97,7 +97,7 @@ export default {
   components : { NoticeUnit },
   created() {
     this.loadGroupList();
-    getUserMessage('system', '4ed97128864b50a6bb919f9172f91ec065213839').then(res => {
+    getUserMessage('system', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
       this.NoticeData = this.NoticeList[0]
     })
@@ -149,7 +149,6 @@ export default {
         } catch (error) {
           console.error("Error fetching groupList:", error);
         }
-        
       }
     },
     // 加载联系人名称

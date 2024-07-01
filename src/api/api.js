@@ -633,3 +633,22 @@ export function getNotification(token, notification_id) {
         }
     })
 }
+
+// 用户接受或拒绝offer
+export function updateOffer(token, offer_id, state) {
+    let data = {
+        "offer_id": offer_id,
+        "state": state
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'put',
+        url: '/position/update_offer',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
