@@ -391,7 +391,7 @@ export function getRecommendSubscribe(token) {
     });
 }
 
-// 获取
+// 获取推荐的岗位
 export function getRecommendPosition(token) {
     const headers = {};
     if (token) {
