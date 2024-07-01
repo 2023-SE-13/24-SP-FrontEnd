@@ -165,6 +165,7 @@ export default {
                 })
             }
             this.position.position_id = res.data.position_id
+            console.log("positionid:"+this.position.position_id+"!!token:"+this.token)
             this.position.posted_at = res.data.posted_at.slice(0,10)
             this.position.salary_min = res.data.salary_min/1000
             this.position.salary_max = res.data.salary_max/1000
