@@ -13,7 +13,7 @@
     <p style="top:73%;left: 15%">人力资源部</p>
     <p style="top:78%;left: 15%">{{ NoticeData.created_at }}</p>
 
-    <div class="custom-btn" v-show="NoticeData.is_read === false">
+    <div class="custom-btn" v-show="NoticeData.is_read == 0">
       <button style="top: 82.5%; right: 50.5%" @click="accept">接受</button>
       <button style="top: 82.5%; right: 42.5%" @click="refuse">拒绝</button>
     </div>
@@ -27,11 +27,15 @@ export default {
   data() {
     return {}
   },
+  created() {
+
+  },
   props: {
     NoticeData: {}
   },
   methods: {
     accept() {
+      console.log(this.NoticeData)
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "accept").then(res => {
         if (res.data.status === "success") {
           updateNotification(localStorage.getItem('token'), this.NoticeData.notification_id, 1).then(res => {
