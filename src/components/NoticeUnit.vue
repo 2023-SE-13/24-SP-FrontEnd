@@ -21,38 +21,34 @@
 </template>
 
 <script>
-import { updateOffer, updateNotification, addStaff } from "@/api/api";
+import {updateOffer, updateNotification} from "@/api/api";
 
 export default {
   data() {
     return {}
   },
   created() {
-
   },
   props: {
     NoticeData: {}
   },
   methods: {
     accept() {
-      console.log(this.NoticeData)
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "accept").then(res => {
-        if (res.data.status === "success") {
-          updateNotification(localStorage.getItem('token'), this.NoticeData.notification_id, 1).then(res => {
             if (res.data.status === "success") {
-              addStaff(localStorage.getItem('token'), this.NoticeData.company_id).then(res => {
+              updateNotification(localStorage.getItem('token'), this.NoticeData.notification_id, 1).then(res => {
                 if (res.data.status === "success") {
                   this.$notify({
                     title: '成功',
                     message: '已接受该offer！',
                     type: 'success'
                   })
+                  window.location.reload()
                 }
               })
             }
-          })
-        }
-      })
+          }
+      )
     },
     refuse() {
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "refuse").then(res => {
@@ -68,7 +64,8 @@ export default {
           })
         }
       })
-    },
+    }
+    ,
   }
 }
 </script>
