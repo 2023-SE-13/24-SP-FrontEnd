@@ -775,3 +775,20 @@ export function TransAdmin(data){
         }
     })
 }
+
+// 跳过验证直接添加员工
+export function addStaff(token, company_id) {
+    let data = {
+        'company_id': company_id
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/company/add_staff',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
