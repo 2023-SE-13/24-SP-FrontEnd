@@ -708,6 +708,18 @@ export function getUserTweet(username, token) {
     })
 }
 
+//上传头像
+export function uploadAvatar(data, token) {
+    return service({
+        method: 'put',
+        url: '/user/set_avatar',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
 // 拒绝职位申请
 export function refuseApply(data, token) {
     data = JSON.stringify(data)

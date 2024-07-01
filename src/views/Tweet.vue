@@ -116,6 +116,7 @@ export default {
       getTweetDetail(formdata, this.token).then(res => {
         if(res.data.status === "success") {
           this.username = res.data.data.user;
+          this.photo = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
           this.date = res.data.data.created_at;
           this.text = res.data.data.text_content;
           this.images = res.data.data.photos;

@@ -5,7 +5,7 @@
         <div id="main">
           <div id="infor" class="content">
             <div id="avatar">
-              <el-avatar :size="70" @error="errorHandler" :src="photo_url" id="img">头像</el-avatar>
+              <el-upload ref="avatar_upload" :on-change="handleChange" :limit="1"><el-avatar :size="70" @error="errorHandler" :src="photo_url" id="img">头像</el-avatar></el-upload>
             </div>
             <div id="personInfor">
               <div id="userName">
@@ -128,14 +128,12 @@
                 </div>
                 <div id="resumeInfo">
                   <p>{{ user.real_name }}_resume.pdf</p>
-                  <p style="font-size: 12px;color: #bbb">上传时间: {{ resumeUploadTime }}</p>
                 </div>
                 <div id="resumeMenu" v-if="isSelf">
                   <el-dropdown trigger="hover" placement="bottom" @command="handleCommand">
                     <i class="el-icon-more"></i>
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item command="a">预览</el-dropdown-item>
-                      <el-dropdown-item divided command="b">删除</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </div>
@@ -181,7 +179,8 @@ import {
   SubscribeUser,
   UnSubscribeUser,
   UpdateUserInfo,
-  uploadResume
+  uploadResume,
+    uploadAvatar
 } from "@/api/api";
 import TweetUnit from "@/components/TweetUnit.vue";
 
@@ -191,6 +190,28 @@ export default {
     TweetUnit
   },
   watch: {
+    photo_file: {
+      handler: function () {
+        let data = new FormData();
+        data.append("avatar", this.photo_file);
+        uploadAvatar(data, this.token).then(res => {
+              if (res.data.status === "success") {
+                this.$notify({
+                  title: "成功",
+                  message: "上传成功",
+                  type: "success"
+                });
+                setTimeout(() => {
+                  this.$router.go(0);
+                }, 1000);
+              }
+            },
+            error => {
+              console.log("上传失败", error);
+            }
+        );
+      }
+    },
     $route: {
       handler: function () {
         this.user.name = this.$route.params.name;
@@ -252,6 +273,8 @@ export default {
   created() {
     this.token = localStorage.getItem("token");
     this.user.name = this.$route.params.name;
+    let string = "http://10.251.253.188/avatar/"+this.user.name+"_avatar.png"
+    this.photo_url = string;
     this.defaultUser.name = this.user.name;
     this.isSelf = true;
     this.isFavor = false;
@@ -324,7 +347,8 @@ export default {
   data() {
     return {
       token: null,
-      photo_url: require("../assets/photo.png"),
+      photo_url: '',
+      photo_file: null,
       isSelf: false,
       isFavor: false,
       user: {
@@ -479,6 +503,20 @@ export default {
     }
   },
   methods: {
+    handleChange(file) {
+      //必须是图片格式
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('只能上传图片格式文件!');
+        return;
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!');
+        return;
+      }
+      this.photo_file = file.raw;
+    },
     errorHandler() {
       return true;
     },
@@ -660,9 +698,6 @@ export default {
       if (command === 'a') {
         console.log(this.resumeUrl)
         window.open(this.resumeUrl);
-      }
-      if (command === 'b') {
-        console.log("删除");
       }
     }
   }
