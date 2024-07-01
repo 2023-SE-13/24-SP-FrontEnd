@@ -59,7 +59,7 @@
         </Transition>
       </div>
       <div class="comment" >
-          <CommentUnit v-for="(comment_id, index) in comment_idList" :key="index" :comment_id="comment_id"></CommentUnit>
+          <CommentUnit v-for="comment_id in comment_idList" :key="comment_id" :comment_id="comment_id"></CommentUnit>
       </div>
     </div>
   </div>
@@ -73,7 +73,6 @@ import {getTweetDetail} from "@/api/api";
 import CommentUnit from "@/components/CommentUnit.vue";
 import {commentTweet} from "@/api/api";
 import {deleteTweet} from "@/api/api";
-
 export default {
   components: {CommentUnit},
   data() {
@@ -127,7 +126,7 @@ export default {
           this.like_number = res.data.data.likes;
           this.is_like = res.data.data.is_like;
           //TODO：获取评论
-          if(res.data.data.comment_tree === null) {
+          if(res.data.data.comment_array === null) {
             this.comment_number = 0;
           } else {
             this.comment_number = res.data.data.comment_array.length;
@@ -164,9 +163,15 @@ export default {
         tweet_id: this.tweet_id,
         text_content: this.comment_editor
       };
-      await commentTweet(formdata, this.token).then(res => {
+      await commentTweet(formdata, this.token).then(async res => {
         if(res.data.status === "success") {
+          this.$notify({
+            title: '提示',
+            message: '评论成功',
+            type: 'success'
+          });
           this.getComment();
+          this.$forceUpdate();
           this.comment_editor = "";
           this.isEditor = false;
         }

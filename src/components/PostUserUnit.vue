@@ -13,7 +13,7 @@
 export default {
     data() {
         return {
-            user_image: `url(http://10.251.253.188/avatar/{this.postData.username}_avatar.png)`,
+            user_image: `http://10.251.253.188/avatar/${this.postData.username}_avatar.png`,
             //user_image: require('../assets/photo.png')
         }
     },

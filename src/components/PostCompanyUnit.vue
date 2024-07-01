@@ -10,7 +10,7 @@
 export default {
     data() {
         return {
-          company_logo: `url(http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png)`,
+          company_logo: `http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png`
           //company_logo: require('../assets/photo.png')
         }
     },
