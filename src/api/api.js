@@ -652,3 +652,19 @@ export function updateOffer(token, offer_id, state) {
     })
 }
 
+// 更新通知已读状态
+export function updateNotification(token, notification_id, is_read) {
+    let data = {
+        "notification_id": notification_id,
+        "is_read": is_read
+    }
+    return service({
+        method: 'put',
+        url: '/notification/update_notification',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data
+    })
+}
+

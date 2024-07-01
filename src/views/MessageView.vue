@@ -56,7 +56,7 @@
         </ul>
 
       <!--通知-->
-      <NoticeUnit v-show="isNotice == true" :notice-data="this.NoticeData"></NoticeUnit>
+      <NoticeUnit v-show="isNotice === true && this.NoticeData.length > 0" :notice-data="this.NoticeData"></NoticeUnit>
 
       </div>
       <!-- 输入框 -->
@@ -99,7 +99,9 @@ export default {
     this.loadGroupList();
     getUserMessage('system', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
-      this.NoticeData = this.NoticeList[0]
+      if (this.NoticeList[0]) {
+        this.NoticeData = this.NoticeList[0]
+      }
     })
   },
   methods: {
