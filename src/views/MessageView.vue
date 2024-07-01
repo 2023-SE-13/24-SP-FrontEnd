@@ -56,7 +56,7 @@
         </ul>
 
       <!--通知-->
-      <NoticeUnit v-show="isNotice == true"></NoticeUnit>
+      <NoticeUnit v-show="isNotice == true" :notice-data="this.NoticeData"></NoticeUnit>
 
       </div>
       <!-- 输入框 -->
@@ -99,7 +99,7 @@ export default {
     this.loadGroupList();
     getUserMessage('system', '4ed97128864b50a6bb919f9172f91ec065213839').then(res => {
       this.NoticeList = res.data.data
-      console.log(this.NoticeList[0].content)
+      this.NoticeData = this.NoticeList[0]
     })
   },
   methods: {
@@ -169,20 +169,7 @@ export default {
     // 选择通知
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
-      this.notification = selectedGroup
-      if(!localStorage.getItem('token')) {
-        console.error('localstorage中没有token，请检查')
-      } else {
-        if(!this.notification_id) {
-          console.error('notification_id为空，请检查')
-        } else {
-          getNotification(localStorage.getItem('token'), this.notification_id).then(res => {
-            console.log(1)
-            console.log('通知内容：', res.data.data)
-            this.NoticeData = res.data.data
-          })
-        }
-      }
+      this.NoticeData = this.selectedGroup
     },
     // 加载聊天内容
     loadConversation() {
