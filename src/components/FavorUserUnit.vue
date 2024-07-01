@@ -2,10 +2,10 @@
     <div id="box" @click="jump">
         <div id="main">
             <div id="img">
-                <el-avatar id="avatar" :src="this.imgUrl"></el-avatar>
+                <el-avatar id="avatar" :src="imgUrl"></el-avatar>
             </div>
             <div id="info">
-                <span id="name" class="text">{{ name }}</span>
+                <span id="name" class="text">{{ this.username }}</span>
                 <span id="ep" class="text">所属企业：{{ this.companyName }}</span>
             </div>
             <div id="chat" @click.prevent="chat">
@@ -20,13 +20,12 @@
 export default{
     data() {
         return{
-            name: this.username,
-            imgUrl: "http://10.251.253.188/avatar/" + this.name + "_avatar.png"
+            imgUrl: "http://10.251.253.188/avatar/" + this.username + "_avatar.png"
         }
     },
-    created() {
-        this.name = this.username;
-        this.imgUrl = "http://10.251.253.188/avatar/" + this.name + "_avatar.png";
+    async created() {
+        this.imgUrl = "http://10.251.253.188/avatar/" + this.username + "_avatar.png";
+        console.log(this.imgUrl);
     },
     methods: {
         chat() {

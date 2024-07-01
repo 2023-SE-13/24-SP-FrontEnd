@@ -846,12 +846,12 @@ export function addStaff(token, company_id) {
 }
 
 // 查询关注用户列表
-export function getSubscribeUser(token) {
+export function getSubscribeUser(username) {
     return service({
         method: 'get',
         url: '/subscribe/get_subscribe_user',
-        headers: {
-            'Authorization': `Token ${token}`
+        params: {
+            'username': username
         }
     })
 }
