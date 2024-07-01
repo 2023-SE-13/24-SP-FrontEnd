@@ -9,10 +9,21 @@
 
 <script>
 
+import {getCompanyTweetList} from "@/api/api";
+
 export default {
   name: 'companyTweets',
   data() {
-    return {}
+    return {
+      company_id: "45c922fd027145108b78ab788a21d042",
+      companyTweetsList: []
+    }
+  },
+  created() {
+    getCompanyTweetList(this.company_id).then(res => {
+      this.companyTweetsList = res.data.data
+      console.log(res.data.data)
+    })
   }
 };
 </script>
@@ -25,7 +36,7 @@ export default {
 
 .tweets-list {
   background-color: #ffffff;
-  padding: 2px 15px 65px 15px;
+  padding: 15px 40px 15px 45px;
   border-radius: 12px;
   margin-top: 18px;
   width: 93.5%;

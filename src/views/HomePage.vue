@@ -81,7 +81,7 @@ export default {
             select: '1',
             input: '',
             NotAllowSearch: true,
-            token: 'ff5d0e29d3836387e23c570d2579dda65f922cb5',
+            token: localStorage.getItem('token'),
             RecommendSubscribeList: [],
             RecommendPositionList: [],
             isSelf: false,

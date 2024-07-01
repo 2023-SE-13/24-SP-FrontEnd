@@ -500,7 +500,7 @@ export function getSimilarPost(position_id) {
 }
 
 // 获取企业动态
-export function getCompanyTweet(company_id) {
+export function getCompanyTweetList(company_id) {
     return service({
         method: 'get',
         url: '/tweet/get_company_tweet',
@@ -661,5 +661,67 @@ export function deleteStaff(data,token){
         headers: {
             'Authorization': `Token ${token}`
         }
+    })
+}
+
+// 获取用户某一类型信息
+export function getUserMessage(require_type, token) {
+    return service({
+        method: 'get',
+        url: '/notification/get_user_notifications',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'require_type': require_type
+        }
+    })
+}
+
+// 获取通知具体信息
+export function getNotification(token, notification_id) {
+    return service({
+        method: 'get',
+        url: '/notification/get_notification',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'notification_id': notification_id
+        }
+    })
+}
+
+// 用户接受或拒绝offer
+export function updateOffer(token, offer_id, state) {
+    let data = {
+        "offer_id": offer_id,
+        "state": state
+    }
+    data = JSON.stringify(data)
+    return service({
+        method: 'put',
+        url: '/position/update_offer',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+// 更新通知已读状态
+export function updateNotification(token, notification_id, is_read) {
+    let data = {
+        "notification_id": notification_id,
+        "is_read": is_read
+    }
+    return service({
+        method: 'put',
+        url: '/notification/update_notification',
+        headers: {
+            'Authorization': `Token ${token}`,
+        },
+        data
     })
 }
