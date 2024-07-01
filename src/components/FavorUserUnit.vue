@@ -1,7 +1,7 @@
 <template>
     <div id="box">
         <div id="main">
-
+            <el-avatar></el-avatar>
         </div>
     </div>
 </template>
@@ -24,12 +24,17 @@ export default{
 <style scoped>
     #box {
         width: 100%;
+        height: 70px;
         min-height: 70px;
         background-color: white;
+    }
+    #main {
+        width: 100%;
+        height: 100%;
+        background-color: aqua;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
-
 </style>
