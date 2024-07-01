@@ -1,33 +1,33 @@
 <template>
     <div class="company-info">
-        <span>{{ company_name }}</span>
-        <span>{{ company_description }}</span>
-        <el-button type="text" @click="dialogVisible = true">编辑</el-button>
+
+        <div>
+            <el-avatar class="profile" shape="square" :size="150" :src="photoSrc"></el-avatar>
+
+        </div>
+        <div class="intro-box">
+            <h2>企业名称</h2>
+            <p>{{ company_name }}</p>
+            <h2>企业描述</h2>
+            <p>{{ company_description }}</p>
+
+        </div>
+        <el-tooltip content="编辑企业信息"><el-button circle class="edit-btn" type="text" @click="dialogVisible = true"><i class="el-icon-edit"></i></el-button></el-tooltip>
 
         <el-dialog title="编辑企业资料" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
             <el-form :model="compForm" :rules="rules" status-icon ref="compForm" label-width="100px">
                 <el-form-item label="企业名称" prop="company_name">
                     <el-input v-model="compForm.company_name"></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="企业描述" prop="company_description">
-                    <el-input v-model="compForm.company_description"></el-input>
-                </el-form-item> -->
                 <el-form-item label="企业描述" prop="company_description">
                     <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="compForm.company_description">
                     </el-input>
                 </el-form-item>
-                <!-- <div id="logo">
-                    <label for="companyLogo">上传头像</label>
-                    <el-upload ref="avatar_upload" :on-change="handleChange" :limit="1"><el-avatar :size="70"
-                            @error="errorHandler" id="img">头像</el-avatar></el-upload>
-                </div> -->
+
                 <el-form-item label="上传头像">
                     <div id="logo" class="upload-avatar">
-                        <!-- <label for="companyLogo">上传头像</label> -->
                         <el-upload ref="avatar_upload" :on-change="handleChange" :limit="1" :file-list="fileList"
                             :show-file-list="false" :auto-upload="false">
-                            <!-- <el-avatar :size="70" @error="errorHandler" :src="photo_url" id="img">头像</el-avatar>
-                              -->
                             <el-button size="small" type="primary">点击上传</el-button>
                             <div v-if="fileList.length" class="uploaded-file-name">
                                 <img src="path/to/icon.png" alt="文件图标" class="file-icon" />
@@ -49,6 +49,7 @@ import { getCompany, UpdateCompanyInfo, uploadLogo } from '@/api/api';
 export default {
     data() {
         return {
+            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem('company_id')}_image.png`,
             photo_url: '',
             fileList: [],// 初始化文件列表
             photo_file: null,
@@ -161,6 +162,67 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.profile{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+.intro-box {
+    background-color: #ffffff;
+    //   padding: 15px 40px 15px 45px;
+    border-radius: 12px;
+    width: 90%;
+    min-height: 400px;
+    height: auto;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+}
+.edit-btn{
+    position: absolute;
+    top:10%;
+    right: 5%;
+    transition: 0.5s;
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
+}
+.edit-btn:hover{
+    background-color: #e8e3e3;
+}
+h2 {
+    font-size: 1.6em;
+    margin-bottom: 10px;
+    margin-top: 1%;
+    text-align: left;
+}
+
+p,
+ul {
+    background-color: #f6f6f7;
+    border-radius: 5px;
+    text-align: left;
+    padding: 10px 0 10px 25px;
+    margin: 20px 0 25px 10px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    height: 80vh;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
 .upload-avatar {
     display: flex;
     align-items: center;

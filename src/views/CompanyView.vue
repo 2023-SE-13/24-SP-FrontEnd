@@ -77,8 +77,8 @@ export default {
         companySubscription: 0
       },
       role: '',
-      company_logo: `http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png`,
-      company_id: localStorage.getItem('company_id'),
+      company_logo: `http://10.251.253.188/logo/${localStorage.getItem("other_company_id")}_image.png`,
+      company_id: localStorage.getItem('other_company_id'),
       username: localStorage.getItem('username')
     };
   },
