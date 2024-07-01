@@ -42,7 +42,7 @@
           class="message-item"
           :class="{ 'my-message' : item.sender_uname === user_name }"
           :key="item.message_id"
-          v-show="isNotice == false"
+          v-show="isNotice === false"
           >
             <!-- <div class="user-item">
               {{ item.sender_uname }}  <br>
@@ -60,7 +60,7 @@
 
       </div>
       <!-- 输入框 -->
-      <div class="text-box" v-show="isNotice == false">
+      <div class="text-box" v-show="isNotice === false">
         <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
         <div class="send-btn">
           <div @click="sendMessage">发送</div>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import {getConversation, getMessage, getNotification, saveMessage, getUserMessage } from '@/api/api';
+import {getConversation, getMessage, saveMessage, getUserMessage } from '@/api/api';
 import NoticeUnit from "@/components/NoticeUnit.vue";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
@@ -97,13 +97,11 @@ export default {
   components : { NoticeUnit },
   created() {
     this.loadGroupList();
-    getUserMessage('system', 'ac647158a2a13d953082a146a1bb9c45f7c8dad7').then(res => {
+    getUserMessage('system', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
         this.NoticeData = this.NoticeList[0]
       }
-      console.log(1)
-      console.log(this.NoticeList)
     })
   },
   methods: {
@@ -319,7 +317,7 @@ ul {
 }
 
 .selected-group {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border: 5px solid rgb(241, 167, 167, 0.5);
 }
 
@@ -389,8 +387,6 @@ textarea {
   padding: 12px;
   box-sizing: border-box;
   outline: none;
-  font-size: 15px;
-  font-family: JingNanFont;
   font-size: 17px;
   display: inline-block;
   background-color: azure;

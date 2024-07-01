@@ -10,7 +10,7 @@
           :pager-count="7"
           layout="prev, pager, next"
           :total="JobsList.length"
-          style="position: absolute; top: 93%">
+          style="position: absolute; top: 92%">
       </el-pagination>
     </div>
 
@@ -106,9 +106,9 @@ export default {
   background-color: #ffffff;
   padding: 0 25px 15px 15px;
   border-radius: 12px;
-  width: 62%;
+  width: 61.5%;
   margin-left: 3.5%;
-  margin-right: 4%;
+  margin-right: 3.5%;
   position: sticky;
 }
 

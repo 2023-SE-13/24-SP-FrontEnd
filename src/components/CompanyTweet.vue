@@ -3,6 +3,16 @@
     <div class="tweets-list">
       <h2>员工动态</h2>
 
+      <div id="share">
+        <div id="tweetBlock">
+          <ul id="tweetList">
+            <li v-for="(tweet_id,index) in tweets" :key="index">
+              <TweetUnit :id="tweet_id"></TweetUnit>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -10,25 +20,40 @@
 <script>
 
 import {getCompanyTweetList} from "@/api/api";
+import TweetUnit from "@/components/TweetUnit.vue";
 
 export default {
   name: 'companyTweets',
+  components: {
+    TweetUnit
+  },
   data() {
     return {
-      company_id: "45c922fd027145108b78ab788a21d042",
-      companyTweetsList: []
+      company_id: localStorage.getItem('company_id'),
+      tweets: []
     }
   },
   created() {
     getCompanyTweetList(this.company_id).then(res => {
-      this.companyTweetsList = res.data.data
-      console.log(res.data.data)
+      this.tweets = res.data.data;
+      console.log(this.tweets);
     })
   }
 };
 </script>
 
 <style scoped>
+#share {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-height: 92%;
+  max-height: 92%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin-top: 2%;
+}
+
 .tweets-container {
   flex-direction: row;
   justify-content: space-between;
@@ -36,10 +61,9 @@ export default {
 
 .tweets-list {
   background-color: #ffffff;
-  padding: 15px 40px 15px 45px;
+  padding: 15px 0 15px 45px;
   border-radius: 12px;
-  margin-top: 18px;
-  width: 93.5%;
+  width: 93.2%;
   min-height: 400px;
   height: auto;
 }
@@ -50,14 +74,18 @@ h2 {
   margin-top: 1%;
 }
 
-p, ul {
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  text-align: left;
-  padding: 10px 25px 10px 25px;
+#tweetBlock {
+  width: 100%;
+}
+#tweetList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-li {
-  margin-bottom: 5px;
+#tweetList li{
+  width: 100%;
 }
 </style>

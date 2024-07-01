@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {updateOffer, updateNotification} from "@/api/api";
+import { updateOffer, updateNotification } from "@/api/api";
 
 export default {
   data() {
@@ -34,24 +34,30 @@ export default {
     accept() {
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "accept").then(res => {
         if (res.data.status === "success") {
-          this.$notify({
-            title: '成功',
-            message: '已接受该offer！',
-            type: 'success'
+          updateNotification(localStorage, this.NoticeData.notification_id, 1).then(res => {
+            if (res.data.status === "success") {
+              this.$notify({
+                title: '成功',
+                message: '已接受该offer！',
+                type: 'success'
+              })
+            }
           })
-          updateNotification(localStorage.getItem('token'), this.NoticeData.offer_id, true)
         }
       })
     },
     refuse() {
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "refuse").then(res => {
         if (res.data.status === "success") {
-          this.$notify({
-            title: '成功',
-            message: '已拒绝该offer！',
-            type: 'success'
+          updateNotification(localStorage, this.NoticeData.notification_id, 1).then(res => {
+            if (res.data.status === "success") {
+              this.$notify({
+                title: '成功',
+                message: '已拒绝该offer！',
+                type: 'success'
+              })
+            }
           })
-          updateNotification(localStorage.getItem('token'), this.NoticeData.offer_id, true)
         }
       })
     },
