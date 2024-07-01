@@ -170,7 +170,7 @@
               <div id="favorBlock">
                 <ul id="favor_list" type="none">
                   <li>
-                    <FavorUserUnit></FavorUserUnit>
+                    <FavorUserUnit :username="user.name"></FavorUserUnit>
                   </li>
                 </ul>
               </div>
@@ -1081,7 +1081,6 @@ export default {
 #favorBlock {
   width: 100%;
   height: 90%;
-  background-color: #414a60;
   min-height: 90%;
   max-height: 90%;
   overflow-y: scroll;
