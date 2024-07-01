@@ -1,9 +1,10 @@
 <template>
     <div class="navi">
         <div class="navi-inner">
-            <div class="navi-item" v-for="(naviUnit, index) in naviUnits" :key="index" @click="changeActive(index)"
+            <div class="navi-item" v-for="(naviUnit, index) in naviUnits" :key="index"  @click="changeActive(index, naviUnit.link_to)"
                 :class="{ active: activeIndex === index }">
-                <router-link :to="naviUnit.link_to">{{ naviUnit.content }}</router-link>
+                <!-- <router-link :to="naviUnit.link_to" @click.prevent="changeActive(index, naviUnit.link_to)">{{ naviUnit.content }}</router-link> -->
+                <span>{{ naviUnit.content }}</span>
             </div>
             <!-- <div class="navi-search" v-show="this.$route.path !== '/main'">
                 <el-select v-model="select" :popper-append-to-body="false" slot="prepend" class="navi-select">
@@ -70,7 +71,7 @@ export default {
         getEnterpriseLink(username) {
             GetUserInfo(username).then(res => {
                 if (res.data.status == "success") {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.enterpriseLink = res.data.data.is_staff ? "/company-temp" : "/company-register";
                     this.updateNaviUnits();
                 }
@@ -85,19 +86,18 @@ export default {
                 { content: "消息中心", link_to: "/message" }
             ];
         },
-        changeActive(index) {
-            const username = localStorage.getItem("username");
-            const link = this.naviUnits[index].link_to;
-            console.log(username + link)
-            if (!username && (link === this.enterpriseLink || link === "/message")) {
+        changeActive(index, link) {
+            console.log("111")
+            if (!localStorage.getItem('token') && (link === this.enterpriseLink || link === "/message")) {
                 this.$message({
                     message: '请注册登录后使用',
                     type: 'warning'
                 });
             } else {
+                console.log("111")
                 this.activeIndex = index;
-                // this.$router.push(link);
-                console.log(this.activeIndex);
+                this.$router.push(link);
+                // console.log(this.activeIndex);
             }
         },
         gotoLogin() {
@@ -149,7 +149,7 @@ export default {
             switch (this.select) {
                 case '1':
                     SearchUser(this.input).then(res => {
-                        console.log(res)
+                        // console.log(res)
                     })
                     break
                 case '2':
@@ -157,7 +157,6 @@ export default {
             }
         },
         goToUserPage() {
-            console.log("aaaaaaaa");
             this.$router.push("/user/" + localStorage.getItem("username"));
         }
     },
@@ -207,7 +206,7 @@ export default {
     left: 10px;
 }
 
-.navi-inner .navi-item a {
+.navi-inner .navi-item span {
     display: inline-block;
     color: white;
     line-height: 50px;
@@ -219,7 +218,7 @@ export default {
     /* background-color: #00bebd; */
 }
 
-.navi-inner .navi-item:hover a {
+.navi-inner .navi-item:hover span {
     color: #00bebd;
 }
 
@@ -242,7 +241,7 @@ export default {
     background-color: black;
 }
 
-.navi-inner .navi-item.active a {
+.navi-inner .navi-item.active span {
     font-weight: bold;
     color: #00bebd;
 }
