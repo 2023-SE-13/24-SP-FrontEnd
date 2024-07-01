@@ -48,7 +48,7 @@ export default {
                 { content: "搜索", link_to: "/search" },
                 // { content: "公司", link_to: "/company-list" },
                 { content: "我的企业", link_to: "/company-temp" },
-                { content: "消息中心", link_to: "/" }
+                { content: "消息中心", link_to: "/message" }
 
             ],
             isLogin: false,
