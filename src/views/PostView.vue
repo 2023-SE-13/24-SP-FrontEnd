@@ -17,7 +17,7 @@
                 <!-- <el-button class="submitCV" @click="submitCV" v-if="!is_admin">
                     提交简历
                 </el-button> -->
-                <button class="submitCV" @click="submitCV" v-if="!is_admin" >提交简历</button>
+                <button class="submitCV" @click="submitCV" v-if="!is_admin">提交简历</button>
             </div>
         </div>
 
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { getPosition, getCompany, submitCV,getSimilarPost ,IsAdmin} from "@/api/api";
+import { getPosition, getCompany, submitCV, getSimilarPost, IsAdmin } from "@/api/api";
 import ShowPostUnit from '@/components/ShowPostUnit.vue'
 export default {
     data() {
@@ -104,11 +104,11 @@ export default {
     },
     methods: {
         //去私聊
-        gotochat() {        
-            if(this.position.hr_id != localStorage.getItem("username")){
-                localStorage.setItem("hrname",this.position.hr_id)
+        gotochat() {
+            if (this.position.hr_id != localStorage.getItem("username")) {
+                localStorage.setItem("hrname", this.position.hr_id)
                 this.$router.push("/message")
-            }else{
+            } else {
                 this.$notify({
                     title: '失败',
                     message: '禁止和自己聊天',
@@ -119,20 +119,30 @@ export default {
         //投递简历
         submitCV() {
             submitCV(this.token, this.position.position_id).then(res => {
-              console.log(res)
+                console.log(res)
                 console.log("success submit!")
-                this.$notify({
-                    title: '成功',
-                    message: '提交简历成功',
-                    type: 'success'
-                });
+                if (res.data.status === "success") {
+                    this.$notify({
+                        title: '成功',
+                        message: '提交简历成功',
+                        type: 'success'
+                    });
+                }
             }).catch(error => {
                 console.log("SubmitCV失败", error);
-                this.$notify({
-                    title: '失败',
-                    message: '您已提交过简历哦~',
-                    type: 'error'
-                });
+                if (error.response.status === 400) {
+                    this.$notify({
+                        title: '失败',
+                        message: '您已提交过简历哦~',
+                        type: 'error'
+                    });
+                } else if (error.response.status === 406) {
+                    this.$notify({
+                        title: '失败',
+                        message: '您尚未上传简历',
+                        type: 'error'
+                    });
+                }
             });
         }
     },
@@ -151,34 +161,34 @@ export default {
                 }
             })
             //判断是不是admin，修改is_admin的值
-            if(localStorage.getItem("username")===null){
-                this.is_admin=true
-            }else{
-                IsAdmin(localStorage.getItem("username")).then(res =>{
+            if (localStorage.getItem("username") === null) {
+                this.is_admin = true
+            } else {
+                IsAdmin(localStorage.getItem("username")).then(res => {
                     console.log(res.data)
-                    if(res.data.status === "success"){
+                    if (res.data.status === "success") {
                         this.user_role = res.data.data.role
-                        if(this.user_role === "Admin"){
+                        if (this.user_role === "Admin") {
                             this.is_admin = true
                         }
                     }
                 })
             }
             this.position.position_id = res.data.position_id
-            console.log("positionid:"+this.position.position_id+"!!token:"+this.token)
-            this.position.posted_at = res.data.posted_at.slice(0,10)
-            this.position.salary_min = res.data.salary_min/1000
-            this.position.salary_max = res.data.salary_max/1000
+            console.log("positionid:" + this.position.position_id + "!!token:" + this.token)
+            this.position.posted_at = res.data.posted_at.slice(0, 10)
+            this.position.salary_min = res.data.salary_min / 1000
+            this.position.salary_max = res.data.salary_max / 1000
             this.position.position_tag = res.data.position_tag
             this.position.hr_id = res.data.hr
-            if(res.data.skill_required.length > 0){
+            if (res.data.skill_required.length > 0) {
                 this.position.skills = res.data.skill_required
-            }else{
+            } else {
                 this.position.skills = ["无"]
             }
-            
-            getSimilarPost(this.position.position_id).then(res =>{
-                if(res.data.status === "success"){
+
+            getSimilarPost(this.position.position_id).then(res => {
+                if (res.data.status === "success") {
                     this.PostViewList = res.data.data
                 }
                 console.log(this.PostViewList)
@@ -265,9 +275,10 @@ export default {
     border: 1px solid #00d1d0;
     border-radius: 10px;
 }
+
 .submitCV:hover {
     background-color: transparent;
-    color: rgb(0, 209, 208, 0.8);       
+    color: rgb(0, 209, 208, 0.8);
     border: 1px solid rgb(0, 209, 208, 0.8);
     border-radius: 10px;
 }
@@ -356,14 +367,17 @@ export default {
     overflow-y: auto;
 }
 
-.poss::-webkit-scrollbar {  
-    width: 10px; /* 或者你想要的宽度 */  
-    background: transparent; /* 透明背景 */  
-}  
- 
-.poss::-webkit-scrollbar-thumb {  
-    background: transparent; /* 滑块也透明 */  
-}  
+.poss::-webkit-scrollbar {
+    width: 10px;
+    /* 或者你想要的宽度 */
+    background: transparent;
+    /* 透明背景 */
+}
+
+.poss::-webkit-scrollbar-thumb {
+    background: transparent;
+    /* 滑块也透明 */
+}
 
 .poss .pos-item {
     display: inline-block;
@@ -375,6 +389,4 @@ export default {
     padding-right: 8px;
     padding-left: 8px;
 }
-
-
 </style>
