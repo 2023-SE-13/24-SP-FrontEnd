@@ -8,7 +8,7 @@
             <span>{{ applyData.applied_at }}</span>
         </div>
         <div class="apply-actions">
-            <el-button plain  class="action-button">私信</el-button>
+            <el-button plain @click="gotoTalk" class="action-button">私信</el-button>
 
             <el-button plain @click="showInfo" class="action-button">查看信息</el-button>
             <el-button plain @click="refuseApp" class="action-button">拒绝</el-button>
@@ -33,6 +33,10 @@ export default {
         console.log(this.applyData)
     },
     methods: {
+        gotoTalk(){
+            localStorage.setItem("hrname",this.applyData.username)
+            this.$router.push('/message')
+        },
         showInfo() {
             this.$emit("showInfo", this.applyData.username)
         },
