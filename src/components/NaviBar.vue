@@ -1,8 +1,8 @@
 <template>
     <div class="navi">
         <div class="navi-inner">
-            <div class="navi-item" v-for="(naviUnit, index) in naviUnits" :key="index"  @click="changeActive(index, naviUnit.link_to)"
-                :class="{ active: activeIndex === index }">
+            <div class="navi-item" v-for="(naviUnit, index) in naviUnits" :key="index"
+                @click="changeActive(index, naviUnit.link_to)" :class="{ active: activeIndex === index }">
                 <!-- <router-link :to="naviUnit.link_to" @click.prevent="changeActive(index, naviUnit.link_to)">{{ naviUnit.content }}</router-link> -->
                 <span>{{ naviUnit.content }}</span>
             </div>
@@ -71,8 +71,11 @@ export default {
         getEnterpriseLink(username) {
             GetUserInfo(username).then(res => {
                 if (res.data.status == "success") {
-                    // console.log(res.data)
+                    console.log(res.data.data.role)
                     this.enterpriseLink = res.data.data.is_staff ? "/company-temp" : "/company-register";
+                    if (res.data.data.role === "Staff") {
+                        this.enterpriseLink = "/company";
+                    }
                     this.updateNaviUnits();
                 }
             });
@@ -87,7 +90,6 @@ export default {
             ];
         },
         changeActive(index, link) {
-            console.log("111")
             if (!localStorage.getItem('token') && (link === this.enterpriseLink || link === "/message")) {
                 this.$message({
                     message: '请注册登录后使用',
