@@ -248,6 +248,23 @@ export function UpdateUserInfo(data, token) {
     })
 }
 
+
+// 修改企业信息
+export function UpdateCompanyInfo(data, token) {
+    data=JSON.stringify(data);
+    console.log(data)
+    return service({
+        method: 'put',
+        url: '/company/update_company',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
+
 // 搜索企业
 export function SearchCompany(data) {
     data = JSON.stringify(data)
