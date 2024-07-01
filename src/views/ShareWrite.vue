@@ -134,13 +134,14 @@ export default {
       });
     },
     handleChange(file, fileList) {
-      const isJPG = file.type === 'image/jpeg';
+      //必须是图片格式
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('只能上传图片格式文件!');
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传图片大小不能超过 2MB!');
       }
       if (isJPG && isLt2M) {
         for(let i = 0; i < fileList.length; i++) {
@@ -155,14 +156,10 @@ export default {
       }
     },
     handleChangeIcon(file, fileList) {
-      const isJPG = file.type === 'image/jpeg';
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';
       const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$notify({
-          title: "错误",
-          message: "上传头像图片只能是 JPG 格式！",
-          type: "error"
-        });
+      if(!isJPG) {
+        this.$message.error('只能上传图片格式文件!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');

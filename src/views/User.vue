@@ -133,7 +133,7 @@
                   <p>{{ user.real_name }}_resume.pdf</p>
                   <p style="font-size: 12px;color: #bbb">上传时间: {{ resumeUploadTime }}</p>
                 </div>
-                <div id="resumeMenu">
+                <div id="resumeMenu" v-if="isSelf">
                   <el-dropdown trigger="hover" placement="bottom" @command="handleCommand">
                     <i class="el-icon-more"></i>
                     <el-dropdown-menu slot="dropdown">
@@ -161,7 +161,7 @@
                   </li>
                 </ul>
               </div>
-              <div id="shareEditBtn" @click="goToWrite">
+              <div v-if="isSelf" id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
             </div>
@@ -292,6 +292,7 @@ export default {
         // console.log(json);
         this.defaultUser = JSON.parse(json);
         this.hasResume = res.data.data.resume_uploaded;
+        this.resumeUrl = "http://10.251.253.188/resume/" + this.user.name + "_resume.pdf";
       }
     },
       error => {
@@ -660,6 +661,7 @@ export default {
     },
     handleCommand(command) {
       if (command === 'a') {
+        console.log(this.resumeUrl)
         window.open(this.resumeUrl);
       }
       if (command === 'b') {
