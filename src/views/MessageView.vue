@@ -35,7 +35,7 @@
     <div class="message-box">
       <div class="group-info-header"></div>
       <!-- 消息窗口 -->
-      <div class="message-list" :style="{ height: isNotice ? '97.7%' : '70%' }">
+      <div class="message-list" :style="{ height: isNotice ? '97.7%' : '70%' }" ref="messageList">
         <!--私信-->
         <ul>
           <li v-for="(item, index) in messageList"
@@ -44,12 +44,12 @@
           :key="item.message_id"
           v-show="isNotice == false"
           >
-            <!-- <div class="user-item">
+            <div class="user-item">
               {{ item.sender_uname }}  <br>
-              <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar>
-            </div> -->
+              <!-- <el-avatar><div><img :src="imgSrc(item.sender_uname)" alt="Avatar" class="imgUser_t"></img></div></el-avatar> -->
+            </div>
             <!-- 消息块 -->
-            <div class="message-background-color">
+            <div class="message-background-color" :ref="'messageRef' + index">
                 {{ item.content }}
             </div>
           </li>
@@ -63,7 +63,7 @@
       <div class="text-box" v-show="isNotice == false">
         <textarea name="text" id="" cols="30" v-model='message_text'></textarea>
         <div class="send-btn">
-          <div @click="sendMessage">发送</div>
+          <div @click="sendMessageToGroup">发送</div>
         </div>
     </div>
     </div>
@@ -96,7 +96,7 @@ export default {
   },
   components : { NoticeUnit },
   created() {
-    this.loadGroupList();
+    // this.loadGroupList();
     getUserMessage('system', '4ed97128864b50a6bb919f9172f91ec065213839').then(res => {
       this.NoticeList = res.data.data
       this.NoticeData = this.NoticeList[0]
@@ -119,6 +119,7 @@ export default {
           console.log(`Received message from group ${groupId}: `, message);
           // 在这里你可以更新你的 UI
           component.messageList.push(message);
+          component.scrollToLatestMessage();
         }
       );
     },
@@ -128,7 +129,7 @@ export default {
       }
     },
     // 页面创建之初加载聊天列表
-    loadGroupList() {
+    getGroupList() {
       if(!localStorage.getItem('token')) {
         console.log('token为空，请先登录')
       }
@@ -398,7 +399,7 @@ ul {
   margin: 10px 3vw 20px 3vw;
   display: inline-block;
   padding: 10px 10px;
-  background-color: rgb(214, 214, 214, 0.4);
+  background-color: #d6f5fc;
   overflow-wrap: break-word;
   width: auto;
   text-align: left;
@@ -413,13 +414,16 @@ ul {
 
 .my-message .message-background-color {
   text-align: right;
-  background-color: rgb(197, 255, 237);
+  background-color: rgba(197, 255, 236, 0.336);
 }
 
 
 /*气泡*/
 .message-item {
+  margin-left: 15px;
+  text-align: left;
   transition: opacity 1s ease, transform 1s ease;
+  
 }
 
 /*用户信息字体*/
