@@ -97,13 +97,11 @@ export default {
   components : { NoticeUnit },
   created() {
     this.loadGroupList();
-    getUserMessage('system', 'ac647158a2a13d953082a146a1bb9c45f7c8dad7').then(res => {
+    getUserMessage('system', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
         this.NoticeData = this.NoticeList[0]
       }
-      console.log(1)
-      console.log(this.NoticeList)
     })
   },
   methods: {

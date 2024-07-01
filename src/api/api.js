@@ -668,9 +668,9 @@ export function updateNotification(token, notification_id, is_read) {
         headers: {
             'Authorization': `Token ${token}`,
         },
-        data: {
-            notification_id,
-            is_read
+        params: {
+            'notification_id': notification_id,
+            'is_read': is_read
         }
     })
 }
