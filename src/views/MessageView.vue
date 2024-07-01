@@ -56,7 +56,7 @@
         </ul>
 
       <!--通知-->
-      <NoticeUnit v-show="isNotice === true && this.NoticeData.length > 0" :notice-data="this.NoticeData"></NoticeUnit>
+      <NoticeUnit v-show="isNotice === true && this.notification_id" :notice-data="this.NoticeData"></NoticeUnit>
 
       </div>
       <!-- 输入框 -->
@@ -97,11 +97,13 @@ export default {
   components : { NoticeUnit },
   created() {
     this.loadGroupList();
-    getUserMessage('system', localStorage.getItem('token')).then(res => {
+    getUserMessage('system', 'ac647158a2a13d953082a146a1bb9c45f7c8dad7').then(res => {
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
         this.NoticeData = this.NoticeList[0]
       }
+      console.log(1)
+      console.log(this.NoticeList)
     })
   },
   methods: {
@@ -170,7 +172,7 @@ export default {
     // 选择通知
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
-      this.NoticeData = this.selectedGroup
+      this.NoticeData = selectedGroup
     },
     // 加载聊天内容
     loadConversation() {
