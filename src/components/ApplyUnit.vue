@@ -5,11 +5,12 @@
         <span>{{applyData.education}}</span>
         <span>{{applyData.applied_at}}</span>
         <el-button @click="showInfo">查看信息</el-button>
-        <el-button>拒绝</el-button>
-        <el-button>接受</el-button>
+        <el-button @click="refuseApp">拒绝</el-button>
+        <el-button @click="acceptApp">接受</el-button>
     </div>
 </template>
 <script>
+
 export default{
     data(){
         return{
@@ -27,6 +28,12 @@ export default{
     methods:{
         showInfo(){
             this.$emit("showInfo",this.applyData.username)
+        },
+        refuseApp(){
+            this.$emit("refuseApp",this.applyData.application_id)
+        },
+        acceptApp(){
+            this.$emit("acceptApp",this.applyData.application_id)
         }
     }
 }

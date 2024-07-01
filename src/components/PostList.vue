@@ -15,7 +15,7 @@
         <div class="right-box scrollable">
 
             <template v-if="applyList.length > 0">
-                <ApplyUnit @showInfo="handleShowInfo" v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
+                <ApplyUnit @acceptApp="handleAccept" @refuseApp="handleRefuse" @showInfo="handleShowInfo" v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
             </template>
             <template v-else>
                 <img src="@/assets/empty.png" alt="No posts" class="empty-image" />
@@ -97,7 +97,7 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
-import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo } from '@/api/api'
+import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo,refuseApply,createOffer } from '@/api/api'
 export default {
     data() {
         return {
@@ -138,6 +138,21 @@ export default {
         })
     },
     methods: {
+        handleAccept(value){
+            console.log(value)
+            let apply = {"application_id":value}
+            createOffer(apply,localStorage.getItem("token")).then(res=>{
+                console.log(res)
+            })
+        },
+        handleRefuse(value){
+            console.log(value)
+            let apply = {"application_id":value}
+            refuseApply(apply,localStorage.getItem("token")).then(res=>{
+                console.log(res)
+                this.$router.go(0)
+            })
+        },
         handleShowInfo(value){
             console.log(value)
             this.dialogVisible3 = true

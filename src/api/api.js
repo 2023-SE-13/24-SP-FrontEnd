@@ -633,3 +633,30 @@ export function getNotification(token, notification_id) {
         }
     })
 }
+// 拒绝职位申请
+export function refuseApply(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'put',
+        url:'/position/refuse_application',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+
+}
+
+
+// 创建offer
+export function createOffer(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'post',
+        url:'/position/create_offer',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
