@@ -48,23 +48,25 @@ export default {
                 { content: "搜索", link_to: "/search" },
                 // { content: "公司", link_to: "/company-list" },
                 { content: "我的企业", link_to: "/company-temp" },
-                { content: "消息中心", link_to: "/" }
+                { content: "消息中心", link_to: "/message" }
 
             ],
             isLogin: false,
             select: '',
             input: '',
             NotAllowedSearch: true,
-            photoSrc: require('../assets/photo.png')
+            photoSrc: require('../assets/photo.png'),
+            username: localStorage.getItem('username')
         }
     },
-    beforeMount() {
-        if (localStorage.getItem('token') !== null) {
-            this.isLogin = true
-        }
-    },
-    methods: {
-        changeActive(index) {
+  beforeMount() {
+    if (localStorage.getItem('token') !== null) {
+      this.isLogin = true
+    }
+    this.photoSrc = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
+  },
+  methods: {
+      changeActive(index) {
             this.activeIndex = index
             console.log(this.activeIndex)
         },

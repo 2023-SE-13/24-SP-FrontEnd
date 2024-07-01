@@ -451,6 +451,33 @@ export function createPost(data, token) {
         data
     })
 }
+// 创建聊天
+export function createConversation(token, username) {
+    return service({
+        method: 'post',
+        url: '/user/create_conversation',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        data: {
+            'username':username
+        }
+    })
+}
+
+export function getConversationById(token, conversation_id) {
+    return service({
+        method: 'get',
+        url: '/user/get_conversation',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        params: {
+            'conversation_id': conversation_id
+        }
+    })
+}
+
 
 // 删除职位
 export function deletePost(data, token) {
@@ -469,13 +496,13 @@ export function deletePost(data, token) {
 
 // 获取职位全部申请信息
 
-export function getPostApply(position_id, token) {
+export function getPostApply(position_id,token){
     console.log(position_id)
     return service({
-        method: 'get',
-        url: '/position/get_pos_apy',
-        params: {
-            "position_id": position_id
+        method:'get',
+        url:'/position/get_pos_apy',
+        params:{
+            "position_id":position_id
         },
         headers: {
             'Authorization': `Token ${token}`
@@ -486,7 +513,7 @@ export function getPostApply(position_id, token) {
 
 
 //判断是否是Admin
-export function IsAdmin(username) {
+export function IsAdmin(username){
     return service({
         method: 'get',
         url: '/user/get_user',
@@ -501,8 +528,8 @@ export function getSimilarPost(position_id) {
     return service({
         method: 'get',
         url: '/recommend/recommend_simposition',
-        params: {
-            'position_id': position_id
+        params:{
+            'position_id':position_id
         }
     });
 }
@@ -512,8 +539,8 @@ export function getCompanyTweetList(company_id) {
     return service({
         method: 'get',
         url: '/tweet/get_company_tweet',
-        params: {
-            'company_id': company_id
+        params:{
+            'company_id':company_id
         }
     });
 }
@@ -605,7 +632,7 @@ export function deleteTweet(data, token) {
 }
 
 //获取个人动态列表
-export function getTweetList(params, token) {
+export function getTweetList(params,token) {
     return service({
         method: 'get',
         url: '/tweet/get_user_tweet',
@@ -619,11 +646,11 @@ export function getTweetList(params, token) {
 }
 
 // 修改职位
-export function editPost(data, token) {
+export function editPost(data,token){
     data = JSON.stringify(data)
     return service({
-        method: 'put',
-        url: '/position/update_position',
+        method:'put',
+        url:'/position/update_position',
         headers: {
             'Authorization': `Token ${token}`
         },
@@ -708,12 +735,24 @@ export function getUserTweet(username, token) {
     })
 }
 
-// 拒绝职位申请
-export function refuseApply(data, token) {
-    data = JSON.stringify(data)
+//上传头像
+export function uploadAvatar(data, token) {
     return service({
         method: 'put',
-        url: '/position/refuse_application',
+        url: '/user/set_avatar',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
+// 拒绝职位申请
+export function refuseApply(data,token){
+    data = JSON.stringify(data)
+    return service({
+        method:'put',
+        url:'/position/refuse_application',
         data,
         headers: {
             'Authorization': `Token ${token}`
@@ -724,11 +763,11 @@ export function refuseApply(data, token) {
 
 
 // 创建offer
-export function createOffer(data, token) {
+export function createOffer(data,token){
     data = JSON.stringify(data)
     return service({
-        method: 'post',
-        url: '/position/create_offer',
+        method:'post',
+        url:'/position/create_offer',
         data,
         headers: {
             'Authorization': `Token ${token}`
