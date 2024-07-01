@@ -52,7 +52,6 @@ export default {
   overflow-y: hidden;
   overflow-x: hidden;
   margin-top: 2%;
-
 }
 
 .tweets-container {
@@ -64,8 +63,7 @@ export default {
   background-color: #ffffff;
   padding: 15px 0 15px 45px;
   border-radius: 12px;
-  margin-top: 18px;
-  width: 92.5%;
+  width: 93.2%;
   min-height: 400px;
   height: auto;
 }

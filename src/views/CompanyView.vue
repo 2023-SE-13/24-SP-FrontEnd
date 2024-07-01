@@ -7,21 +7,30 @@
         <div class="company-subscription">关注数: {{ company.companySubscription }}</div>
       </div>
       <div class="btn">
-        <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany" style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px" class="custom-btn">接受邀请</el-button>
-        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow" :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#000000', borderColor: isFollowed ? '#00cfcf' : '#212121' }"></el-button>
-        <el-button v-if="isStaff" type="danger" @click="leaveCompany" style="padding: 13px 20px;font-size: 17px;font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;" class="custom-btn">退出企业</el-button>
+        <el-button v-if="haveJoinCompany" type="danger" @click="joinCompany"
+                   style="padding: 13px 20px;font-size: 17px; font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;margin-right: 4px"
+                   class="custom-btn">接受邀请
+        </el-button>
+        <el-button type="warning" icon="el-icon-star-off" circle class="btn-follow" @click="toggleFollow"
+                   :style="{ backgroundColor: isFollowed ? '#00cfcf' : '#000000', borderColor: isFollowed ? '#00cfcf' : '#212121' }"></el-button>
+        <el-button v-if="isStaff" type="danger" @click="leaveCompany"
+                   style="padding: 13px 20px;font-size: 17px;font-weight: bolder; background-color: black; border:solid 2px #02f1f1;border-radius: 6px;"
+                   class="custom-btn">退出企业
+        </el-button>
       </div>
     </header>
 
     <div class="nav">
       <div class="nav-inner">
-        <div class="nav-item" :class="{ 'active': currentView === 'CompanyIntro' }" @click="currentView = 'CompanyIntro'">
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyIntro' }"
+             @click="currentView = 'CompanyIntro'">
           公司简介
         </div>
         <div class="nav-item" :class="{ 'active': currentView === 'CompanyJobs' }" @click="currentView = 'CompanyJobs'">
           招聘职位
         </div>
-        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTweets' }" @click="currentView = 'CompanyTweets'">
+        <div class="nav-item" :class="{ 'active': currentView === 'CompanyTweets' }"
+             @click="currentView = 'CompanyTweets'">
           员工动态
         </div>
       </div>
@@ -201,14 +210,15 @@ export default {
             });
           }
         });
-      }).catch(() => { });
+      }).catch(() => {
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-.el-avatar{
+.el-avatar {
   float: left;
   margin: 0 20px;
 }
@@ -343,5 +353,16 @@ export default {
 .company-box {
   margin-left: 4%;
   margin-top: 2%;
+  overflow-y: auto;
+  height: 450px;
+}
+
+.company-box::-webkit-scrollbar {
+  width: 10px; /* 或者你想要的宽度 */
+  background: transparent; /* 透明背景 */
+}
+
+.company-box::-webkit-scrollbar-thumb {
+  background: transparent; /* 滑块也透明 */
 }
 </style>
