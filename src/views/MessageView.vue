@@ -196,20 +196,23 @@ export default {
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
       this.NoticeData = selectedGroup
-      let data = {
-        tweet_id: this.NoticeData.tweet_id
-      };
-      getTweetDetail(data, localStorage.getItem('token')).then(res => {
-        console.log(res.data.data)
-        this.NoticeData.tweet_content = res.data.data.text_content.length > 20
-            ? res.data.data.text_content.substring(0, 60) + '...'
-            : res.data.data.text_content;
-        if(res.data.data.photos[0] != null) {
-          this.NoticeData.tweet_photo = "http://10.251.253.188/tweetphoto/" + res.data.data.photos[0]
-        } else {
-          this.NoticeData.tweet_photo = null
-        }
-      })
+      console.log(selectedGroup)
+      if(this.NoticeData.tweet_id != '') {
+        let data = {
+          tweet_id: this.NoticeData.tweet_id
+        };
+        getTweetDetail(data, localStorage.getItem('token')).then(res => {
+          console.log(res.data.data)
+          this.NoticeData.tweet_content = res.data.data.text_content.length > 20
+              ? res.data.data.text_content.substring(0, 60) + '...'
+              : res.data.data.text_content;
+          if(res.data.data.photos[0] != null) {
+            this.NoticeData.tweet_photo = "http://10.251.253.188/tweetphoto/" + res.data.data.photos[0]
+          } else {
+            this.NoticeData.tweet_photo = null
+          }
+        })
+      }
     },
     // 加载聊天内容
     // loadConversation() {
