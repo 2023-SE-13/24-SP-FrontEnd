@@ -143,7 +143,7 @@
           <div id="zone" class="content">
             <!--展示切换菜单-->
             <div id="preMenu">
-              <el-menu default-active="1" mode="horizontal" @select="preSelect" id="pre_menu">
+              <el-menu default-active="2" mode="horizontal" @select="preSelect" id="pre_menu">
                 <el-menu-item index="1" class="preMenuItem">动态</el-menu-item>
                 <el-menu-item index="2" class="preMenuItem">关注</el-menu-item>
               </el-menu>
@@ -162,14 +162,16 @@
             </div>
             <div v-show="preActive === '2'" id="favorList">
               <div id="favorCheckout">
-                <el-radio-group v-model="favorMode">
-                  <el-radio-button label="用户"></el-radio-button>
-                  <el-radio-button label="企业"></el-radio-button>
+                <el-radio-group id="favorMode" v-model="favorMode">
+                  <el-radio-button label="用户" class="favorBtn"></el-radio-button>
+                  <el-radio-button label="企业" class="favorBtn"></el-radio-button>
                 </el-radio-group>
               </div>
               <div id="favorBlock">
                 <ul id="favor_list" type="none">
-                  <li></li>
+                  <li>
+                    <FavorUserUnit></FavorUserUnit>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -196,11 +198,13 @@ import {
     uploadAvatar
 } from "@/api/api";
 import TweetUnit from "@/components/TweetUnit.vue";
+import FavorUserUnit from "@/components/FavorUserUnit.vue";
 
 export default {
   name: "User",
   components: {
-    TweetUnit
+    TweetUnit,
+    FavorUserUnit
   },
   watch: {
     photo_file: {
@@ -345,7 +349,7 @@ export default {
         }
       }
     );
-    this.preActive = '1';
+    this.preActive = '2';
     getUserTweet(this.user.name, this.token).then(res => {
       if (res.data.status === "success") {
         this.tweets = res.data.data;
@@ -413,7 +417,7 @@ export default {
       hasResume: false,
       resumeUrl: "",
       resumeUploadTime: "",
-      preActive: '1',
+      preActive: '2',
       options: [
         {
           value: '后端开发',
@@ -1047,11 +1051,49 @@ export default {
   width: 100%;
   height: 92%;
   position: relative;
-  min-height: 92%;
-  max-height: 92%;
+}
+#favorCheckout {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #F56C6C
+}
+
+ #favorMode {
+  position: relative;
+  left: 2%;
+  bottom: 8%;
+  height: 60%;
+  width: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.favorBtn {
+  height: 60%;
+  width: 70%;
+}
+#favorBlock {
+  width: 100%;
+  height: 90%;
+  background-color: #414a60;
+  min-height: 90%;
+  max-height: 90%;
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #67c23a;
+}
+::v-deep .el-radio-button__inner {
+  height: 60%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 #left {
