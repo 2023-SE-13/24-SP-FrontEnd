@@ -1,6 +1,6 @@
 <template>
   <div class="notice">
-    <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.username }}：</p>
+    <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.realname }}：</p>
     <p style="top:25%;left: 15%">您好！</p>
     <p style="top:33.5%;left: 15%">我们非常高兴地通知您，经过公司严格的评估，您已被录用为我司{{
         NoticeData.position_name
