@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { getConversation, getMessage, saveMessage} from '@/api/api';
+import { getConversation, getMessage, saveMessage, createConversation, getConversationById} from '@/api/api';
 import NoticeUnit from "@/components/NoticeUnit.vue";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
@@ -94,6 +94,7 @@ export default {
   },
   components : { NoticeUnit },
   created() {
+    this.startChat('why')
     this.getGroupList();
   },
   methods: {
@@ -184,20 +185,20 @@ export default {
         return 'your-message'
       }
     },
-    sendMessage() {
-      if(this.conversation) {
-        if(this.message_text !== '') {
-          if(this.conversation.user1_uname === this.user_name) {
-            saveMessage(this.conversation.user1_uname, this.conversation.user2_uname, this.conversation.conversation_id, this.message_text)
-          } else {
-            saveMessage(this.conversation.user2_uname, this.conversation.user1_uname, this.conversation.conversation_id, this.message_text)
-          }
-          this.message_text = ''
-        } else {
-          console.log('发送消息不可为空')
-        }
-      }
-    },
+    // sendMessage() {
+    //   if(this.conversation) {
+    //     if(this.message_text !== '') {
+    //       if(this.conversation.user1_uname === this.user_name) {
+    //         saveMessage(this.conversation.user1_uname, this.conversation.user2_uname, this.conversation.conversation_id, this.message_text)
+    //       } else {
+    //         saveMessage(this.conversation.user2_uname, this.conversation.user1_uname, this.conversation.conversation_id, this.message_text)
+    //       }
+    //       this.message_text = ''
+    //     } else {
+    //       console.log('发送消息不可为空')
+    //     }
+    //   }
+    // },
     scrollToLatestMessage() {
       this.$nextTick(() => {
         setTimeout(() => {
@@ -216,7 +217,7 @@ export default {
       if (!this.conversation || this.message_text.trim() === "") return;
       const groupId = this.conversation_id;
       const receiver_uname = this.conversation.user1_uname !== this.user_name ? this.conversation.user1_uname : this.conversation.user2_uname
-      console.log('!!!!!!!!!!!!!!', this.message_text.trim(), this.user_name, receiver_uname, this.conversation_id)
+      // console.log('!!!!!!!!!!!!!!', this.message_text.trim(), this.user_name, receiver_uname, this.conversation_id)
       this.stompClient.publish({
         destination: `/send/${groupId}`,
         body: JSON.stringify({
@@ -230,6 +231,23 @@ export default {
       this.message_text = "";
       this.scrollToLatestMessage(); // 确保方法调用正确
     },
+
+    startChat(username) {
+      try {
+        let id = '';
+        createConversation(localStorage.getItem('token'), username).then(res => {
+          id = res.data.conversation_id
+          this.conversation_id = id
+          getConversationById(localStorage.getItem('token'), id).then(res => {
+            this.conversation = res.data
+            this.isNotice = false
+            this.selectGroup(this.conversation)
+          })
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
   },
   mounted() {
     console.log("Mounted hook executed");
@@ -352,7 +370,6 @@ ul {
   margin-left: 5px;
   margin-top: 25px;
   border-radius: 3px;
-  
 }
 
 /*信息框*/
@@ -363,6 +380,7 @@ ul {
   border-radius: 8px;
   box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.05);
   background-color: azure;
+  padding-top: 30px;
 }
 
 .message-background-color {
@@ -436,12 +454,12 @@ textarea {
 /* 发送按钮 */
 .send-btn {
   display: inline-block;
-  width: 3%;
-  vertical-align: top;
+  width: 45px;
+  vertical-align: bottom;
   text-align: auto;
-  height: 80%;
+  height: 15%;
   position: relative;
-  margin-top: 5px;
+  margin-bottom: 15px;
   left: 0%;
   margin-left: 5px;
   background-color: #cdf6ff;
