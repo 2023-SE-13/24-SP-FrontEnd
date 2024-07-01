@@ -97,7 +97,7 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
-import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo,refuseApply } from '@/api/api'
+import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo,refuseApply,createOffer } from '@/api/api'
 export default {
     data() {
         return {
@@ -141,7 +141,9 @@ export default {
         handleAccept(value){
             console.log(value)
             let apply = {"application_id":value}
-            
+            createOffer(apply,localStorage.getItem("token")).then(res=>{
+                console.log(res)
+            })
         },
         handleRefuse(value){
             console.log(value)
