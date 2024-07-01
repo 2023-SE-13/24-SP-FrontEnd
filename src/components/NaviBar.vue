@@ -46,7 +46,10 @@ export default {
             naviUnits: [
                 { content: "首页", link_to: "/main" },
                 { content: "用户", link_to: "/user-list" },
-                { content: "公司", link_to: "/company-list" }
+                { content: "公司", link_to: "/company-list" },
+                { content: "我的企业", link_to: "/" },
+                { content: "消息中心", link_to: "/" }
+
             ],
             isLogin: false,
             select: '',
@@ -55,13 +58,13 @@ export default {
             photoSrc: require('../assets/photo.png')
         }
     },
-  beforeMount() {
-    if (localStorage.getItem('token') !== null) {
-      this.isLogin = true
-    }
-  },
-  methods: {
-      changeActive(index) {
+    beforeMount() {
+        if (localStorage.getItem('token') !== null) {
+            this.isLogin = true
+        }
+    },
+    methods: {
+        changeActive(index) {
             this.activeIndex = index
             console.log(this.activeIndex)
         },
@@ -90,20 +93,20 @@ export default {
             }
             if (command === 'e') {
                 this.$confirm("是否退出登录", '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  type: 'warning'
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
                 }).then(() => {
-                  localStorage.removeItem('token')
-                  this.isLogin = false
-                  if(this.$route.path !== "/main"){
-                    this.$router.push("/")
-                  }
+                    localStorage.removeItem('token')
+                    this.isLogin = false
+                    if (this.$route.path !== "/main") {
+                        this.$router.push("/")
+                    }
                 }).catch(() => {
-                  this.$message({
-                    type: 'info',
-                    message: '已取消退出'
-                  });
+                    this.$message({
+                        type: 'info',
+                        message: '已取消退出'
+                    });
                 });
             }
         },
@@ -112,7 +115,7 @@ export default {
             console.log("搜索一次")
             switch (this.select) {
                 case '1':
-                    SearchUser(this.input).then(res=>{
+                    SearchUser(this.input).then(res => {
                         console.log(res)
                     })
                     break
