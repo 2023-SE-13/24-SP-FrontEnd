@@ -748,6 +748,18 @@ export function uploadAvatar(data, token) {
     })
 }
 
+//上传logo
+export function uploadLogo(data, token) {
+    return service({
+        method: 'put',
+        url: '/company/update_logo',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
+
 // 拒绝职位申请
 export function refuseApply(data,token){
     data = JSON.stringify(data)
