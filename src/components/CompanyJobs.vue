@@ -72,8 +72,8 @@ export default {
       })
     },
     gotoJobView(){
-      localStorage.setItem(this.postData.position_id)
-      this.$router.push("/postview");
+      localStorage.setItem('position_id',this.JobData.position_id)
+      this.$router.push('/PostView/' + this.JobData.position_id);
     }
   },
   computed: {
