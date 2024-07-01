@@ -133,7 +133,7 @@
                   <p>{{ user.real_name }}_resume.pdf</p>
                   <p style="font-size: 12px;color: #bbb">上传时间: {{ resumeUploadTime }}</p>
                 </div>
-                <div id="resumeMenu">
+                <div id="resumeMenu" v-if="isSelf">
                   <el-dropdown trigger="hover" placement="bottom" @command="handleCommand">
                     <i class="el-icon-more"></i>
                     <el-dropdown-menu slot="dropdown">
@@ -154,7 +154,14 @@
               </el-menu>
             </div>
             <div v-show="preActive === '1'" id="share">
-              <div id="shareEditBtn" @click="goToWrite">
+              <div id="tweetBlock">
+                <ul id="tweetList" type="none">
+                  <li v-for="(tweet_id,index) in tweets" :key="index">
+                    <TweetUnit :id="tweet_id"></TweetUnit>
+                  </li>
+                </ul>
+              </div>
+              <div v-if="isSelf" id="shareEditBtn" @click="goToWrite">
                 <i class="el-icon-edit"></i>
               </div>
             </div>
@@ -170,11 +177,21 @@
 </template>
 
 <script>
-import {DoSubscribeUser, GetUserInfo, SubscribeUser, UnSubscribeUser, UpdateUserInfo, uploadResume} from "@/api/api";
+import {
+  DoSubscribeUser,
+  GetUserInfo,
+  getUserTweet,
+  SubscribeUser,
+  UnSubscribeUser,
+  UpdateUserInfo,
+  uploadResume
+} from "@/api/api";
+import TweetUnit from "@/components/TweetUnit.vue";
 
 export default {
   name: "User",
   components: {
+    TweetUnit
   },
   watch: {
     $route: {
@@ -274,6 +291,8 @@ export default {
         const json = JSON.stringify(this.user);
         // console.log(json);
         this.defaultUser = JSON.parse(json);
+        this.hasResume = res.data.data.resume_uploaded;
+        this.resumeUrl = "http://10.251.253.188/resume/" + this.user.name + "_resume.pdf";
       }
     },
       error => {
@@ -294,6 +313,16 @@ export default {
       }
     );
     this.preActive = '1';
+    getUserTweet(this.user.name, this.token).then(res => {
+      if (res.data.status === "success") {
+        this.tweets = res.data.data;
+        console.log(this.tweets[0]);
+      }
+    },
+        error => {
+          console.log(error);
+        }
+    );
   },
   data() {
     return {
@@ -439,12 +468,12 @@ export default {
           ]
         }
       ],
-
       cascaderProps: {
         multiple: true,
         // checkStrictly: true,
         // emitPath: false
-      }
+      },
+      tweets: []
     };
   },
   computed: {
@@ -632,10 +661,11 @@ export default {
     },
     handleCommand(command) {
       if (command === 'a') {
+        console.log(this.resumeUrl)
         window.open(this.resumeUrl);
       }
       if (command === 'b') {
-
+        console.log("删除");
       }
     }
   }
@@ -912,16 +942,47 @@ export default {
   width: 100%;
   height: 92%;
   position: relative;
+  min-height: 92%;
+  max-height: 92%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
+::v-deep #share::-webkit-scrollbar {
+  width: 10px;
+}
+::v-deep #share::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::v-deep #share::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+::v-deep #share::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+#tweetBlock {
+  width: 100%;
+}
+#tweetList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+#tweetList li{
+  width: 100%;
+}
 #shareEditBtn {
-  width: 7%;
-  height: 14.35%;
+  width: 4%;
+  height: 8.2%;
   border-radius: 50%;
   float: right;
-  position: absolute;
-  top: 76%;
-  right: 6%;
+  position: fixed;
+  top: 82.5%;
+  right: 38%;
   background-color: rgba(0, 186, 183, 0.5);
   color: #fff;
   display: flex;

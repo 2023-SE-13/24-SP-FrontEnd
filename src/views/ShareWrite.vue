@@ -22,10 +22,12 @@
               id="picCard"
               action="#"
               show-file-list
+              :limit="9"
               :file-list="imgList"
               :on-change="handleChange"
               :on-remove="handleRemove"
               :on-preview="handlePreview"
+              :before-upload="beforeUpload"
               :auto-upload="false"
               list-type="picture-card"
           >
@@ -34,16 +36,19 @@
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="imgUrl" alt="">
           </el-dialog>
+          <div slot="tip" class="el-upload__tip">最多还能上传{{ imgList.length }}/9张</div>
         </div>
         <div id="EditZoneBottom">
           <span id="uploadIcon">
             <el-upload
                 :show-file-list="false"
                 :file-list="imgList"
+                :limit="9"
                 :auto-upload = "false"
                 :on-change="handleChangeIcon"
                 :on-remove="handleRemove"
                 :on-preview="handlePreview"
+                :before-upload="beforeUpload"
                 list-type="picture"
             >
               <i class="el-icon-picture-outline-round"> 图片</i>
@@ -129,27 +134,48 @@ export default {
       });
     },
     handleChange(file, fileList) {
-      for(let i = 0; i < fileList.length; i++) {
-        const file = fileList[i];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.raw);
-        reader.onload = () => {
-          file.url = reader.result;
-        }
+      //必须是图片格式
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('只能上传图片格式文件!');
       }
-      this.imgList = fileList;
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!');
+      }
+      if (isJPG && isLt2M) {
+        for(let i = 0; i < fileList.length; i++) {
+          const file = fileList[i];
+          const reader = new FileReader();
+          reader.readAsDataURL(file.raw);
+          reader.onload = () => {
+            file.url = reader.result;
+          }
+        }
+        this.imgList = fileList;
+      }
     },
     handleChangeIcon(file, fileList) {
-      for(let i = 0; i < fileList.length; i++) {
-        const file = fileList[i];
-        const reader = new FileReader();
-        reader.readAsDataURL(file.raw);
-        reader.onload = () => {
-          file.url = reader.result;
-        }
+      const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if(!isJPG) {
+        this.$message.error('只能上传图片格式文件!');
       }
-      this.imgList = fileList;
-      this.imgVisible = true;
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      if (isJPG && isLt2M) {
+        for(let i = 0; i < fileList.length; i++) {
+          const file = fileList[i];
+          const reader = new FileReader();
+          reader.readAsDataURL(file.raw);
+          reader.onload = () => {
+            file.url = reader.result;
+          }
+        }
+        this.imgList = fileList;
+        this.imgVisible = true;
+      }
     },
     handleRemove(file, fileList) {
       this.imgList = fileList;
@@ -261,6 +287,11 @@ export default {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+  }
+  .el-upload__tip {
+    margin-left: 10px;
+    color: #bbb;
+    font-size: 14px;
   }
   #picCard {
     display: flex;

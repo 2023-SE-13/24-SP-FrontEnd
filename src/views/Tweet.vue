@@ -25,7 +25,7 @@
               :src="item"
               :preview-src-list="images"
               style="width: 145px; height: 145px;border-radius: 10px;margin: 1px"
-              fit="none">
+              fit="contain">
             </el-image>
           </div>
         </div>
@@ -58,11 +58,9 @@
           </el-button>
         </Transition>
       </div>
-      <div class="comment">
+      <div class="comment" >
           <CommentUnit v-for="(comment_id, index) in comment_idList" :key="index" :comment_id="comment_id"></CommentUnit>
       </div>
-      <p v-if="loading">加载中...</p>
-      <p v-if="noMore">没有更多了</p>
     </div>
   </div>
 </template>
@@ -101,9 +99,6 @@ export default {
     };
   },
   computed: {
-    noMore () {
-      return this.comment_count >= this.comment_number
-    },
     disabled () {
       return this.loading || this.noMore
     }
@@ -112,19 +107,19 @@ export default {
     this.token = localStorage.getItem("token");
     this.tweet_id = this.$route.params.id;
     await this.getComment();
-    this.isSelf = this.username === localStorage.getItem("username");
   },
   methods: {
     getComment(){
       let formdata = {
         tweet_id: this.tweet_id
       };
-      getTweetDetail(formdata).then(res => {
+      getTweetDetail(formdata, this.token).then(res => {
         if(res.data.status === "success") {
           this.username = res.data.data.user;
           this.date = res.data.data.created_at;
           this.text = res.data.data.text_content;
           this.images = res.data.data.photos;
+          this.isSelf = this.username === localStorage.getItem("username");
           for(let i = 0; i < this.images.length; i++) {
             this.images[i] = "http://10.251.253.188/tweetphoto/" + this.images[i];
           }
@@ -137,9 +132,14 @@ export default {
             this.comment_number = res.data.data.comment_array.length;
             this.comment_idList = res.data.data.comment_array;
           }
-          console.log("获取动态成功");
         }
       }).catch(err => {
+        this.$router.push("/main");
+        this.$notify({
+          title: '提示',
+          message: '动态不存在',
+          type: 'warning'
+        });
         console.log(err);
       });
     },
