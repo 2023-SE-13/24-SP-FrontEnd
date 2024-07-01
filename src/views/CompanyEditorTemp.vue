@@ -1,12 +1,6 @@
 <template>
     <div class="company-container">
 
-        <div class="info-bar">
-            <div class="info-box">
-                <div> <el-avatar :size="75"  shape="square"></el-avatar></div>
-                <div></div>
-            </div>
-        </div>
         <div class="nav-bar">
             <div class="nav-inner">
                 <div class="nav-item" :class="{ 'active': currentView === 'PostList' }"
