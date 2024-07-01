@@ -104,7 +104,6 @@ export default {
       }
     })
     this.startChat(localStorage.getItem("hrname"))
-    localStorage.removeItem("hrname")
     this.getGroupList();
   },
   methods: {

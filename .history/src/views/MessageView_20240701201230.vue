@@ -103,8 +103,7 @@ export default {
         this.NoticeData = this.NoticeList[0]
       }
     })
-    this.startChat(localStorage.getItem("hrname"))
-    localStorage.removeItem("hrname")
+    this.startChat(this.$store.getters(""))
     this.getGroupList();
   },
   methods: {

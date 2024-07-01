@@ -5,10 +5,10 @@
         </div>
         <div class="img-container">
             <div class="search-bar">
-                <el-input placeholder="搜索用户、企业、岗位" @input="allow" v-model="input" class="input-with-select">
+                <el-input placeholder="搜索用户、公司" @input="allow" v-model="input" class="input-with-select">
                     <el-select class="select" v-model="select" slot="prepend" placeholder="请选择">
                         <el-option label="用户" value="1"></el-option>
-                        <el-option label="企业" value="2"></el-option>
+                        <el-option label="公司" value="2"></el-option>
                         <el-option label="岗位" value="3"></el-option>
                     </el-select>
                     <el-button slot="append" id="search-button" icon="el-icon-search" @click="Search" ref="button"

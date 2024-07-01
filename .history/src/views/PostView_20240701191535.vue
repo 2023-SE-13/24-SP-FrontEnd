@@ -105,16 +105,8 @@ export default {
     methods: {
         //去私聊
         gotochat() {        
-            if(this.position.hr_id != localStorage.getItem("username")){
-                localStorage.setItem("hrname",this.position.hr_id)
-                this.$router.push("/message")
-            }else{
-                this.$notify({
-                    title: '失败',
-                    message: '禁止和自己聊天',
-                    type: 'error'
-                });
-            }
+            localStorage.setItem("hrname",this.position.hr_id)
+            this.$router.push("/message")
         },
         //投递简历
         submitCV() {
@@ -169,7 +161,7 @@ export default {
             this.position.salary_min = res.data.salary_min/1000
             this.position.salary_max = res.data.salary_max/1000
             this.position.position_tag = res.data.position_tag
-            this.position.hr_id = res.data.hr
+            this.position.hr_id = res.data.hr_id
             if(res.data.skill_required.length > 0){
                 this.position.skills = res.data.skill_required
             }else{

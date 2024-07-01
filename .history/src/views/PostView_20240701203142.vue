@@ -105,15 +105,9 @@ export default {
     methods: {
         //去私聊
         gotochat() {        
-            if(this.position.hr_id != localStorage.getItem("username")){
+            if(this.position.hr_id === ){
                 localStorage.setItem("hrname",this.position.hr_id)
                 this.$router.push("/message")
-            }else{
-                this.$notify({
-                    title: '失败',
-                    message: '禁止和自己聊天',
-                    type: 'error'
-                });
             }
         },
         //投递简历
