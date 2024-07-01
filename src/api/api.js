@@ -666,3 +666,12 @@ export function deleteStaff(data, token) {
         }
     })
 }
+
+export function SearchPosition(data) {
+    data = JSON.stringify(data)
+    return service({
+        method: 'post',
+        url: '/position/search_position',
+        data
+    })
+}

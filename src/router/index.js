@@ -15,7 +15,7 @@ import MessageView  from "@/views/MessageView.vue";
 import PostView from "@/views/PostView.vue";
 import CompanyEditorTemp from '@/views/CompanyEditorTemp.vue';
 import Tweet from '@/views/Tweet.vue'
-
+import Search from '@/views/Search.vue';
 
 Vue.use(VueRouter)
 
@@ -28,6 +28,10 @@ const routes = [
     path:'/home',
     component:()=>import('@/views/HomeView.vue'),
     children:[
+      {
+        path:'/search',
+        component:Search
+      },
       {
         path:'/main',
         component:()=>import('@/views/HomePage')
