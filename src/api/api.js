@@ -512,12 +512,15 @@ export function likeTweet(data, token) {
 }
 
 // 获取动态详细信息
-export function getTweetDetail(params) {
+export function getTweetDetail(params, token) {
     return service({
         method: 'get',
         url: '/tweet/get_tweet',
         params: {
             'tweet_id': params.tweet_id
+        },
+        headers: {
+            'Authorization': `Token ${token}`
         }
     })
 }
@@ -591,5 +594,19 @@ export function editPost(data,token){
             'Authorization': `Token ${token}`
         },
         data
+    })
+}
+
+// 获取用户动态
+export function getUserTweet(username, token) {
+    return service({
+        method: 'get',
+        url: '/tweet/get_user_tweet',
+        params: {
+            'username': username
+        },
+        headers: {
+            'Authorization': `Token ${token}`
+        }
     })
 }
