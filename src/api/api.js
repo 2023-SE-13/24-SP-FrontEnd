@@ -704,17 +704,7 @@ export function updateOffer(token, offer_id, state) {
             'Content-Type': 'application/json'
         },
         data
-    }).catch(error => {
-        if (error.response.status === 406) {
-            console.log('员工无法再加入其他企业！');
-            throw error;
-        }
-        this.$notify({
-            title: '失败',
-            message: '你已经属于其他企业！',
-            type: 'error'
-        })
-    });
+    })
 }
 
 // 更新通知已读状态
