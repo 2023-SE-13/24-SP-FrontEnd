@@ -46,6 +46,7 @@ export default {
     this.username = this.$route.params.name
     this.token = localStorage.getItem('token')
     this.tweet_id = this.id
+    this.photo = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
     let params = {
       tweet_id: this.tweet_id
     }

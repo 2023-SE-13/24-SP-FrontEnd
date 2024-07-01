@@ -52,13 +52,15 @@ export default {
             select: '',
             input: '',
             NotAllowedSearch: true,
-            photoSrc: require('../assets/photo.png')
+            photoSrc: require('../assets/photo.png'),
+            username: localStorage.getItem('username')
         }
     },
   beforeMount() {
     if (localStorage.getItem('token') !== null) {
       this.isLogin = true
     }
+    this.photoSrc = "http://10.251.253.188/avatar/"+this.username+"_avatar.png"
   },
   methods: {
       changeActive(index) {

@@ -622,3 +622,15 @@ export function getUserTweet(username, token) {
         }
     })
 }
+
+//上传头像
+export function uploadAvatar(data, token) {
+    return service({
+        method: 'put',
+        url: '/user/set_avatar',
+        data,
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
