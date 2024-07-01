@@ -3,8 +3,8 @@
     <!-- 联系人列表 -->
     <div class="group-list-box">
       <div class="group-list-header">
-      <span :style="{ color: isNotice ? '#00cfcf' : '#000000' }"  @click="isNotice = true" >通知</span> |
-      <span :style="{ color: !isNotice ? '#00cfcf' : '#000000' }" @click="isNotice = false">私信</span>
+        <span :style="{ color: !isNotice ? '#00cfcf' : '#000000' }" @click="isNotice = false">私信</span>|
+        <span :style="{ color: isNotice ? '#00cfcf' : '#000000' }"  @click="isNotice = true" >通知</span>
       </div>
 
     <!--通知列表-->
@@ -86,7 +86,7 @@ export default {
       conversation: {},
       message_text:'',
       messageList: [],
-      isNotice: true,
+      isNotice: false,
       NoticeList: [],
       NoticeData:[],
       stompClient: null,
