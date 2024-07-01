@@ -9,8 +9,8 @@
                 <!-- <span class="sub-num">工龄:10年</span> -->
             </div>
             <div>
-                <el-button>开除</el-button>
-                <el-button>设置为管理员</el-button>
+                <el-button @click="DeleteStaff">开除</el-button>
+                <el-button @click="Trans">设置为管理员</el-button>
             </div>
         </div>
         <div class="lower-box">
@@ -19,6 +19,8 @@
     </div>
 </template>
 <script>
+import {deleteStaff} from "@/api/api";
+import {TransAdmin} from "@/api/api";
 export default {
     data() {
         return {
@@ -31,8 +33,56 @@ export default {
         }
     },
     created(){
-        console.log(this.staffData)
+        console.log("staffData:"+this.staffData.user.username)
+    },
+  methods: {
+    DeleteStaff(){
+        let data = {
+            username: this.staffData.user.username,
+            company_id: localStorage.getItem("company_id")
+        }
+        deleteStaff(data, localStorage.getItem("token")).then(res => {
+            if(res.data.status === "success") {
+                this.$notify({
+                    title: '提示',
+                    message: '开除成功',
+                    type: 'success'
+                });
+            }
+        },
+        error => {
+            this.$notify({
+                title: '提示',
+                message: '开除失败',
+                type: 'warning'
+            });
+        })
+    },
+    Trans(){
+        let data = {
+            company_id: localStorage.getItem("company_id"),
+            username: this.staffData.user.username,
+        }
+        console.log(data)
+        console.log(localStorage.getItem("token"))
+        TransAdmin(data, localStorage.getItem("token")).then(res => {
+            if(res.data.status === "success") {
+                this.$notify({
+                    title: '提示',
+                    message: '设置成功',
+                    type: 'success'
+                });
+            }
+        },
+        error => {
+            this.$notify({
+                title: '提示',
+                message: '设置失败',
+                type: 'warning'
+            });
+        })
     }
+  }
 }
 </script>
 <style lang="scss" scoped>
