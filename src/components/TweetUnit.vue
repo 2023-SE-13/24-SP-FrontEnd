@@ -120,6 +120,7 @@ export default {
     display: flex;
     text-align: left;
     flex-wrap: wrap;
+    word-break: break-all;
     font-size: 20px;
     line-height: 30px;
   }

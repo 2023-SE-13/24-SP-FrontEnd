@@ -336,7 +336,8 @@ export default {
   background: white;
   display: flex;
   text-align: left;
-  flex-wrap: wrap;
+  text-wrap: normal;
+  word-break: break-all;
   font-size: 17px;
   line-height: 30px;
 }
