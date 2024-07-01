@@ -51,8 +51,12 @@
                     </ul>
                 </div>
             </div>
+            <div class="rel-title">
+                <h3>相似岗位</h3>
 
+            </div>
             <div class="relapos">
+                <!-- <h3>相似岗位</h3> -->
                 <div class="poss">
                     <ShowPostUnit v-for="(post, index) in PostViewList" :key="index" :post-data="post"></ShowPostUnit>
                 </div>
@@ -293,7 +297,7 @@ export default {
     background-color: rgb(255, 255, 255);
     height: 470px;
     color: #d5d8e9;
-    margin-top: 1%;
+    margin-top: 2%;
     margin-bottom: 1%;
     border-radius: 15px;
     margin-left: 12%;
@@ -353,10 +357,13 @@ export default {
     background-color: rgb(255, 255, 255);
     height: 470px;
     color: #d5d8e9;
-    margin-top: 1%;
+    margin-top: 2%;
     margin-bottom: 1%;
     border-radius: 15px;
     margin-left: 1%;
+}
+.relapos h3{
+    color: black;
 }
 
 .poss {
@@ -388,5 +395,15 @@ export default {
     padding-top: 5px;
     padding-right: 8px;
     padding-left: 8px;
+}
+.rel-title{
+    position: absolute;
+    left: 70%;
+    display: block;
+    width: 18%;
+    height: 50px;
+    background-color: white;
+    /* border-bottom: 1px solid black; */
+
 }
 </style>

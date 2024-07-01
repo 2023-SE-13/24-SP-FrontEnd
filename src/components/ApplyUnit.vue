@@ -21,7 +21,7 @@
 export default {
     data() {
         return {
-
+            photo_url:`http://10.251.253.188/avatar/${this.applyData.username}_avatar.png`
         }
     },
     props: {

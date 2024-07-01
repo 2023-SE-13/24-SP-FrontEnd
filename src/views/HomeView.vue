@@ -3,7 +3,7 @@
     <div class="navi">
       <NaviBar />
     </div>
-    <div>
+    <div >
       <router-view></router-view>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
     NaviBar
   }
 }
-</script>
+</script >
 <style lang="scss" scoped>
 .main-body{
   display: flex;
@@ -38,4 +38,5 @@ export default {
   top: 0;
   z-index: 1000;
 }
+
 </style>
