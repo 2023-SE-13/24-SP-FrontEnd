@@ -19,7 +19,7 @@
               :src="item"
               :preview-src-list="images"
               style="width: 105px; height: 105px;border-radius: 10px;margin: 1px"
-              fit="none">
+              fit="contain">
           </el-image>
         </div>
         <el-divider></el-divider>
