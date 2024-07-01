@@ -17,16 +17,35 @@
         <div class="lower-bar">
             <!-- <UserUnit v-for="(user, index) in userList" :key="index" :user-data="user"></UserUnit> -->
             <el-tabs type="border-card" class="table" v-model="activeName">
-                <el-tab-pane label="用户列表" name="user">
-                    <PostUserUnit v-for="(user, index) in UserList" :key="index" :post-data="user"></PostUserUnit>
+                <el-tab-pane label="用户列表" name="user" class="panes">
+                    <template v-if="UserList.length > 0">
+                        <PostUserUnit v-for="(user, index) in UserList" :key="index" :post-data="user">
+                        </PostUserUnit>
+                    </template>
+                    <template v-else>
+                        <img src="@/assets/nodata.png" alt="No posts" class="nodata-image" />
+                        <h1>暂无数据</h1>
+                    </template>
                 </el-tab-pane>
-                <el-tab-pane label="企业列表" name="company">
-                    <CompanyUnit v-for="(Company, index) in CompanyList" :key="index" :company-data="Company">
-                    </CompanyUnit>
+                <el-tab-pane label="企业列表" name="company" class="panes">
+                    <template v-if="CompanyList.length > 0">
+                        <CompanyUnit v-for="(Company, index) in CompanyList" :key="index" :company-data="Company">
+                        </CompanyUnit>
+                    </template>
+                    <template v-else>
+                        <img src="@/assets/nodata.png" alt="No posts" class="nodata-image" />
+                        <h1>暂无数据</h1>
+                    </template>
                 </el-tab-pane>
-                <el-tab-pane label="岗位列表" name="position">
-                    <PostPositionUnit v-for="(Position, index) in PositionList" :key="index" :post-data="Position">
-                    </PostPositionUnit>
+                <el-tab-pane label="岗位列表" name="position" class="panes">
+                    <template v-if="PositionList.length > 0">
+                        <PostPositionUnit v-for="(Position, index) in PositionList" :key="index" :post-data="Position">
+                        </PostPositionUnit>
+                    </template>
+                    <template v-else>
+                        <img src="@/assets/nodata.png" alt="No posts" class="nodata-image" />
+                        <h1>暂无数据</h1>
+                    </template>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -47,7 +66,7 @@ export default {
             CompanyList: [],
             PositionList: [],
             searchField: { "type": '', "keywords": '' },
-            activeName: 'role'
+            activeName: 'user'
         }
     },
     methods: {
@@ -174,7 +193,7 @@ export default {
 <style lang="scss" scoped>
 .upper-bar {
     width: 80%;
-    margin: 20px auto;
+    margin: 0px auto;
     height: 130px;
     background-color: null;
     // overflow: hidden;
@@ -187,7 +206,7 @@ export default {
     float: left;
     position: absolute;
     left: 50%;
-    top: 15%;
+    top: 10%;
     border: solid 3px #00bebd;
     border-radius: 10px;
 }
@@ -242,7 +261,6 @@ export default {
     font-size: larger;
     border-radius: 10px;
     border: none;
-
 }
 
 /deep/.el-input-group__append {
@@ -324,26 +342,25 @@ export default {
     margin-right: auto;
     border-radius: 10px;
 }
-
-/deep/ .el-tabs__item {
-    font-size: 20px;
-    /* 设置你想要的字体大小 */
-}
-
+/deep/ .el-tabs__item {  
+  font-size: 20px; /* 设置你想要的字体大小 */  
+} 
 /deep/ .el-tabs__header {
-    border-radius: 15px 15px 0 0;
-    overflow: hidden;
-    /* To ensure the rounded corners are visible */
+  border-radius: 15px 15px 0 0;
+  overflow: hidden; /* To ensure the rounded corners are visible */
 }
 
 /deep/ .el-tabs__item {
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 /deep/ .el-tabs__content {
-    border-radius: 0 0 15px 15px;
-    border-top: none;
-    /* To remove the top border between tabs and content */
+  border-radius: 0 0 15px 15px;
+  border-top: none; /* To remove the top border between tabs and content */
 }
+.nodata-image{
+    height: 400px;
+}
+
 </style>
