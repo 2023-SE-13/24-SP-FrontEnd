@@ -124,4 +124,3 @@ export default {
     line-height: 30px;
   }
 </style>
->>>>>>> dev2
