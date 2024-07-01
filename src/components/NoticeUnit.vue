@@ -9,7 +9,7 @@
     <p style="top:59.5%;left: 15%">再次祝贺您！</p>
     <p style="top:69%;left: 15%">{{ letterData.company_name }}</p>
     <p style="top:73%;left: 15%">人力资源部</p>
-    <p style="top:78%;left: 15%">{{ letterData.date }}</p>
+    <p style="top:78%;left: 15%">{{ letterData.created_at }}</p>
 
     <div class="custom-btn">
       <button style="top: 82.5%; right: 50.5%" @click="accept">接受</button>
@@ -23,10 +23,10 @@ export default {
   data() {
     return {
       letterData:{
-        username:"xxx",
-        position_name: "XXX",
-        company_name: "xxx",
-        date: "2024-00-00"
+        username:"【用户】",
+        company_name: "【公司】",
+        position_name: "【岗位】",
+        created_at: "2024-00-00"
       }
     }
   },
