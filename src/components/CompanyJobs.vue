@@ -15,6 +15,8 @@
     </div>
 
     <div class="jobs-message">
+      <img src="@/assets/nodata.png" class="nodata-image" v-show="this.positionId == ''" alt="No posts"/>
+      <div v-show="this.positionId != ''">
       <h2>{{JobData.position_name}}</h2>
 
       <div class="tag-box">
@@ -28,6 +30,7 @@
       <p style="font-weight: normal">{{ JobData.position_description }}</p>
 
       <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search" @click="gotoJobView">查看更多</el-button>
+    </div>
     </div>
   </div>
 </template>
@@ -56,10 +59,13 @@ export default {
   created() {
     getPositionList(this.company_id).then(res => {
       this.JobsList = res.data
-      this.positionId = this.JobsList[0].position_id
-      getPosition(this.positionId).then(res => {
-        this.JobData = res.data
-      })
+      console.log(res.data)
+      if(res.data.length > 0) {
+        this.positionId = this.JobsList[0].position_id
+        getPosition(this.positionId).then(res => {
+          this.JobData = res.data
+        })
+      }
     })
   },
   methods: {
@@ -169,5 +175,11 @@ p {
 
 .tag i{
   margin-right: 3px;
+}
+
+.nodata-image{
+  height: 400px;
+  margin-left: 30%;
+  margin-top: 8%;
 }
 </style>
