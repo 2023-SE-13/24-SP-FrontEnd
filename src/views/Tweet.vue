@@ -61,8 +61,6 @@
       <div class="comment" >
           <CommentUnit v-for="(comment_id, index) in comment_idList" :key="index" :comment_id="comment_id"></CommentUnit>
       </div>
-      <p v-if="loading">加载中...</p>
-      <p v-if="noMore">没有更多了</p>
     </div>
   </div>
 </template>
@@ -101,9 +99,6 @@ export default {
     };
   },
   computed: {
-    noMore () {
-      return this.comment_count >= this.comment_number
-    },
     disabled () {
       return this.loading || this.noMore
     }
