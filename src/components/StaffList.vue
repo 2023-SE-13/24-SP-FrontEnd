@@ -1,9 +1,12 @@
 <template>
     <div class="staff-list scrollable">
-            <span>管理员</span>
-            <StaffUnit v-for="(adminStaff,index) in adminList" :key="index" :staff-data="adminStaff"></StaffUnit>
-            <span>员工</span>
-            <StaffUnit v-for="(normalStaff,index) in staffList" :key="index" :staff-data="normalStaff"></StaffUnit>
+        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+        <span>管理员</span>
+        <StaffUnit v-for="(adminStaff, index) in adminList" :key="index" :staff-data="adminStaff"></StaffUnit>
+        <span>员工</span>
+        <StaffUnit v-for="(normalStaff, index) in staffList" :key="index" :staff-data="normalStaff"></StaffUnit>
 
     </div>
 </template>
@@ -13,31 +16,30 @@ import { getCompanyEmployee } from '@/api/api';
 export default {
     data() {
         return {
-            empList:[]
+            empList: []
         }
     },
     components: {
         StaffUnit
     },
-    created(){
-        getCompanyEmployee(localStorage.getItem("company_id")).then(res=>{
+    created() {
+        getCompanyEmployee(localStorage.getItem("company_id")).then(res => {
             console.log(res.data.data)
             this.empList = res.data.data
-            
+
         })
     },
-    computed:{
-        adminList(){
-            return this.empList.filter(item => item.role ==='Admin');
+    computed: {
+        adminList() {
+            return this.empList.filter(item => item.role === 'Admin');
         },
-        staffList(){
-            return this.empList.filter(item => item.role !=='Admin');
+        staffList() {
+            return this.empList.filter(item => item.role !== 'Admin');
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-
 .staff-list {
     display: flex;
     flex-wrap: wrap;
@@ -60,6 +62,7 @@ export default {
     font-weight: 900;
     margin-left: 15px;
 }
+
 /* 自定义滚动条样式 */
 .scrollable {
     overflow-y: auto;
