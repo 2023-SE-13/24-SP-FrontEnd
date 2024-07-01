@@ -315,7 +315,6 @@ export default {
     getUserTweet(this.user.name, this.token).then(res => {
       if (res.data.status === "success") {
         this.tweets = res.data.data;
-        console.log(this.tweets[0]);
       }
     },
         error => {

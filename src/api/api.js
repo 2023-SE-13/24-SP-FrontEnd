@@ -790,16 +790,12 @@ export function createOffer(data,token){
 
 // 管理员删除员工 
 export function deleteStaff(data, token) {
-    console.log(token)
-    data = JSON.stringify(data)
-    console.log(data)
     return service({
         method: 'post',
         url: '/company/delete_staff',
         data,
         headers: {
             'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
         }
     })
 }
@@ -815,15 +811,13 @@ export function SearchPosition(data) {
 
 // 转让管理员权限
 
-export function TransAdmin(data){
-    data = JSON.stringify(data)
+export function TransAdmin(data, token){
     return service({
         method:'post',
         url:'/company/transfer_admin',
         data,
         headers: {
             'Authorization': `Token ${token}`,
-            'Content-Type': 'application/json'
         }
     })
 }
