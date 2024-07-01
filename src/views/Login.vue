@@ -37,6 +37,7 @@
 
 <script>
 import {Login} from "@/api/api";
+import {IsAdmin} from "@/api/api";
 export default {
   data() {
     return {
@@ -77,10 +78,21 @@ export default {
       }
       console.log(form_data)
       //TODO: 发送登录请求
-      Login(form_data).then(res => {
+      Login(form_data).then(async res => {
         if (res.data.status === "success") {
           localStorage.setItem("token", res.data.token)
           localStorage.setItem("username", this.loginForm.username)
+          await IsAdmin(this.loginForm.username).then(res => {
+            if (res.data.data.is_staff) {
+              localStorage.setItem("company_id", res.data.data.company_id)
+            } else {
+              localStorage.setItem("company_id", "")
+            }
+          },
+          error => {
+            console.log(error)
+          }
+          )
           this.$router.push("/")
         }
       },

@@ -160,6 +160,19 @@
                 <i class="el-icon-edit"></i>
               </div>
             </div>
+            <div v-show="preActive === '2'" id="favorList">
+              <div id="favorCheckout">
+                <el-radio-group v-model="favorMode">
+                  <el-radio-button label="用户"></el-radio-button>
+                  <el-radio-button label="企业"></el-radio-button>
+                </el-radio-group>
+              </div>
+              <div id="favorBlock">
+                <ul id="favor_list" type="none">
+                  <li></li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -495,7 +508,8 @@ export default {
         // checkStrictly: true,
         // emitPath: false
       },
-      tweets: []
+      tweets: [],
+      favorMode: '用户'
     };
   },
   computed: {
@@ -1027,6 +1041,17 @@ export default {
 
 #shareEditBtn:hover {
   background-color: #00BEBD;
+}
+
+#favorList {
+  width: 100%;
+  height: 92%;
+  position: relative;
+  min-height: 92%;
+  max-height: 92%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #67c23a;
 }
 
 #left {
