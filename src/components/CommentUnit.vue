@@ -2,7 +2,7 @@
   <div class="comment-box">
     <div class="comment">
        <div class="author">
-         <el-avatar class="avatar" :size="50" src="../assets/photo.png"></el-avatar>
+         <el-avatar class="avatar" :size="50" :src="photo_url"></el-avatar>
        </div>
         <div class="content">
           <span class="left" style="margin-bottom: 15px">{{this.author}}</span>
@@ -14,7 +14,7 @@
           <div class="reply" v-if="this.reply !== null">
             <div v-for="item in reply" :key="item.sender" style="width: 100%;display: flex;flex-direction: row">
               <div class="author" style="width:40px">
-                <el-avatar class="avatar" :size="30" src="../assets/photo.png"></el-avatar>
+                <el-avatar class="avatar" :size="30" :src="'http://10.251.253.188/avatar/'+item.sender +'_avatar.png'"></el-avatar>
               </div>
               <div class="content" style="min-height: 40px">
                 <span class="left" style="margin-bottom: 5px">{{item.sender}} &nbsp {{item.content}}</span>
@@ -63,6 +63,7 @@ export default {
       comment_editor: '',
       reply: [],
       level: 2,
+      photo_url: ''
     }
   },
   async created() {
@@ -77,10 +78,11 @@ export default {
       }
       getComments(data).then(res => {
         if(res.data.status === "success"){
-        this.author = res.data.data.sender
-        this.comment = res.data.data.content
-        this.date = res.data.data.createTime
-        this.reply = res.data.data.children_comment
+          this.author = res.data.data.sender
+          this.photo_url = "http://10.251.253.188/avatar/"+this.author+"_avatar.png"
+          this.comment = res.data.data.content
+          this.date = res.data.data.createTime
+          this.reply = res.data.data.children_comment
         }},
         err => {console.log(err)})
       },
