@@ -832,3 +832,14 @@ export function addStaff(token, company_id) {
         data
     })
 }
+
+// 查询关注用户列表
+export function getSubscribeUser(token) {
+    return service({
+        method: 'get',
+        url: '/subscribe/get_subscribe_user',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    })
+}
