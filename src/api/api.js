@@ -26,6 +26,7 @@ export function SendCode(params) {
     })
 }
 
+//查询用户
 export function GetUserInfo(params) {
     return service({
         method: 'get',
