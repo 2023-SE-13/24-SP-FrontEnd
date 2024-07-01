@@ -12,7 +12,7 @@ export default {
   name: 'companyIntro',
   data() {
     return {
-      company_id: localStorage.getItem('company_id'),
+      company_id: localStorage.getItem('other_company_id'),
       company: {
         description: '',
       },

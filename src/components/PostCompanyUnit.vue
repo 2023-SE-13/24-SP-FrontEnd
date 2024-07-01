@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         gotoCompany(){
-          localStorage.setItem('company_id', this.postData.company_id)
+          localStorage.setItem('other_company_id', this.postData.company_id)
           this.$router.push("/company");
         }
     }

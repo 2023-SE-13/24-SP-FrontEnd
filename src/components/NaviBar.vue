@@ -75,6 +75,7 @@ export default {
                     this.enterpriseLink = res.data.data.is_staff ? "/company-temp" : "/company-register";
                     if (res.data.data.role === "Staff") {
                         this.enterpriseLink = "/company";
+                        localStorage.setItem('other_company_id',res.data.data.company_id)
                     }
                     this.updateNaviUnits();
                 }

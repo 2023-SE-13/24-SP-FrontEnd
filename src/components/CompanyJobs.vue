@@ -52,7 +52,7 @@ export default {
       JobsList: [
       ],
       JobData: {},
-      company_id: localStorage.getItem('company_id'),
+      company_id: localStorage.getItem('other_company_id'),
       positionId: ''
     };
   },
