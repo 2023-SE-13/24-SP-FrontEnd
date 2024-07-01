@@ -76,7 +76,7 @@ export default {
       })
     },
     gotoTweet() {
-      updateNotification(localStorage, this.NoticeData.notification_id, 1).then(res => {
+      updateNotification(localStorage.getItem("token"), this.NoticeData.notification_id, 1).then(res => {
         if (res.data.status === "success") {
           const resolved = this.$router.resolve({name: 'Tweet', params: {id: this.NoticeData.tweet_id}});
           window.open(resolved.href, '_blank');
