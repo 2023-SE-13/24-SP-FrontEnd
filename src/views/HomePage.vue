@@ -231,7 +231,7 @@ export default {
                     this.user.position = res.data.data.position;
                     this.user.workYear = res.data.data.work_year;
                     this.user.is_staff = res.data.data.is_staff;
-                    const json = JSON.stringify(this.user);
+                    // const json = JSON.stringify(this.user);
                     // console.log(json);
                     // this.defaultUser = JSON.parse(json);
                 }
@@ -316,7 +316,7 @@ export default {
                                 this.user.position = res.data.data.position;
                                 this.user.workYear = res.data.data.work_year;
                                 this.user.is_staff = res.data.data.is_staff;
-                                const json = JSON.stringify(this.user);
+                                // const json = JSON.stringify(this.user);
                                 // console.log(json);
                                 // this.defaultUser = JSON.parse(json);
                             }

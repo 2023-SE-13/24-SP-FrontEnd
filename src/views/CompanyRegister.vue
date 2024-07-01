@@ -168,7 +168,7 @@ button:hover {
 
 <script>
 import { registCompany, getUser, uploadLogo } from "@/api/api";
-import { Message } from 'element-ui';
+
 
 export default {
   data() {
