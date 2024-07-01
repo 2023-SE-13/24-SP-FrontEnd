@@ -25,7 +25,7 @@
       <p style="top: 34%;">{{ NoticeData.tweet_content }}</p>
 
       <div v-show="NoticeData.tweet_photo != null">
-        <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo" ></el-avatar>
+        <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo"></el-avatar>
       </div>
 
       <p style="top: 69%;">{{ NoticeData.created_at }}</p>

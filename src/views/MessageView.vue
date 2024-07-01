@@ -102,7 +102,6 @@ export default {
   },
   components : { NoticeUnit },
   created() {
-    // this.loadGroupList();
     getUserMessage('ALL', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
@@ -114,11 +113,13 @@ export default {
       this.startChat(localStorage.getItem('hrname'))
       localStorage.removeItem("hrname")
     }
+    // this.loadGroupList();
     this.getGroupList();
   },
   methods: {
     // 装载群组列表
     joinGroup(groupId) {
+      console.log('!!!!!!!!!!!!!!!!!!@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!')
       if (!this.stompClient) {
         console.error("stompClient is not initialized.");
         return;
@@ -131,41 +132,71 @@ export default {
           console.log(`Received message from group ${groupId}: `, message);
           // 在这里你可以更新你的 UI
           component.messageList.push(message);
+          console.log('发送新消息已添加至消息列表！！！！！！！！！！')
           component.scrollToLatestMessage();
         }
       );
+      console.log('已订阅：',groupId)
     },
     loadGroupList() {
+      console.log('load group list#####################')
       for (let i = 0; i < this.groupList.length; i++) {
         this.joinGroup(this.groupList[i].conversation_id);
       }
     },
     // 页面创建之初加载聊天列表
+    // getGroupList() {
+    //   if(!localStorage.getItem('token')) {
+    //     console.log('token为空，请先登录')
+    //   }
+    //   else {
+    //     try {
+    //       getConversation(localStorage.getItem('token')).then(res => {
+    //         this.groupList = res.data
+    //         this.$nextTick(() => {
+    //           const groupItems = document.querySelectorAll(".group-item");
+    //           for (let i = 0; i < groupItems.length; i++) {
+    //             groupItems[i].style.opacity = "0";
+    //             groupItems[i].style.transform = "translateY(70vh)";
+    //             setTimeout(() => {
+    //               groupItems[i].style.opacity = "1";
+    //               groupItems[i].style.transform = "translateY(0)";
+    //             }, i * 150);
+    //           }
+    //         });
+    //       })
+    //     } catch (error) {
+    //       console.error("Error fetching groupList:", error);
+    //     }
+    //   }
+    // },
     getGroupList() {
-      if(!localStorage.getItem('token')) {
-        console.log('token为空，请先登录')
+    if(!localStorage.getItem('token')) {
+      console.log('token为空，请先登录')
+    }
+    else {
+      try {
+        getConversation(localStorage.getItem('token')).then(res => {
+          this.groupList = res.data
+          this.$nextTick(() => {
+            const groupItems = document.querySelectorAll(".group-item");
+            for (let i = 0; i < groupItems.length; i++) {
+              groupItems[i].style.opacity = "0";
+              groupItems[i].style.transform = "translateY(70vh)";
+              setTimeout(() => {
+                groupItems[i].style.opacity = "1";
+                groupItems[i].style.transform = "translateY(0)";
+              }, i * 150);
+            }
+          });
+          // 确保在groupList加载完成后调用loadGroupList
+          this.loadGroupList();
+        })
+      } catch (error) {
+        console.error("Error fetching groupList:", error);
       }
-      else {
-        try {
-          getConversation(localStorage.getItem('token')).then(res => {
-            this.groupList = res.data
-            this.$nextTick(() => {
-              const groupItems = document.querySelectorAll(".group-item");
-              for (let i = 0; i < groupItems.length; i++) {
-                groupItems[i].style.opacity = "0";
-                groupItems[i].style.transform = "translateY(70vh)";
-                setTimeout(() => {
-                  groupItems[i].style.opacity = "1";
-                  groupItems[i].style.transform = "translateY(0)";
-                }, i * 150);
-              }
-            });
-          })
-        } catch (error) {
-          console.error("Error fetching groupList:", error);
-        }
-      }
-    },
+    }
+  },
     // 加载联系人名称
     groupName(conversation) {
       if (conversation.user1_uname !== this.user_name) {
@@ -196,20 +227,23 @@ export default {
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
       this.NoticeData = selectedGroup
-      let data = {
-        tweet_id: this.NoticeData.tweet_id
-      };
-      getTweetDetail(data, localStorage.getItem('token')).then(res => {
-        console.log(res.data.data)
-        this.NoticeData.tweet_content = res.data.data.text_content.length > 20
-            ? res.data.data.text_content.substring(0, 60) + '...'
-            : res.data.data.text_content;
-        if(res.data.data.photos[0] != null) {
-          this.NoticeData.tweet_photo = "http://10.251.253.188/tweetphoto/" + res.data.data.photos[0]
-        } else {
-          this.NoticeData.tweet_photo = null
-        }
-      })
+      console.log(selectedGroup)
+      if(this.NoticeData.tweet_id != '') {
+        let data = {
+          tweet_id: this.NoticeData.tweet_id
+        };
+        getTweetDetail(data, localStorage.getItem('token')).then(res => {
+          console.log(res.data.data)
+          this.NoticeData.tweet_content = res.data.data.text_content.length > 20
+              ? res.data.data.text_content.substring(0, 60) + '...'
+              : res.data.data.text_content;
+          if(res.data.data.photos[0] != null) {
+            this.NoticeData.tweet_photo = "http://10.251.253.188/tweetphoto/" + res.data.data.photos[0]
+          } else {
+            this.NoticeData.tweet_photo = null
+          }
+        })
+      }
     },
     // 加载聊天内容
     // loadConversation() {
