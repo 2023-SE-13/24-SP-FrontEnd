@@ -6,10 +6,11 @@
                 <span class="comp-name">{{staffData.user.real_name}}</span>
                 <span v-if="staffData.role === 'Admin'" class="sub-num">管理员</span>
                 <span v-else class="sub-num">员工</span>
-                <span class="sub-num">工龄:10年</span>
+                <!-- <span class="sub-num">工龄:10年</span> -->
             </div>
             <div>
                 <el-button>开除</el-button>
+                <el-button>设置为管理员</el-button>
             </div>
         </div>
         <div class="lower-box">
