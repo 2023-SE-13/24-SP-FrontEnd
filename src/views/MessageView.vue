@@ -396,15 +396,15 @@ export default {
   transition: opacity 1s ease, transform 1s ease;
   /* border: 2px solid rgb(0, 0, 0); */
   /* border-radius: 7px; */
-  border-bottom: 1px solid black; /* 设置下边框的样式 */
+  border-bottom: 1px solid #d6f5fc; /* 设置下边框的样式 */
   border-top: none;   /* 确保其他边框不显示 */
   border-left: none;
   border-right: none;
 }
 
 .group-item:hover {
-  background-color: rgba(197, 255, 236, 0.336);
-  border-bottom: 2px solid black; /* 设置下边框的样式 */
+  background-color: #dcf9ff;
+  border-bottom: 2px solid #bbf3ff; /* 设置下边框的样式 */
   border-top: none;   /* 确保其他边框不显示 */
   border-left: none;
   border-right: none;
