@@ -8,6 +8,8 @@
             <span>{{ applyData.applied_at }}</span>
         </div>
         <div class="apply-actions">
+            <el-button plain  class="action-button">私信</el-button>
+
             <el-button plain @click="showInfo" class="action-button">查看信息</el-button>
             <el-button plain @click="refuseApp" class="action-button">拒绝</el-button>
             <el-button plain @click="acceptApp" class="action-button">接受</el-button>

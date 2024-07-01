@@ -325,8 +325,8 @@ export default {
     display: inline-block;
     float: right;
     position: relative;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
 }
 
 .navi-inner .photo .el-avatar {
