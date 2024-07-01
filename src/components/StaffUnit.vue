@@ -56,6 +56,9 @@ export default {
                 message: '开除失败',
                 type: 'warning'
             });
+            setTimeout(() => {
+                location.reload()
+            }, 1000)
         })
     },
     Trans(){
@@ -69,9 +72,12 @@ export default {
             if(res.data.status === "success") {
                 this.$notify({
                     title: '提示',
-                    message: '设置成功',
+                    message: '管理员身份转换成功',
                     type: 'success'
                 });
+                setTimeout(() => {
+                    location.reload()
+                }, 1000)
             }
         },
         error => {
