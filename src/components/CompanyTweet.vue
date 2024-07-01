@@ -12,14 +12,13 @@
           </ul>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
 
-import {getCompanyTweetList} from "@/api/api";
+import { getCompanyTweetList } from "@/api/api";
 import TweetUnit from "@/components/TweetUnit.vue";
 
 export default {
@@ -36,7 +35,8 @@ export default {
   created() {
     getCompanyTweetList(this.company_id).then(res => {
       this.tweets = res.data.data;
-      console.log(this.tweets);
+      console.log(this.tweets)
+      console.log(localStorage.getItem('token'))
     })
   }
 };

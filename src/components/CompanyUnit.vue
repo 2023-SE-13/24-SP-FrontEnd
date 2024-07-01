@@ -17,7 +17,7 @@
 export default {
     data() {
         return {
-            photoSrc: require('../assets/photo.png')
+            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png`
         }
     },
     props: {
@@ -83,7 +83,7 @@ export default {
 }
 
 .company-unit:hover {
-    box-shadow: 10px 10px 20px 0px rgba(98, 92, 92, 0.3);
+    box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
 
 .el-avatar {
