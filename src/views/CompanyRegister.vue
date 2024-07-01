@@ -191,7 +191,7 @@ export default {
           type: 'success'
         })
         getUser(localStorage.getItem('username')).then(res => {
-          if (res.data.data.company_id && res.data.data.role === "Creator") {
+          if (res.data.data.company_id && res.data.data.role === "Admin") {
             localStorage.setItem('company_id', res.data.data.company_id);
           }
           this.$router.push("/company-editor");
