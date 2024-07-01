@@ -216,6 +216,10 @@ export default {
         PostPositionUnit, PostCompanyUnit, PostUserUnit
     },
     async created() {
+        console.log(localStorage.getItem("username"))
+        GetUserInfo(localStorage.getItem("username")).then(res=>{
+            console.log(res)
+        })
         this.token = localStorage.getItem("token");
         if (localStorage.getItem("username") != null) {
             await GetUserInfo(localStorage.getItem("username")).then(res => {
