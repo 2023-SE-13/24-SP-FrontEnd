@@ -378,23 +378,31 @@ export function getPosition(position_id) {
 
 // 获取关注的企业和用户
 export function getRecommendSubscribe(token) {
+    const headers = {};
+    if (token) {
+        headers['Authorization'] = `Token ${token}`;
+    } else {
+        headers['Authorization'] = '';
+    }
     return service({
         method: 'get',
         url: '/recommend/recommend_subscribe',
-        headers: {
-            'Authorization': `Token ${token}`
-        }
+        headers: headers
     });
 }
 
 // 获取
 export function getRecommendPosition(token) {
+    const headers = {};
+    if (token) {
+        headers['Authorization'] = `Token ${token}`;
+    } else {
+        headers['Authorization'] = '';
+    }
     return service({
         method: 'get',
         url: '/recommend/recommend_position',
-        headers: {
-            'Authorization': `Token ${token}`
-        }
+        headers: headers
     });
 }
 
@@ -654,17 +662,16 @@ export function updateOffer(token, offer_id, state) {
 
 // 更新通知已读状态
 export function updateNotification(token, notification_id, is_read) {
-    let data = {
-        "notification_id": notification_id,
-        "is_read": is_read
-    }
     return service({
         method: 'put',
         url: '/notification/update_notification',
         headers: {
             'Authorization': `Token ${token}`,
         },
-        data
+        data: {
+            notification_id,
+            is_read
+        }
     })
 }
 
