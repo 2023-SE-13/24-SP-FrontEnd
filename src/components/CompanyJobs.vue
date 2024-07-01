@@ -106,9 +106,9 @@ export default {
   background-color: #ffffff;
   padding: 0 25px 15px 15px;
   border-radius: 12px;
-  width: 62%;
+  width: 61.5%;
   margin-left: 3.5%;
-  margin-right: 4%;
+  margin-right: 4.27%;
   position: sticky;
 }
 
