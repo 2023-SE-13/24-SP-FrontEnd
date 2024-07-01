@@ -16,7 +16,8 @@
         <div class="right-box scrollable">
 
             <template v-if="applyList.length > 0">
-                <ApplyUnit @acceptApp="handleAccept" @refuseApp="handleRefuse" @showInfo="handleShowInfo" v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
+                <ApplyUnit @acceptApp="handleAccept" @refuseApp="handleRefuse" @showInfo="handleShowInfo"
+                    v-for="(apply, index) in applyList" :key="index" :apply-data="apply"></ApplyUnit>
             </template>
             <template v-else>
                 <img src="@/assets/empty.png" alt="No posts" class="empty-image" />
@@ -170,16 +171,16 @@
 
         <el-dialog title="应聘者信息" :visible.sync="dialogVisible3" width="50%" :before-close="handleClose">
             <div id="postMan" style="width: 100%;height:100%;">
-                <el-avatar :size="70" :src="this.photoUrl" >头像</el-avatar>
+                <el-avatar :size="70" :src="this.photoUrl">头像</el-avatar>
                 <div id="postMan_content">
-                  <div class="half_part">
-                      <span style="margin-left: 20px;margin-bottom: 10px">姓名：{{this.postMan.real_name}}</span>
-                      <span style="margin-left: 20px">学历：{{this.postMan.education}}</span>
-                  </div>
-                  <div class="half_part" style="width:70%">
-                      <span style="margin-bottom: 10px">期望职位：{{this.postMan.desired_position}}</span>
-                      <span>邮箱：{{this.postMan.email}}</span>
-                  </div>
+                    <div class="half_part">
+                        <span style="margin-left: 20px;margin-bottom: 10px">姓名：{{ this.postMan.real_name }}</span>
+                        <span style="margin-left: 20px">学历：{{ this.postMan.education }}</span>
+                    </div>
+                    <div class="half_part" style="width:70%">
+                        <span style="margin-bottom: 10px">期望职位：{{ this.postMan.desired_position }}</span>
+                        <span>邮箱：{{ this.postMan.email }}</span>
+                    </div>
                 </div>
                 <div class="resume">
                     <el-link type="primary" :underline="false" @click="openResume()">查看简历</el-link>
@@ -198,8 +199,8 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
-import {IsAdmin} from "@/api/api";
-import { getPositionList, createPost, deletePost, getPostApply,GetUserInfo,refuseApply,createOffer } from '@/api/api'
+import { IsAdmin } from "@/api/api";
+import { getPositionList, createPost, deletePost, getPostApply, GetUserInfo, refuseApply, createOffer } from '@/api/api'
 export default {
     data() {
         return {
@@ -420,30 +421,45 @@ export default {
         })
     },
     methods: {
-        handleAccept(value){
+        handleAccept(value) {
             console.log(value)
-            let apply = {"application_id":value}
-            createOffer(apply,localStorage.getItem("token")).then(res=>{
+            let apply = { "application_id": value }
+            createOffer(apply, localStorage.getItem("token")).then(res => {
                 console.log(res)
+                this.$notify({
+                    title: "提示",
+                    message: "已发送offer!",
+                    type: "success"
+                });
+                setTimeout(() => {
+                    location.reload()
+                }, 1000)
             })
         },
-        handleRefuse(value){
+        handleRefuse(value) {
             console.log(value)
-            let apply = {"application_id":value}
-            refuseApply(apply,localStorage.getItem("token")).then(res=>{
+            let apply = { "application_id": value }
+            refuseApply(apply, localStorage.getItem("token")).then(res => {
                 console.log(res)
-                this.$router.go(0)
+                this.$notify({
+                    title: "提示",
+                    message: "已拒绝该申请!",
+                    type: "success"
+                });
+                setTimeout(() => {
+                    location.reload()
+                }, 1000)
             })
         },
         handleShowInfo(value) {
             console.log(value)
             this.dialogVisible3 = true
-            GetUserInfo(value).then(res=>{
+            GetUserInfo(value).then(res => {
                 this.postMan = res.data.data
-                this.photoUrl = 'http://10.251.253.188/avatar/'+this.postMan.username+'_avatar.png'
+                this.photoUrl = 'http://10.251.253.188/avatar/' + this.postMan.username + '_avatar.png'
                 this.postMan.desired_position = this.postMan.desired_position.map(item => [item.category, item.specialization])
                 this.postMan.desired_position = this.postMan.desired_position.map(position => position.join('-')).join(' | ')
-                this.resumeUrl = "http://10.251.253.188/resume/"+this.postMan.username+"_resume.pdf"
+                this.resumeUrl = "http://10.251.253.188/resume/" + this.postMan.username + "_resume.pdf"
             })
         },
         handleGetApply(value) {
@@ -597,17 +613,17 @@ export default {
             this.clearPostForm();
             this.dialogVisible = true
         },
-        openResume(){
-           if(this.postMan.resume_uploaded){
-             window.open(this.resumeUrl)
-           }
-           else{
-             this.$notify({
-               title: "提示",
-               message: "该用户未上传简历",
-               type: "warning"
-             });
-           }
+        openResume() {
+            if (this.postMan.resume_uploaded) {
+                window.open(this.resumeUrl)
+            }
+            else {
+                this.$notify({
+                    title: "提示",
+                    message: "该用户未上传简历",
+                    type: "warning"
+                });
+            }
         },
         createPost() {
             this.postForm.position_tag = {
@@ -627,10 +643,10 @@ export default {
                     });
                 }
                 getPositionList(localStorage.getItem("company_id")).then(res => {
-                console.log(localStorage.getItem("company_id"))
-                console.log(res.data)
-                this.postList = res.data
-            })
+                    console.log(localStorage.getItem("company_id"))
+                    console.log(res.data)
+                    this.postList = res.data
+                })
             },
                 error => {
                     if (error.response.status === 400) {
@@ -762,27 +778,27 @@ export default {
     /* 滚动条滑块悬停背景 */
 }
 
-#postMan{
-  display: flex;
-  flex-direction: row;
-  justify-items: center;
-  align-items: center;
+#postMan {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
 }
 
-#postMan_content{
-  width: calc(80% - 60px);
-  display: flex;
-  flex-direction: row;
-  justify-items: flex-start;
-  align-items: center;
+#postMan_content {
+    width: calc(80% - 60px);
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: center;
 }
 
-.half_part{
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif!important;
-  font-size: 20px;
+.half_part {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif !important;
+    font-size: 20px;
 }
 </style>

@@ -10,7 +10,7 @@
 export default {
     data() {
         return {
-          company_logo: `http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png`
+          company_logo: `http://10.251.253.188/logo/${this.postData.company_id}_image.png`
           //company_logo: require('../assets/photo.png')
         }
     },
@@ -20,7 +20,9 @@ export default {
       }
     },
     methods: {
+        
         gotoCompany(){
+            console.log(this.postData)
           localStorage.setItem('other_company_id', this.postData.company_id)
           this.$router.push("/company");
         }
