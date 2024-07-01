@@ -18,7 +18,7 @@
                             class="el-icon-delete"></i></el-button>
                 </el-tooltip>
                 <el-tooltip content="转让管理员权限" placement="bottom">
-                    <el-button id="trans" circle v-if="staffData.role !== 'Admin'"><i
+                    <el-button @click="transAdmin" id="trans" circle v-if="staffData.role !== 'Admin'"><i
                             class="el-icon-sort"></i></el-button>
                 </el-tooltip>
             </div>
@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import { deleteStaff } from '@/api/api';
+import { deleteStaff,TransAdmin} from '@/api/api';
 export default {
     data() {
         return {
@@ -50,6 +50,16 @@ export default {
             deleteStaff(data,localStorage.getItem('token')).then(res=>{
                 console.log(res)
             })
+        },
+        transAdmin(){
+            let data = {
+                "username":this.staffData.user.username,
+                "company_id": this.staffData.user.company_id
+            }
+            TransAdmin(data,localStorage.getItem('token')).then(res=>{
+                console.log(res)
+            })
+            // TransAdmin()
         }
     }
 }
