@@ -380,7 +380,7 @@ ul {
   border-radius: 8px;
   box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.05);
   background-color: azure;
-  padding-top: 30px;
+  /* padding-top: 30px; */
 }
 
 .message-background-color {
