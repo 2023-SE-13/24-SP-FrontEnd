@@ -12,7 +12,7 @@
                 <span style="position: relative;left: 5%">{{ user.name }}</span>
                 <span v-if="!isSelf && !isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="changeFavor"><i class="el-icon-plus"> 关注</i></span>
                 <span v-if="!isSelf && isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" id="isFavor" @click="changeFavor"><i class="el-icon-s-operation">已关注</i></span>
-                <span v-if="!isSelf" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="chat"><i class="el-icon-chat-dot-round">私信</i></span>
+                <span v-if="!isSelf && isUser" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="chat"><i class="el-icon-chat-dot-round">私信</i></span>
               </div>
               <div id="userDesired">
                 <span>期望岗位: {{ formattedDesiredPosition }}</span>
@@ -250,6 +250,9 @@ export default {
   },
   mounted() {
     this.token = localStorage.getItem("token");
+    if(this.token === null){
+      this.isUser = false;
+    }
     this.user.name = this.$route.params.name;
     let string = "http://10.251.253.188/avatar/"+this.user.name+"_avatar.png"
     this.photo_url = string;
@@ -345,6 +348,7 @@ export default {
       photo_file: null,
       isSelf: false,
       isFavor: false,
+      isUser: true,
       favor_mode: true,
       user: {
         real_name: "张三",
