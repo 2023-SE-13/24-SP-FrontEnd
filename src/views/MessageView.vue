@@ -101,7 +101,7 @@ export default {
     };
   },
   components : { NoticeUnit },
-  created() {
+  async created() {
     getUserMessage('ALL', localStorage.getItem('token')).then(res => {
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
@@ -110,7 +110,7 @@ export default {
     })
 
     if(localStorage.getItem('hrname')) {
-      this.startChat(localStorage.getItem('hrname')).then(()=> {
+      await this.startChat(localStorage.getItem('hrname')).then(()=> {
         // localStorage.removeItem("hrname")
         console.log('startChat 已完成！！！！！！！')
       })
