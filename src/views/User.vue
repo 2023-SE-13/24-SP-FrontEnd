@@ -12,6 +12,7 @@
                 <span style="position: relative;left: 5%">{{ user.name }}</span>
                 <span v-if="!isSelf && !isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="changeFavor"><i class="el-icon-plus"> 关注</i></span>
                 <span v-if="!isSelf && isFavor" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" id="isFavor" @click="changeFavor"><i class="el-icon-s-operation">已关注</i></span>
+                <span v-if="!isSelf" style="position: relative;left: 7%;width: 20%;height: 60%" class="favor" @click="chat"><i class="el-icon-chat-dot-round">私信</i></span>
               </div>
               <div id="userDesired">
                 <span>期望岗位: {{ formattedDesiredPosition }}</span>
@@ -502,6 +503,10 @@ export default {
     }
   },
   methods: {
+    chat() {
+      localStorage.setItem("hrname", this.user.name);
+      this.$router.push("/message" );
+    },
     handleBefore(file) {
       //只能上传pdf格式
       const isPDF = file.type === 'application/pdf';
