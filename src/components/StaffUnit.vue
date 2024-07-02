@@ -132,7 +132,8 @@ export default {
     color: #333;
     // margin-top: -20px;
     text-overflow: ellipsis;
-    max-width: 100px;
+    overflow: hidden;
+    max-width: 150px;
     // min-width: 150px;
     // min-width: 100px;
     text-wrap: nowrap;
