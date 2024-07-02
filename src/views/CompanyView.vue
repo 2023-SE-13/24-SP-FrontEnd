@@ -193,7 +193,10 @@ export default {
               type: 'success',
               message: '成功退出该企业!'
             });
-            this.$router.push("/main");
+            
+            setTimeout(() => {
+              this.$router.push("/main").then(location.reload());
+                }, 1000)
           }
         }).catch(error => {
           if (error.response && error.response.status === 405) {
