@@ -53,6 +53,9 @@ export default {
                         message: '开除成功',
                         type: 'success'
                     });
+                  setTimeout(() => {
+                    location.reload()
+                  }, 1000)
                 }
             },
                 error => {
@@ -61,9 +64,6 @@ export default {
                         message: '开除失败',
                         type: 'warning'
                     });
-                    setTimeout(() => {
-                        location.reload()
-                    }, 1000)
                 })
         },
         Trans() {
