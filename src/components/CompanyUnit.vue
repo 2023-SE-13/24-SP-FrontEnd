@@ -17,7 +17,7 @@
 export default {
     data() {
         return {
-            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem("cther_company_id")}_image.png`
+            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem("other_company_id")}_image.png`
         }
     },
     props: {
