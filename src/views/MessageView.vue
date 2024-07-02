@@ -325,22 +325,37 @@ export default {
       this.scrollToLatestMessage(); // 确保方法调用正确
     },
 
-    startChat(username) {
+    // startChat(username) {
+    //   try {
+    //     let id = '';
+    //     createConversation(localStorage.getItem('token'), username).then(res => {
+    //       id = res.data.conversation_id
+    //       this.conversation_id = id
+    //       getConversationById(localStorage.getItem('token'), id).then(res => {
+    //         this.conversation = res.data
+    //         this.isNotice = false
+    //         this.selectGroup(this.conversation)
+    //       })
+    //     })
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
+
+    async startChat(username) {
       try {
         let id = '';
-        createConversation(localStorage.getItem('token'), username).then(res => {
-          id = res.data.conversation_id
-          this.conversation_id = id
-          getConversationById(localStorage.getItem('token'), id).then(res => {
-            this.conversation = res.data
-            this.isNotice = false
-            this.selectGroup(this.conversation)
-          })
-        })
+        const res = await createConversation(localStorage.getItem('token'), username);
+        id = res.data.conversation_id;
+        this.conversation_id = id;
+        const conversationRes = await getConversationById(localStorage.getItem('token'), id);
+        this.conversation = conversationRes.data;
+        this.isNotice = false;
+        this.selectGroup(this.conversation);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    },
   },
   mounted() {
     console.log("Mounted hook executed");
