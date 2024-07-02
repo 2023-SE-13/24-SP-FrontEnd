@@ -1,22 +1,27 @@
 <template>
   <div class="notice">
     <div v-show="NoticeData.notification_type === 'system'">
-      <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.realname }}：</p>
-      <p style="top:25%;left: 15%">您好！</p>
-      <p style="top:33.5%;left: 15%">我们非常高兴地通知您，经过公司严格的评估，您已被录用为我司{{
-          NoticeData.position_name
-        }}职位。</p>
-      <p style="top:38%;left: 15%">恭喜您！</p>
-      <p style="top:46.5%;left: 15%">我们期待您的加入，并相信您的才能和经验将为公司的发展注入新的活力。</p>
-      <p style="top:51.2%;left: 15%">如果您有任何疑问或需要进一步的信息，请随时与我们联系。</p>
-      <p style="top:59.5%;left: 15%">再次祝贺您！</p>
-      <p style="top:69%;left: 15%">{{ NoticeData.company_name }}</p>
-      <p style="top:73%;left: 15%">人力资源部</p>
-      <p style="top:78%;left: 15%">{{ NoticeData.created_at }}</p>
-
-      <div class="custom-btn" v-show="NoticeData.is_read == 0">
-        <button style="top: 82.5%; right: 50.5%" @click="accept">接受</button>
-        <button style="top: 82.5%; right: 42.5%" @click="refuse">拒绝</button>
+      <div v-show="NoticeData.offer_id != ''">
+        <p style="top:20.5%;left: 15%">尊敬的{{ NoticeData.realname }}：</p>
+        <p style="top:25%;left: 15%">您好！</p>
+        <p style="top:33.5%;left: 15%">我们非常高兴地通知您，经过公司严格的评估，您已被录用为我司{{ NoticeData.position_name }}职位。</p>
+        <p style="top:38%;left: 15%">恭喜您！</p>
+        <p style="top:46.5%;left: 15%">我们期待您的加入，并相信您的才能和经验将为公司的发展注入新的活力。</p>
+        <p style="top:51.2%;left: 15%">如果您有任何疑问或需要进一步的信息，请随时与我们联系。</p>
+        <p style="top:59.5%;left: 15%">再次祝贺您！</p>
+        <p style="top:69%;left: 15%">{{ NoticeData.company_name }}</p>
+        <p style="top:73%;left: 15%">人力资源部</p>
+        <p style="top:78%;left: 15%">{{ NoticeData.created_at }}</p>
+        <div class="custom-btn" v-show="NoticeData.is_read == 0">
+          <button style="top: 82.5%; right: 50.5%" @click="accept">接受</button>
+          <button style="top: 82.5%; right: 42.5%" @click="refuse">拒绝</button>
+        </div>
+      </div>
+      <div v-show="NoticeData.offer_id == ''">
+        <p style="top:33.5%;left: 15%">{{ NoticeData.content }}。</p>
+        <div class="custom-btn">
+        <button style="top: 60.5%; right: 44%" @click="gotoCompany">前往认证</button>
+        </div>
       </div>
     </div>
 
@@ -88,6 +93,10 @@ export default {
           window.open(resolved.href, '_blank');
         }
       })
+    },
+    gotoCompany(){
+      localStorage.setItem('other_company_id', this.NoticeData.company_id)
+      this.$router.push("/company");
     }
   }
 }

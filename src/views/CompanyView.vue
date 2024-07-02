@@ -120,7 +120,7 @@ export default {
             message: '成功加入该企业！',
             type: 'success'
           })
-          this.$router.push("/company");
+          window.location.reload();
         }
       }).catch(error => {
         console.log("验证加入企业失败", error);
