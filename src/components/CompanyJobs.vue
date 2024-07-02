@@ -6,11 +6,13 @@
         <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs" :position-id="positionId" @click.native="showJobView(jobs.position_id)"></JobUnit>
       </div>
       <el-pagination
+          v-model:currentPage="currentPage"
           :page-size="pageSize"
           :pager-count="7"
           layout="prev, pager, next"
           :total="JobsList.length"
-          style="position: absolute; top: 92%">
+          @current-change="handlePageChange"
+          class="pagination">
       </el-pagination>
     </div>
 
@@ -48,9 +50,8 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 4,
-      JobsList: [
-      ],
+      pageSize: 3,
+      JobsList: [],
       JobData: {},
       company_id: localStorage.getItem('other_company_id'),
       positionId: ''
@@ -80,6 +81,9 @@ export default {
     gotoJobView(){
       localStorage.setItem('position_id',this.JobData.position_id)
       this.$router.push('/PostView/' + this.JobData.position_id);
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
     }
   },
   computed: {
@@ -181,5 +185,10 @@ p {
   height: 400px;
   margin-left: 30%;
   margin-top: 8%;
+}
+
+.pagination {
+  position: absolute;
+  top: 92%;
 }
 </style>
