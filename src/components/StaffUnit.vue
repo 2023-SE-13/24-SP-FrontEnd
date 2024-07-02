@@ -53,6 +53,9 @@ export default {
                         message: '开除成功',
                         type: 'success'
                     });
+                  setTimeout(() => {
+                    location.reload()
+                  }, 1000)
                 }
             },
                 error => {
@@ -61,9 +64,6 @@ export default {
                         message: '开除失败',
                         type: 'warning'
                     });
-                    setTimeout(() => {
-                        location.reload()
-                    }, 1000)
                 })
         },
         Trans() {
@@ -132,7 +132,8 @@ export default {
     color: #333;
     // margin-top: -20px;
     text-overflow: ellipsis;
-    max-width: 100px;
+    overflow: hidden;
+    max-width: 150px;
     // min-width: 150px;
     // min-width: 100px;
     text-wrap: nowrap;
