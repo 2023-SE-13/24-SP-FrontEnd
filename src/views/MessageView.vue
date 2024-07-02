@@ -110,8 +110,9 @@ export default {
     })
 
     if(localStorage.getItem('hrname')) {
-      this.startChat(localStorage.getItem('hrname'))
-      localStorage.removeItem("hrname")
+      this.startChat(localStorage.getItem('hrname')).then(()=> {
+        localStorage.removeItem("hrname")
+      })
     }
     // this.loadGroupList();
     this.getGroupList();
@@ -348,7 +349,9 @@ export default {
     this.stompClient.onConnect = (frame) => {
       console.log("Connected: " + frame);
       // 在连接成功后执行相关操作
-      this.loadGroupList();
+      this.$nextTick(() => {
+        this.loadGroupList();
+      });
     };
     this.stompClient.activate();
   },
