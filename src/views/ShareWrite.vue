@@ -94,17 +94,11 @@ export default {
         type: "info"
       }).then(() => {
         const formData = new FormData();
-        for(let i = 0; i < this.imgList.length; i++) {
+        for(let i = 0; i < this.imgList.length ; i++) {
           const file = this.imgList[i];
-          const reader = new FileReader();
-          reader.readAsDataURL(file.raw);
-          reader.onload = () => {
-            file.url = reader.result;
-          }
           this.imgList[i] = file.raw;
+          formData.append("photos", this.imgList[i]);
         }
-        console.log(this.imgList);
-        formData.append("photos", this.imgList[0]);
         formData.append("text_content", this.shareContent);
         publishTweet(formData, this.token).then(res => {
           if (res.data.status === "success") {
@@ -144,14 +138,6 @@ export default {
         this.$message.error('上传图片大小不能超过 2MB!');
       }
       if (isJPG && isLt2M) {
-        for(let i = 0; i < fileList.length; i++) {
-          const file = fileList[i];
-          const reader = new FileReader();
-          reader.readAsDataURL(file.raw);
-          reader.onload = () => {
-            file.url = reader.result;
-          }
-        }
         this.imgList = fileList;
       }
     },
@@ -165,14 +151,6 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       if (isJPG && isLt2M) {
-        for(let i = 0; i < fileList.length; i++) {
-          const file = fileList[i];
-          const reader = new FileReader();
-          reader.readAsDataURL(file.raw);
-          reader.onload = () => {
-            file.url = reader.result;
-          }
-        }
         this.imgList = fileList;
         this.imgVisible = true;
       }
