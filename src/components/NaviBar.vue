@@ -96,7 +96,7 @@ export default {
                 setTimeout(() => {
                         // location.reload()
                         location.reload()
-                    }, 500)
+                    }, 1000)
             }
             if (!localStorage.getItem('token') && (link === this.enterpriseLink || link === "/message")) {
                 this.$message({
