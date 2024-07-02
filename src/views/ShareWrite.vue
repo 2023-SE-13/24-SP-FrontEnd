@@ -99,6 +99,14 @@ export default {
           this.imgList[i] = file.raw;
           formData.append("photos", this.imgList[i]);
         }
+        if(this.shareContent === "") {
+          this.$notify({
+            title: "失败",
+            message: "请输入动态内容",
+            type: "error"
+          });
+          return;
+        }
         formData.append("text_content", this.shareContent);
         publishTweet(formData, this.token).then(res => {
           if (res.data.status === "success") {
