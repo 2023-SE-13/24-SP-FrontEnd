@@ -3,41 +3,51 @@
     <div class="jobs-list">
       <h2>招聘岗位</h2>
       <div>
-        <JobUnit v-for="(jobs,index) in paginatedJobs" :key="index" :job-data="jobs" :position-id="positionId" @click.native="showJobView(jobs.position_id)"></JobUnit>
+        <JobUnit
+            v-for="(job, index) in paginatedJobs"
+            :key="index"
+            :job-data="job"
+            :position-id="positionId"
+            @click.native="showJobView(job.position_id)">
+        </JobUnit>
       </div>
       <el-pagination
+          v-model:currentPage="currentPage"
           :page-size="pageSize"
           :pager-count="7"
           layout="prev, pager, next"
           :total="JobsList.length"
-          style="position: absolute; top: 92%">
+          @current-change="handlePageChange"
+          class="pagination">
       </el-pagination>
     </div>
 
     <div class="jobs-message">
-      <h2>{{JobData.position_name}}</h2>
+      <h2>{{ JobData.position_name }}</h2>
 
       <div class="tag-box">
         <span class="tag"><i class="el-icon-location"></i>{{ JobData.location }}</span>
         <span class="tag"><i class="el-icon-s-custom"></i>{{ JobData.education_requirement }}</span>
-<!--        <span class="tag"><i class="el-icon-s-custom"></i>本科</span>-->
       </div>
 
-      <p style="margin-top: 2%; color: red">薪酬: {{ formatSalary(JobData.salary_min) }} - {{ formatSalary(JobData.salary_max) }}</p>
+      <p class="salary">薪酬: {{ formatSalary(JobData.salary_min) }} - {{ formatSalary(JobData.salary_max) }}</p>
       <p>岗位描述:</p>
-      <p style="font-weight: normal">{{ JobData.position_description }}</p>
+      <p class="description">{{ JobData.position_description }}</p>
 
-      <el-button type="danger" style="float: left;margin-top: 2.5%; margin-left: 2.5%" class="custom-btn" icon="el-icon-search" @click="gotoJobView">查看更多</el-button>
+      <el-button
+          type="danger"
+          class="custom-btn"
+          icon="el-icon-search"
+          @click="gotoJobView">
+        查看更多
+      </el-button>
     </div>
   </div>
 </template>
 
 <script>
 import JobUnit from "@/components/JobUnit.vue";
-import {
-  getPosition,
-  getPositionList,
-} from '@/api/api';
+import { getPosition, getPositionList } from '@/api/api';
 
 export default {
   name: 'companyJobs',
@@ -45,9 +55,8 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 4,
-      JobsList: [
-      ],
+      pageSize: 3,
+      JobsList: [],
       JobData: {},
       company_id: localStorage.getItem('company_id'),
       positionId: ''
@@ -74,6 +83,9 @@ export default {
     gotoJobView(){
       localStorage.setItem('position_id',this.JobData.position_id)
       this.$router.push('/PostView/' + this.JobData.position_id);
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
     }
   },
   computed: {
@@ -82,7 +94,7 @@ export default {
       const end = start + this.pageSize;
       return this.JobsList.slice(start, end);
     }
-  },
+  }
 };
 </script>
 
@@ -120,23 +132,28 @@ export default {
   font-size: 17px;
   font-weight: bolder;
   background-color: #00cfcf;
-  border:solid 2px #00cfcf;
+  border: solid 2px #00cfcf;
   border-radius: 8px;
 }
 
 .custom-btn:hover {
-  padding: 13px 20px;
-  font-size: 17px;
-  font-weight: bolder;
   background-color: #02F1F1FF;
-  border:solid 2px #02F1F1FF;
-  border-radius: 8px;
+  border-color: #02F1F1FF;
 }
 
 h2 {
   font-size: 1.5em;
   margin-top: 5.5%;
   margin-left: 3.5%;
+}
+
+p.salary {
+  margin-top: 2%;
+  color: red;
+}
+
+p.description {
+  font-weight: normal;
 }
 
 p {
@@ -167,7 +184,12 @@ p {
   margin-bottom: 8px;
 }
 
-.tag i{
+.tag i {
   margin-right: 3px;
+}
+
+.pagination {
+  position: absolute;
+  top: 92%;
 }
 </style>
