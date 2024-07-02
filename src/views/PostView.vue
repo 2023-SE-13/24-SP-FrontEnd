@@ -10,7 +10,7 @@
                 <span class="el-icon-location"> {{ position.location }} </span> &nbsp;
                 <span class="el-icon-user"> {{ position.education_requirement }} </span>
             </div>
-            <div class="button">
+            <div v-if="isUser" class="button">
                 <el-button class="gotochat" @click="gotochat">
                     立即沟通
                 </el-button>
@@ -96,6 +96,7 @@ export default {
                 company_description: "",
                 company_name: "",
             },
+          isUser:true,
             // token: localStorage.getItem('token'),
             token: localStorage.getItem("token"),
             is_admin: false,
@@ -164,6 +165,9 @@ export default {
                     this.company.company_id = res.data.data.company_id
                 }
             })
+            if(localStorage.getItem("token") === null){
+                this.isUser = false
+            }
             //判断是不是admin，修改is_admin的值
             if (localStorage.getItem("username") === null) {
                 this.is_admin = true
