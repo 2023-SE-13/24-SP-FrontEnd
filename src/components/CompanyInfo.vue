@@ -12,7 +12,8 @@
             <p>{{ company_description }}</p>
 
         </div>
-        <el-tooltip content="编辑企业信息"><el-button circle class="edit-btn" type="text" @click="dialogVisible = true"><i class="el-icon-edit"></i></el-button></el-tooltip>
+        <el-tooltip content="编辑企业信息"><el-button circle class="edit-btn" type="text" @click="dialogVisible = true"><i
+                    class="el-icon-edit"></i></el-button></el-tooltip>
 
         <el-dialog title="编辑企业资料" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
             <el-form :model="compForm" :rules="rules" status-icon ref="compForm" label-width="100px">
@@ -143,6 +144,10 @@ export default {
                                 type: "success"
                             });
                         }
+                        setTimeout(() => {
+                            // location.reload()
+                            location.reload()
+                        }, 1000)
                     },
                         error => {
                             if (error.response.status === 401) {
@@ -162,11 +167,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.profile{
+.profile {
     position: absolute;
     top: 5%;
     left: 5%;
 }
+
 .intro-box {
     background-color: #ffffff;
     //   padding: 15px 40px 15px 45px;
@@ -178,18 +184,21 @@ export default {
     top: 30%;
     left: 5%;
 }
-.edit-btn{
+
+.edit-btn {
     position: absolute;
-    top:10%;
+    top: 10%;
     right: 5%;
     transition: 0.5s;
     width: 50px;
     height: 50px;
     font-size: 26px;
 }
-.edit-btn:hover{
+
+.edit-btn:hover {
     background-color: #e8e3e3;
 }
+
 h2 {
     font-size: 1.6em;
     margin-bottom: 10px;
