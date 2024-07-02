@@ -222,8 +222,10 @@ export default {
     },
     // 选择通知
     selectNotice(selectedGroup) {
+      console.log(selectedGroup)
       this.notification_id = selectedGroup.notification_id
       this.NoticeData = selectedGroup
+      console.log('1:' + this.NoticeData)
       if(this.NoticeData.tweet_id != '') {
         let data = {
           tweet_id: this.NoticeData.tweet_id

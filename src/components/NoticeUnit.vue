@@ -108,8 +108,8 @@ export default {
       this.$router.push("/company");
     },
     gotoPosition() {
-      localStorage.setItem('position_id',this.JobData.position_id)
-      this.$router.push('/PostView/' + this.JobData.position_id);
+      localStorage.setItem('position_id',this.NoticeData.position_id)
+      this.$router.push('/PostView/' + this.NoticeData.position_id);
     }
   }
 }
