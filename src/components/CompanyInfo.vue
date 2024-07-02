@@ -144,10 +144,13 @@ export default {
                                 type: "success"
                             });
                         }
-                        setTimeout(() => {
-                            // location.reload()
-                            location.reload()
-                        }, 1000)
+                        getCompany(localStorage.getItem('company_id')).then(res => {
+                            console.log(res.data.data)
+                            this.company_name = res.data.data.company_name
+                            this.company_description = res.data.data.company_description
+                            this.compForm.company_name = res.data.data.company_name
+                            this.compForm.company_description = res.data.data.company_description
+                        })
                     },
                         error => {
                             if (error.response.status === 401) {
