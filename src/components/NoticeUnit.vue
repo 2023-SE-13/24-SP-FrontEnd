@@ -26,17 +26,26 @@
     </div>
 
     <div class="subscribe" v-show="NoticeData.notification_type === 'subscribe'">
-      <p style="top: 25%;left: 12%">{{ NoticeData.content }}</p>
-      <p style="top: 34%;">{{ NoticeData.tweet_content }}</p>
+      <div v-show="NoticeData.position_id == ''">
+        <p style="top: 25%;left: 12%">{{ NoticeData.content }}</p>
+        <p style="top: 34%;">{{ NoticeData.tweet_content }}</p>
 
-      <div v-show="NoticeData.tweet_photo != null">
-        <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo"></el-avatar>
+        <div v-show="NoticeData.tweet_photo != null">
+          <el-avatar shape="square" :size="150" :src="NoticeData.tweet_photo"></el-avatar>
+        </div>
+
+        <p style="top: 69%;">{{ NoticeData.created_at }}</p>
+        <div class="custom-btn">
+          <button style="top: 73.2%; right: 42.5%" @click="gotoTweet">前往查看</button>
+        </div>
+      </div>
+      <div v-show="NoticeData.position_id != ''">
+        <p style="top:33.5%;left: 15%">{{ NoticeData.content }}。</p>
+        <div class="custom-btn">
+          <button style="top: 60.5%; right: 44%" @click="gotoPosition">前往查看</button>
+        </div>
       </div>
 
-      <p style="top: 69%;">{{ NoticeData.created_at }}</p>
-      <div class="custom-btn">
-        <button style="top: 73.2%; right: 42.5%" @click="gotoTweet">前往查看</button>
-      </div>
     </div>
   </div>
 </template>
@@ -97,6 +106,10 @@ export default {
     gotoCompany(){
       localStorage.setItem('other_company_id', this.NoticeData.company_id)
       this.$router.push("/company");
+    },
+    gotoPotion() {
+      localStorage.setItem('position_id',this.JobData.position_id)
+      this.$router.push('/PostView/' + this.JobData.position_id);
     }
   }
 }

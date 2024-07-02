@@ -83,7 +83,6 @@ export default {
     };
   },
   created() {
-    console.log(localStorage.getItem("company_id"))
     haveJoinCompany(localStorage.getItem('token'), this.company_id).then(res => {
       this.haveJoinCompany = res.data.status === "y";
     })
@@ -111,15 +110,13 @@ export default {
   methods: {
     joinCompany() {
       joinCompany(localStorage.getItem('token'), this.company_id).then(res => {
-        console.log(localStorage.getItem('token'))
         if (res.data.status === "success") {
-          console.log(res.data)
-          console.log("验证加入企业成功")
           this.$notify({
             title: '成功',
             message: '成功加入该企业！',
             type: 'success'
           })
+          this.haveJoinCompany = false;
           window.location.reload();
         }
       }).catch(error => {

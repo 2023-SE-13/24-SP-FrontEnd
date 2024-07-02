@@ -17,7 +17,7 @@
 export default {
     data() {
         return {
-            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem("company_id")}_image.png`
+            photoSrc: `http://10.251.253.188/logo/${localStorage.getItem("other_company_id")}_image.png`
         }
     },
     props: {
@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         gotoCompanyView() {
-            localStorage.setItem('company_id', this.companyData.company_id)
+            localStorage.setItem('other_company_id', this.companyData.company_id)
             this.$router.push("/company");
         },
     }
