@@ -165,7 +165,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible2 = false">取 消</el-button>
-                <el-button type="primary" @click="editPost()">确定修改</el-button>
+                <el-button type="primary" @click="EditPost">确定修改</el-button>
             </span>
         </el-dialog>
 
@@ -199,7 +199,7 @@
 
 import ManagePostUnit from '@/components/ManagePostUnit.vue'
 import ApplyUnit from '@/components/ApplyUnit.vue'
-import { getPositionList, createPost, deletePost, getPostApply, GetUserInfo, refuseApply, createOffer } from '@/api/api'
+import { getPositionList, createPost, deletePost, getPostApply, GetUserInfo, refuseApply, createOffer,editPost } from '@/api/api'
 export default {
     data() {
         return {
@@ -477,6 +477,10 @@ export default {
                         message: "删除成功",
                         type: "success"
                     });
+                    getPositionList(localStorage.getItem("company_id")).then(res => {
+                        // console.log(res.data)
+                        this.postList = res.data
+                    })
 
                 }
             },
@@ -489,10 +493,7 @@ export default {
                         });
                     }
                 })
-            getPositionList(localStorage.getItem("company_id")).then(res => {
-                // console.log(res.data)
-                this.postList = res.data
-            })
+
         },
         handleEditClicked(value) {
             console.log("handleEditClicked")
@@ -525,7 +526,7 @@ export default {
         convertToK(value) {
             return `${value / 1000}k`;
         },
-        editPost() {
+        EditPost() {
             this.postForm.position_tag = {
                 category: this.flatDesiredPosition[0],
                 specialization: this.flatDesiredPosition[1]
@@ -543,6 +544,10 @@ export default {
                         message: "修改成功",
                         type: "success"
                     });
+                    getPositionList(localStorage.getItem("company_id")).then(res => {
+                        // console.log(res.data)
+                        this.postList = res.data
+                    })
                 }
             },
                 error => {
