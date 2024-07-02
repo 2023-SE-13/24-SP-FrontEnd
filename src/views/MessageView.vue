@@ -111,7 +111,8 @@ export default {
 
     if(localStorage.getItem('hrname')) {
       this.startChat(localStorage.getItem('hrname')).then(()=> {
-        localStorage.removeItem("hrname")
+        // localStorage.removeItem("hrname")
+        console.log('startChat 已完成！！！！！！！')
       })
     }
     // this.loadGroupList();
@@ -369,6 +370,7 @@ export default {
       });
     };
     this.stompClient.activate();
+    localStorage.removeItem('hrname')
   },
 }
 </script>
