@@ -3,7 +3,8 @@
         <div class="upper-box">
             <el-avatar shape="square" :size="55" :src="photoSrc"></el-avatar>
             <div class="text-container">
-                <span class="comp-name">{{ staffData.user.real_name }}</span>
+                <span class="comp-name">真实姓名:{{ staffData.user.real_name }}</span>
+                <span class="comp-name">用户名: {{ staffData.user.username }}</span>
                 <span v-if="staffData.role === 'Admin'" class="sub-num">管理员</span>
                 <span v-else class="sub-num">员工</span>
                 <!-- <span class="sub-num">工龄:10年</span> -->

@@ -25,7 +25,7 @@ export default{
     },
     methods: {
         jump() {
-            localStorage.setItem('company_id', this.company_id)
+            localStorage.setItem('other_company_id', this.company_id)
             const jumpUrl = this.$router.resolve("/company");
             window.open(jumpUrl.href, '_blank');
         }
