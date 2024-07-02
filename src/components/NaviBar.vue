@@ -25,7 +25,7 @@
                         <el-dropdown-item command="b"><i class="el-icon-star-off"></i>关注</el-dropdown-item>
                         <!-- <el-dropdown-item command="c"><i class="el-icon-thumb"></i>推荐</el-dropdown-item> -->
                         <!-- <el-dropdown-item divided command="d"><i class="el-icon-setting"></i>设置</el-dropdown-item> -->
-                        <el-dropdown-item divided command="e" ><i class="el-icon-switch-button"></i>退出</el-dropdown-item>
+                        <el-dropdown-item divided command="e"><i class="el-icon-switch-button"></i>退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -74,8 +74,9 @@ export default {
                     console.log(res.data.data.role)
                     this.enterpriseLink = res.data.data.is_staff ? "/company-temp" : "/company-register";
                     if (res.data.data.role === "Staff") {
+                        localStorage.setItem('other_company_id', res.data.data.company_id)
                         this.enterpriseLink = "/company";
-                        localStorage.setItem('other_company_id',res.data.data.company_id)
+
                     }
                     this.updateNaviUnits();
                 }
@@ -90,6 +91,13 @@ export default {
             ];
         },
         changeActive(index, link) {
+            this.activeIndex = index
+            if(link ==='/main'){
+                setTimeout(() => {
+                        // location.reload()
+                        location.reload()
+                    }, 500)
+            }
             if (!localStorage.getItem('token') && (link === this.enterpriseLink || link === "/message")) {
                 this.$message({
                     message: '请注册登录后使用',

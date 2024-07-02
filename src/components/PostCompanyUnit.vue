@@ -1,7 +1,7 @@
 <template>
     <div class="post-unit" @click="gotoCompany">
         <div class="upper-box">
-          <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
+            <el-avatar shape="square" :size="55" :src="company_logo"></el-avatar>
             <span class="post">{{ postData.company_name }}</span>
         </div>
     </div>
@@ -10,29 +10,29 @@
 export default {
     data() {
         return {
-          company_logo: `http://10.251.253.188/logo/${this.postData.company_id}_image.png`
-          //company_logo: require('../assets/photo.png')
+            company_logo: `http://10.251.253.188/logo/${this.postData.company_id}_image.png`
+            //company_logo: require('../assets/photo.png')
         }
     },
     props: {
-      postData: {
+        postData: {
 
-      }
+        }
     },
     methods: {
-        
-        gotoCompany(){
+
+        gotoCompany() {
             console.log(this.postData)
-          localStorage.setItem('other_company_id', this.postData.company_id)
-          this.$router.push("/company");
+            localStorage.setItem('other_company_id', this.postData.company_id)
+            this.$router.push("/company");
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.el-avatar{
-  float: left;
-  margin: 0 0 0 20px;
+.el-avatar {
+    float: left;
+    margin: 0 0 0 20px;
 }
 
 .post-unit {
@@ -45,15 +45,18 @@ export default {
     border-radius: 10px;
     transition: 0.5s;
 }
-.post-unit:hover{
+
+.post-unit:hover {
     box-shadow: 10px 10px 20px 0 rgba(98, 92, 92, 0.3);
 }
+
 .upper-box {
     height: 100px;
     display: flex;
     align-items: center;
     // padding: 10px;
 }
+
 .lower-box {
     height: 50px;
     background-color: #f6fcfc;
@@ -63,12 +66,14 @@ export default {
     font-size: 18px;
     color: #666;
 }
-.lower-box span{
+
+.lower-box span {
     display: inline-block;
     margin-left: 10px;
     margin-top: 10px;
 }
-.post{
+
+.post {
     display: inline-block;
     font-size: 22px;
     color: black;
@@ -76,7 +81,8 @@ export default {
     margin-left: 20px;
     font-weight: bold;
 }
-.salary{
+
+.salary {
     display: inline-block;
     // float: right;
     font-size: 22px;
