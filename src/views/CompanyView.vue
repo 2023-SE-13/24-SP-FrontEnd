@@ -120,7 +120,7 @@ export default {
             message: '成功加入该企业！',
             type: 'success'
           })
-          this.$router.push("/company");
+          window.location.reload();
         }
       }).catch(error => {
         console.log("验证加入企业失败", error);
@@ -134,8 +134,10 @@ export default {
     toggleFollow() {
       if (this.isFollowed) {
         this.unFollowCompany();
+        window.location.reload()
       } else {
         this.followCompany();
+        window.location.reload()
       }
     },
     followCompany() {
@@ -193,7 +195,10 @@ export default {
               type: 'success',
               message: '成功退出该企业!'
             });
-            this.$router.push("/main");
+            
+            setTimeout(() => {
+              this.$router.push("/main").then(location.reload());
+                }, 1000)
           }
         }).catch(error => {
           if (error.response && error.response.status === 405) {
