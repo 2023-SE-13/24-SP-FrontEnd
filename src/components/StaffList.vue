@@ -76,7 +76,7 @@ export default {
               }else {
                 this.$notify({
                   title: '提示',
-                  message: '添加失败',
+                  message: '该用户已是员工',
                   type: 'error'
                 });
               }
