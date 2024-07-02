@@ -370,7 +370,7 @@ export default {
       });
     };
     this.stompClient.activate();
-    localStorage.removeItem('hrname')
+    // localStorage.removeItem('hrname')
   },
 }
 </script>
