@@ -134,8 +134,10 @@ export default {
     toggleFollow() {
       if (this.isFollowed) {
         this.unFollowCompany();
+        window.location.reload()
       } else {
         this.followCompany();
+        window.location.reload()
       }
     },
     followCompany() {
