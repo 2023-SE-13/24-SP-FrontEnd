@@ -78,7 +78,16 @@ export default {
               })
             }
           }
-      )
+      ).catch(error => {
+        if (error.response.status === 406) {
+          console.log('员工无法重复加入其他！');
+          this.$notify({
+            title: "失败",
+            type: 'error',
+            message: '管理员无法退出企业！'
+          });
+        }
+      });
     },
     refuse() {
       updateOffer(localStorage.getItem('token'), this.NoticeData.offer_id, "refuse").then(res => {
