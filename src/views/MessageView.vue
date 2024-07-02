@@ -103,7 +103,6 @@ export default {
   components : { NoticeUnit },
   created() {
     getUserMessage('ALL', localStorage.getItem('token')).then(res => {
-      console.log(res)
       this.NoticeList = res.data.data
       if (this.NoticeList[0]) {
         this.NoticeData = this.NoticeList[0]
@@ -120,7 +119,6 @@ export default {
   methods: {
     // 装载群组列表
     joinGroup(groupId) {
-      console.log('!!!!!!!!!!!!!!!!!!@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!!')
       if (!this.stompClient) {
         console.error("stompClient is not initialized.");
         return;
@@ -133,14 +131,12 @@ export default {
           console.log(`Received message from group ${groupId}: `, message);
           // 在这里你可以更新你的 UI
           component.messageList.push(message);
-          console.log('发送新消息已添加至消息列表！！！！！！！！！！')
           component.scrollToLatestMessage();
         }
       );
       console.log('已订阅：',groupId)
     },
     loadGroupList() {
-      console.log('load group list#####################')
       for (let i = 0; i < this.groupList.length; i++) {
         this.joinGroup(this.groupList[i].conversation_id);
       }
@@ -228,13 +224,11 @@ export default {
     selectNotice(selectedGroup) {
       this.notification_id = selectedGroup.notification_id
       this.NoticeData = selectedGroup
-      console.log(selectedGroup)
       if(this.NoticeData.tweet_id != '') {
         let data = {
           tweet_id: this.NoticeData.tweet_id
         };
         getTweetDetail(data, localStorage.getItem('token')).then(res => {
-          console.log(res.data.data)
           this.NoticeData.tweet_content = res.data.data.text_content.length > 20
               ? res.data.data.text_content.substring(0, 60) + '...'
               : res.data.data.text_content;
