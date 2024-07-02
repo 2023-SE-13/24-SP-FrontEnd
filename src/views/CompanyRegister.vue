@@ -246,7 +246,7 @@ export default {
           if (res.data.data.company_id && res.data.data.role === "Admin") {
             localStorage.setItem('company_id', res.data.data.company_id);
           }
-          this.$router.push("/company-editor");
+          this.$router.push("/company-temp");
         })
       } catch (error) {
         if (error.response && error.response.status === 409) {
