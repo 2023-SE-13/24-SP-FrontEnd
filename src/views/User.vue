@@ -102,7 +102,7 @@
             <div id="uploadResTitle">
               <span>上传简历</span>
               <span id="uploadIcon">
-                <el-upload action="#" auto-upload :on-success="handleSuccess" :on-preview="handlePreview"
+                <el-upload action="#" auto-upload :before-upload="handleBefore" :on-success="handleSuccess" :on-preview="handlePreview"
                   :on-remove="handleRemove" :on-error="handleError" :show-file-list="false"
                   :http-request="uploadResume">
                   <i class="el-icon-plus"></i>
@@ -309,7 +309,12 @@ export default {
         }
       }
     );
-    this.preActive = '1';
+    if(localStorage.getItem("activeIndex") === '2'){
+      this.preActive = '2';
+      localStorage.removeItem("activeIndex")
+    }else{
+      this.preActive = '1';
+    }
     this.favor_mode = true;
     this.favorMode = '用户';
     getUserTweet(this.user.name, this.token).then(res => {
@@ -497,6 +502,15 @@ export default {
     }
   },
   methods: {
+    handleBefore(file) {
+      //只能上传pdf格式
+      const isPDF = file.type === 'application/pdf';
+      if(!isPDF) {
+        this.$message.error('只能上传pdf格式文件!');
+        return false;
+      }
+      return isPDF;
+    },
     handleChange(file) {
       //必须是图片格式
       const isJPG = file.raw.type === 'image/jpeg' || file.raw.type === 'image/png' || file.raw.type === 'image/jpg';

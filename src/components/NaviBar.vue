@@ -119,7 +119,8 @@ export default {
             if (command === 'a' && this.$route.path !== '/user/' + localStorage.getItem('username')) {
                 this.$router.push("/user/" + localStorage.getItem('username'));
             }
-            if (command === 'b') {
+            if (command === 'b' && this.$route.path !== '/user/' + localStorage.getItem('username')) {
+                localStorage.setItem('activeIndex', 2);
                 this.$router.push("/user/" + localStorage.getItem('username'));
                 // this.$router.push("/article/" + btoa(encodeURIComponent(JSON.stringify(this.id))));
             }
