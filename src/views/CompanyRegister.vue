@@ -239,14 +239,23 @@ export default {
         // Message.success('注册成功');
         this.$notify({
           title: "成功",
-          message: '注册成功！',
+          message: '创建企业成功,即将跳转到首页',
           type: 'success'
         })
         getUser(localStorage.getItem('username')).then(res => {
           if (res.data.data.company_id && res.data.data.role === "Admin") {
             localStorage.setItem('company_id', res.data.data.company_id);
           }
-          this.$router.push("/company-temp");
+          // this.$router.push("/company-editor");
+          // this.$notify({
+          //   title: '提示',
+          //   message: '管理员身份转换成功,即将跳转到首页',
+          //   type: 'success'
+          // });
+          setTimeout(() => {
+            // location.reload()
+            this.$router.push('/main')
+          }, 3000)
         })
       } catch (error) {
         if (error.response && error.response.status === 409) {
