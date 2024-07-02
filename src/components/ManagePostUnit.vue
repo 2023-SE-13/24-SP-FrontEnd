@@ -15,7 +15,7 @@
                 <span class="req-text">薪资：{{ postData.salary_min }}-{{ postData.salary_max }}</span>
                 <span class="req-text" style="text-align: left">职位描述：{{ postData.position_description }}</span>
                 <span class="req-text">申请数:{{ postData.application_count }}</span>
-                <span class="req-text">发布于{{ postData.posted_at }}</span>
+                <span class="req-text">发布于{{ postTime }}</span>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
 export default {
     data() {
         return {
-
+            postTime:''
         }
     },
     props: {
@@ -34,6 +34,17 @@ export default {
     },
     created() {
         console.log(this.postData)
+        let date = new Date(this.postData.posted_at)
+        let formattedDate = date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false // 24 小时制
+        });
+        this.postTime = formattedDate
     },
     methods: {
         deletepost() {

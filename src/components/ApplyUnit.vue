@@ -2,10 +2,10 @@
     <div class="apply-unit">
         <el-avatar :size="70" @error="errorHandler" :src="photo_url" id="img">头像</el-avatar>
         <div class="apply-details">
-            <span>{{ applyData.username }}</span>
-            <span>{{ applyData.real_name }}</span>
-            <span>{{ applyData.education }}</span>
-            <span>{{ applyData.applied_at }}</span>
+            <span>用户名: {{ applyData.username }}</span>
+            <span>真实姓名:{{ applyData.real_name }}</span>
+            <span>学历:{{ applyData.education }}</span>
+            <span>申请时间: {{ applyTime }}</span>
         </div>
         <div class="apply-actions">
             <el-button plain @click="gotoTalk" class="action-button">私信</el-button>
@@ -21,7 +21,8 @@
 export default {
     data() {
         return {
-            photo_url:`http://10.251.253.188/avatar/${this.applyData.username}_avatar.png`
+            photo_url: `http://10.251.253.188/avatar/${this.applyData.username}_avatar.png`,
+            applyTime: ''
         }
     },
     props: {
@@ -30,11 +31,24 @@ export default {
         }
     },
     created() {
+        let date = new Date(this.applyData.applied_at)
+        console.log(date + '@')
+        let formattedDate = date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false // 24 小时制
+        });
+        console.log(formattedDate)
         console.log(this.applyData)
+        this.applyTime = formattedDate
     },
     methods: {
-        gotoTalk(){
-            localStorage.setItem("hrname",this.applyData.username)
+        gotoTalk() {
+            localStorage.setItem("hrname", this.applyData.username)
             this.$router.push('/message')
         },
         showInfo() {
@@ -68,8 +82,11 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     margin-left: 15px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .apply-details span {
@@ -80,19 +97,22 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 15px; /* 控制按钮之间的间距 */
+    gap: 15px;
+    /* 控制按钮之间的间距 */
 }
 
 .action-button {
     border: none !important;
     background-color: transparent !important;
-    color: #409EFF !important; /* 可以根据需要修改颜色 */
+    color: #409EFF !important;
+    /* 可以根据需要修改颜色 */
     padding: 0 !important;
     font-size: 14px !important;
     cursor: pointer;
 }
 
 .action-button:hover {
-    color: #66b1ff !important; /* 悬停时的颜色 */
+    color: #66b1ff !important;
+    /* 悬停时的颜色 */
 }
 </style>

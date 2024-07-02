@@ -2,5 +2,5 @@ projectKey=prj_2024_group7_11408_frontend
 serverUrl=http://10.134.136.91:9000
 serverVersion=7.3.0.15553
 dashboardUrl=http://10.134.136.91:9000/dashboard?id=prj_2024_group7_11408_frontend
-ceTaskId=AZBwWP8okXshyPocN42R
-ceTaskUrl=http://10.134.136.91:9000/api/ce/task?id=AZBwWP8okXshyPocN42R
+ceTaskId=AZBwXQI8kXshyPocN42S
+ceTaskUrl=http://10.134.136.91:9000/api/ce/task?id=AZBwXQI8kXshyPocN42S
