@@ -254,8 +254,8 @@ export default {
           // });
           setTimeout(() => {
             // location.reload()
-            this.$router.push('/main')
-          }, 3000)
+            this.$router.push('/main').then(location.reload())
+          }, 1000)
         })
       } catch (error) {
         if (error.response && error.response.status === 409) {
